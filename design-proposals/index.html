@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Marie Guegain — eleven">
+<meta name="description" content="Dior Architecture — Plateforme panoptique : quatre pistes de design">
+<title>Panoptique — Pistes de design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#F7F4EF;--card:#fff;--ink:#141414;--muted:#7d776f;--gold:#B8995A;--line:#e4ddd2;--navy:#14213D}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:Jost,system-ui,sans-serif;font-weight:300;line-height:1.55}
+  .wrap{max-width:1240px;margin:0 auto;padding:48px 24px 80px}
+  header{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;border-bottom:1px solid var(--gold);padding-bottom:20px}
+  .brand img{height:46px;display:block}
+  .brand span{display:block;letter-spacing:.42em;font-size:11px;margin-top:6px;color:var(--muted)}
+  header h1{font-family:"Bodoni Moda",serif;font-weight:400;font-size:30px;margin:0;text-align:right;letter-spacing:.02em}
+  header p{margin:4px 0 0;text-align:right;color:var(--muted);font-size:14px}
+  h2{font-family:"Bodoni Moda",serif;font-weight:400;font-size:26px;margin:56px 0 8px}
+  .lead{max-width:860px;color:#3b3833;font-size:16px}
+  .eyebrow{text-transform:uppercase;letter-spacing:.24em;font-size:11px;color:var(--gold);font-weight:500}
+  .common{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:20px}
+  .common div{background:var(--card);padding:18px}
+  .common b{display:block;font-weight:500;font-size:14px;margin-bottom:4px}
+  .common span{font-size:13px;color:var(--muted)}
+  .prop{background:var(--card);border:1px solid var(--line);margin-top:28px;display:grid;grid-template-columns:1.55fr 1fr}
+  .prop a.shot{display:block;border-right:1px solid var(--line);background:#eee;overflow:hidden;max-height:560px}
+  .prop a.shot img{width:100%;display:block;transition:transform .6s}
+  .prop a.shot:hover img{transform:scale(1.02)}
+  .prop .txt{padding:28px}
+  .prop h3{font-family:"Bodoni Moda",serif;font-weight:400;font-size:28px;margin:6px 0 4px}
+  .tag{color:var(--muted);font-style:italic;margin:0 0 16px}
+  .prop h4{font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;margin:18px 0 6px}
+  .prop ul{margin:0;padding-left:18px;font-size:14px}
+  .prop li{margin:3px 0}
+  .swatches{display:flex;gap:6px;margin-top:14px}
+  .swatches i{width:26px;height:26px;border-radius:50%;border:1px solid rgba(0,0,0,.08)}
+  .open{display:inline-block;margin-top:18px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--gold);padding-bottom:2px}
+  table{width:100%;border-collapse:collapse;margin-top:18px;background:var(--card);font-size:14px}
+  th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+  th{background:var(--navy);color:#fff;font-weight:400;letter-spacing:.04em}
+  td:first-child{font-weight:500}
+  .reco{background:var(--navy);color:#f2efe9;padding:28px 32px;margin-top:20px}
+  .reco h3{font-family:"Bodoni Moda",serif;font-weight:400;font-size:24px;margin:0 0 8px;color:#fff}
+  .reco p{margin:6px 0}
+  ol.steps{font-size:15px;padding-left:20px}
+  ol.steps li{margin:6px 0}
+  .note{font-size:13px;color:var(--muted);border-left:2px solid var(--gold);padding:4px 0 4px 14px;margin-top:20px}
+  footer{margin-top:60px;border-top:1px solid var(--line);padding-top:16px;font-size:12px;color:var(--muted);display:flex;justify-content:space-between}
+  @media (max-width:900px){.prop{grid-template-columns:1fr}.prop a.shot{border-right:0;border-bottom:1px solid var(--line)}.common{grid-template-columns:1fr 1fr}header{flex-direction:column;align-items:flex-start}header h1,header p{text-align:left}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand"><img src="assets/dior-logo-black.png" alt="Dior"><span>ARCHITECTURE</span></div>
+    <div><h1>Plateforme panoptique — pistes de design</h1><p>eleven × Dior Architecture · 9 novembre 2026 · document de travail</p></div>
+  </header>
+
+  <h2>Quatre directions, un même socle</h2>
+  <p class="lead">Chaque piste est une maquette navigable de l’écran d’accueil, construite sur le même jeu de données (projets 2027 du fichier <i>ADMIN FOLLOW UP</i>, appel d’offres Main Contract de Melbourne Flinders Lane, systèmes Coupa / Anaplan / SharePoint / DAM / Diorlex / AED / OKTA). Elles diffèrent par l’angle d’entrée et l’univers visuel. Toutes intègrent un élément 3D interactif (glisser pour tourner).</p>
+
+  <div class="common">
+    <div><b>Source unique de vérité</b><span>Budget Anaplan, engagements Coupa et SOW réunis par projet.</span></div>
+    <div><b>Budget control (P1)</b><span>Budget, engagé, réel, atterrissage, écarts.</span></div>
+    <div><b>Tender management (P1)</b><span>Cycle Draft → Awarded, comparaison des offres, analyse IA.</span></div>
+    <div><b>Alertes & Copilot</b><span>Dépassements, PO non rattachés, signaux marché.</span></div>
+  </div>
+
+  <h2>Les pistes</h2>
+
+  <section class="prop" id="a">
+    <a class="shot" href="a-montaigne.html"><img src="screens/a-montaigne.png" alt="Piste A — Montaigne"></a>
+    <div class="txt">
+      <div class="eyebrow">Piste A</div>
+      <h3>Montaigne</h3>
+      <p class="tag">Éditorial ivoire, l’élégance d’un lookbook appliquée au pilotage.</p>
+      <h4>Angle d’entrée</h4>
+      <ul><li>Le projet d’abord : une boutique en 3D isométrique, avec ses chiffres clés accrochés au bâtiment.</li><li>Portefeuille 2027, alertes et dernières ouvertures (photos) en dessous.</li></ul>
+      <h4>Forces</h4>
+      <ul><li>La plus « Dior » : serif Bodoni, filets or, beaucoup d’air.</li><li>Très lisible pour un public direction / CODIR.</li></ul>
+      <h4>Points d’attention</h4>
+      <ul><li>Moins dense : à compléter par des vues tableaux pour Finance et Achats.</li></ul>
+      <div class="swatches"><i style="background:#F7F4EF"></i><i style="background:#111"></i><i style="background:#B8995A"></i><i style="background:#8A847C"></i></div>
+      <a class="open" href="a-montaigne.html">Ouvrir la maquette</a>
+    </div>
+  </section>
+
+  <section class="prop" id="b">
+    <a class="shot" href="b-nuit.html"><img src="screens/b-nuit.png" alt="Piste B — Nuit Avenue"></a>
+    <div class="txt">
+      <div class="eyebrow">Piste B</div>
+      <h3>Nuit Avenue</h3>
+      <p class="tag">Salle de contrôle couture : noir, champagne, verre.</p>
+      <h4>Angle d’entrée</h4>
+      <ul><li>Le portefeuille mondial : globe 3D, projets épinglés et reliés à Paris, alertes en rouge.</li><li>KPI consolidés, flux d’alertes, santé des connecteurs, entonnoir des appels d’offres.</li></ul>
+      <h4>Forces</h4>
+      <ul><li>Incarne le mot « panoptique » : tout voir, partout, en temps réel.</li><li>Très fort en démonstration et en comité.</li></ul>
+      <h4>Points d’attention</h4>
+      <ul><li>Le mode sombre fatigue sur une journée de travail sur tableaux : prévoir un mode clair.</li></ul>
+      <div class="swatches"><i style="background:#0B0B0D"></i><i style="background:#D8C29D"></i><i style="background:#EDE8E0"></i><i style="background:#E0645A"></i></div>
+      <a class="open" href="b-nuit.html">Ouvrir la maquette</a>
+    </div>
+  </section>
+
+  <section class="prop" id="c">
+    <a class="shot" href="c-cannage.html"><img src="screens/c-cannage.png" alt="Piste C — Cannage"></a>
+    <div class="txt">
+      <div class="eyebrow">Piste C</div>
+      <h3>Cannage</h3>
+      <p class="tag">SaaS moderne et doux, gris Dior, rose et marine, motif cannage.</p>
+      <h4>Angle d’entrée</h4>
+      <ul><li>Le cockpit projet : KPI, consommation budgétaire, plan 3D extrudé coloré par zone (heatmap budget).</li><li>Appel d’offres Legend vs Redwood par lot, alertes par priorité, fil d’activité.</li></ul>
+      <h4>Forces</h4>
+      <ul><li>La plus proche de la référence Atriolee : ergonomie familière, dense et rassurante.</li><li>La plus directement transposable en application.</li></ul>
+      <h4>Points d’attention</h4>
+      <ul><li>Plus « produit » que « maison » : la touche Dior repose sur la palette et le cannage.</li></ul>
+      <div class="swatches"><i style="background:#E7E2DC"></i><i style="background:#14213D"></i><i style="background:#E9C9C3"></i><i style="background:#B8995A"></i></div>
+      <a class="open" href="c-cannage.html">Ouvrir la maquette</a>
+    </div>
+  </section>
+
+  <section class="prop" id="d">
+    <a class="shot" href="d-atelier.html"><img src="screens/d-atelier.png" alt="Piste D — Atelier"></a>
+    <div class="txt">
+      <div class="eyebrow">Piste D</div>
+      <h3>Atelier</h3>
+      <p class="tag">Le langage du plan d’architecte : papier calque, encre marine, cartouche.</p>
+      <h4>Angle d’entrée</h4>
+      <ul><li>L’écosystème : axonométrie éclatée 3D des couches (sources → modèle de données → process des 6 pôles → vues panoptiques).</li><li>Reprise de la cartographie du département (1,6 To, 275K fichiers), du recadrage stratégique et de la roadmap P1-P3.</li></ul>
+      <h4>Forces</h4>
+      <ul><li>Parle le langage des architectes ; explique la « source unique de vérité ».</li><li>Idéale comme page d’accueil de la plateforme ou support de cadrage.</li></ul>
+      <h4>Points d’attention</h4>
+      <ul><li>Plus explicative qu’opérationnelle : à associer à une vue de pilotage.</li></ul>
+      <div class="swatches"><i style="background:#F4F2EC"></i><i style="background:#14213D"></i><i style="background:#B08D62"></i><i style="background:#C0392B"></i></div>
+      <a class="open" href="d-atelier.html">Ouvrir la maquette</a>
+    </div>
+  </section>
+
+  <h2>Comparaison</h2>
+  <table>
+    <tr><th></th><th>A · Montaigne</th><th>B · Nuit Avenue</th><th>C · Cannage</th><th>D · Atelier</th></tr>
+    <tr><td>Niveau de vue</td><td>Projet</td><td>Portefeuille mondial</td><td>Projet (opérationnel)</td><td>Écosystème / process</td></tr>
+    <tr><td>Élément 3D</td><td>Boutique isométrique + étiquettes KPI</td><td>Globe des projets</td><td>Plan extrudé, heatmap budget</td><td>Axonométrie des couches de données</td></tr>
+    <tr><td>Public cible</td><td>Direction Architecture</td><td>CODIR, comités</td><td>Finance, Cost control, PM</td><td>Tous, onboarding, cadrage</td></tr>
+    <tr><td>Densité d’information</td><td>Faible à moyenne</td><td>Moyenne</td><td>Élevée</td><td>Moyenne</td></tr>
+    <tr><td>Univers Dior</td><td>●●●●</td><td>●●●</td><td>●●</td><td>●●●</td></tr>
+    <tr><td>Modernité</td><td>●●●</td><td>●●●●</td><td>●●●●</td><td>●●●</td></tr>
+  </table>
+
+  <div class="reco">
+    <h3>Notre recommandation</h3>
+    <p><b>Une base C (Cannage) pour l’application de travail</b>, la plus dense et la plus proche de l’usage quotidien de Finance et du Cost control, <b>habillée de la typographie et des filets or de A (Montaigne)</b>.</p>
+    <p>Le <b>globe de B</b> devient la page « Portefeuille » pour la direction, et l’<b>axonométrie de D</b> la page « Écosystème & intégrations ». Les quatre 3D trouvent ainsi leur place dans un seul produit.</p>
+  </div>
+
+  <h2>Prochaines étapes</h2>
+  <ol class="steps">
+    <li>Choix de la piste (ou du mix) et retours sur les couleurs, la typographie et le niveau de densité.</li>
+    <li>Développement de l’application cliquable sur la piste retenue : Accueil, Portefeuille, Projet, Budget control, Tenders (comparaison des offres), Fournisseurs, Documents, Intégrations, Copilot.</li>
+    <li>Branchement de données réelles anonymisées (export ADMIN FOLLOW UP, SOR des appels d’offres) en remplacement des données illustratives.</li>
+  </ol>
+
+  <p class="note">Sources : cadrage <i>20260615_AI_TRANSFORMATION-ARCHITECTURE.xlsx</i> (onglets D-NEXT 2025, 2026 AI, SYSTEM), slides « Strategic reframing » et « Architecture department overview », captures de l’atelier du 09/11/2026. Photos de boutiques extraites des captures (Bangkok EM Quartier, Rodeo Drive). Les montants engagés, réels, prévisionnels et les alertes sont illustratifs.</p>
+
+  <footer><span>eleven × Dior Architecture — document de travail confidentiel</span><span>Marie Guegain, eleven</span></footer>
+</div>
+</body>
+</html>
