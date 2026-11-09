@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Marie Guegain — eleven">
+<meta name="description" content="Dior Architecture — Panoptic Digital Platform. Design proposal D « Atelier ». eleven × Dior Architecture.">
+<title>Panoptic — Atelier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F2EC; --paper-2:#EFECE4; --ink:#14213D; --ink-2:#3B4660; --ink-3:#7A8296;
+    --caramel:#B08D62; --caramel-d:#8E6E47; --pale:#E8DCCB; --red:#C0392B; --line:rgba(20,33,61,.18); --line-2:rgba(20,33,61,.32);
+    --serif:"Cormorant Garamond", "Bodoni Moda", Georgia, serif;
+    --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+    --sans:"IBM Plex Sans", system-ui, sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--paper);color:var(--ink)}
+  body{
+    font-family:var(--sans);font-size:13px;line-height:1.45;min-width:1600px;
+    background-color:var(--paper);
+    background-image:
+      linear-gradient(rgba(20,33,61,.065) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(20,33,61,.065) 1px,transparent 1px),
+      linear-gradient(rgba(20,33,61,.028) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(20,33,61,.028) 1px,transparent 1px);
+    background-size:40px 40px,40px 40px,8px 8px,8px 8px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .sheet{margin:20px;border:1.5px solid var(--ink);position:relative;background:rgba(244,242,236,.55)}
+  .sheet::before{content:"";position:absolute;inset:5px;border:.5px solid var(--line-2);pointer-events:none}
+  /* registration marks on the frame */
+  .reg{position:absolute;font-family:var(--mono);font-size:9px;color:var(--ink-3);letter-spacing:.1em}
+  .reg.t{top:-15px} .reg.b{bottom:-15px} .reg.l{left:-14px} .reg.r{right:-14px}
+
+  /* ---------- top bar ---------- */
+  header{display:grid;grid-template-columns:300px 1fr 420px;align-items:center;height:68px;border-bottom:1px solid var(--ink);padding:0 28px;position:relative;z-index:2}
+  .brand{display:flex;align-items:center;gap:16px}
+  .brand img{height:30px}
+  .brand .sep{width:1px;height:28px;background:var(--ink)}
+  .brand .sub{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;line-height:1.5;text-transform:uppercase}
+  nav{display:flex;justify-content:center;gap:2px}
+  nav a{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);text-decoration:none;padding:8px 14px;border:1px solid transparent;position:relative}
+  nav a.on{color:var(--ink);border:1px solid var(--ink);background:var(--paper)}
+  nav a.on::after{content:"";position:absolute;left:50%;bottom:-11px;width:1px;height:10px;background:var(--ink)}
+  nav a .n{color:var(--caramel);margin-right:6px}
+  .tools{display:flex;align-items:center;justify-content:flex-end;gap:14px}
+  .search{white-space:nowrap;display:flex;align-items:center;gap:8px;border:1px solid var(--line-2);padding:7px 12px;width:228px;font-family:var(--mono);font-size:10px;color:var(--ink-3);background:var(--paper)}
+  .search kbd{margin-left:auto;font-family:var(--mono);font-size:9px;border:1px solid var(--line-2);padding:0 4px}
+  .who{display:flex;align-items:center;gap:10px}
+  .avatar{width:32px;height:32px;border:1px solid var(--ink);border-radius:50%;display:grid;place-items:center;font-family:var(--serif);font-size:15px;font-style:italic;background:var(--pale)}
+  .who .nm{font-size:12px;font-weight:500;line-height:1.2}
+  .who .rl{font-family:var(--mono);font-size:9px;color:var(--ink-3);letter-spacing:.08em;text-transform:uppercase}
+
+  /* ---------- generic section chrome ---------- */
+  .tag{display:inline-flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.06em;border:1px solid var(--ink);border-radius:50%;width:30px;height:30px;flex:none;background:var(--paper)}
+  .sec-h{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .sec-h h2{font-family:var(--serif);font-weight:500;font-size:24px;line-height:1;letter-spacing:.005em}
+  .sec-h h2 i{font-style:italic;color:var(--caramel-d)}
+  .sec-h .rule{flex:1;height:1px;background:var(--line-2)}
+  .sec-h .meta{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;color:var(--ink-3);text-transform:uppercase;white-space:nowrap}
+  .mono{font-family:var(--mono)}
+  .lbl{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
+
+  /* ---------- row 1 ---------- */
+  .row1{display:grid;grid-template-columns:350px 1fr 380px;border-bottom:1px solid var(--ink)}
+  .col{padding:24px 26px}
+  .col + .col{border-left:1px solid var(--ink)}
+  .intro .kicker{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--caramel-d)}
+  .intro h1{font-family:var(--serif);font-weight:400;font-size:46px;line-height:.98;margin:10px 0 12px;letter-spacing:-.005em}
+  .intro h1 em{font-style:italic;color:var(--caramel-d)}
+  .intro p.lead{color:var(--ink-2);font-size:13px;line-height:1.55;margin-bottom:18px}
+  .facts{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);margin-bottom:22px}
+  .facts div{padding:10px 0 9px 10px}
+  .facts div + div{border-left:1px dashed var(--line-2)}
+  .facts b{display:block;font-family:var(--serif);font-weight:500;font-size:27px;line-height:1}
+  .facts span{font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+
+  table.reframe{width:100%;border-collapse:collapse;font-size:11.2px}
+  table.reframe th{font-family:var(--mono);font-size:8.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;text-align:left;padding:6px 6px;border-bottom:1px solid var(--ink);color:var(--ink-3)}
+  table.reframe th:last-child{color:var(--ink)}
+  table.reframe td{padding:7px 6px;border-bottom:1px dashed var(--line);vertical-align:top;line-height:1.3}
+  table.reframe td:first-child{font-weight:600;width:84px;font-size:10.5px}
+  table.reframe td.old{color:var(--ink-3);text-decoration:line-through;text-decoration-color:rgba(192,57,43,.55);width:100px}
+  table.reframe td.new{color:var(--ink)}
+  table.reframe tr:last-child td{border-bottom:1px solid var(--ink)}
+  .src{font-family:var(--mono);font-size:8.5px;color:var(--ink-3);margin-top:7px;letter-spacing:.06em}
+
+  /* ---------- 3D stage ---------- */
+  .stage{position:relative;padding:0;overflow:hidden;min-height:820px}
+  .stage-head{position:absolute;top:22px;left:26px;right:26px;display:flex;align-items:center;gap:12px;z-index:3}
+  #gl{position:absolute;inset:0;cursor:grab}
+  #gl:active{cursor:grabbing}
+  #overlay{position:absolute;inset:0;pointer-events:none;z-index:2}
+  .plabel{position:absolute;left:26px;width:178px;transform:translateY(-50%);pointer-events:none}
+  .plabel .k{font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--caramel-d);text-transform:uppercase}
+  .plabel .t{font-family:var(--serif);font-size:19px;font-weight:500;line-height:1.05;margin:1px 0 2px}
+  .plabel .d{font-family:var(--mono);font-size:9px;color:var(--ink-2);line-height:1.4}
+  .olabel{position:absolute;transform:translate(-50%,-100%);font-family:var(--mono);font-size:8.6px;letter-spacing:.04em;color:var(--ink);white-space:nowrap;background:rgba(244,242,236,.88);padding:1px 4px;border:.5px solid var(--line-2);pointer-events:none}
+  .olabel.cara{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .olabel.red{color:var(--red);border-color:var(--red)}
+  .dim-v{position:absolute;right:30px;top:120px;bottom:120px;width:1px;background:var(--ink);z-index:3}
+  .dim-v::before,.dim-v::after{content:"";position:absolute;left:-6px;width:13px;height:1px;background:var(--ink)}
+  .dim-v::before{top:0}.dim-v::after{bottom:0}
+  .dim-v span{position:absolute;top:50%;left:8px;transform:translateY(-50%) rotate(90deg);transform-origin:left center;font-family:var(--mono);font-size:9px;letter-spacing:.18em;white-space:nowrap;color:var(--ink-2);background:var(--paper);padding:0 6px}
+  .stage-foot{position:absolute;left:26px;right:26px;bottom:20px;display:flex;gap:14px;align-items:center;z-index:3}
+  .copilot{flex:1;display:flex;align-items:center;gap:12px;border:1px solid var(--ink);background:var(--paper);padding:10px 14px;box-shadow:4px 4px 0 var(--pale)}
+  .copilot .ic{width:22px;height:22px;border:1px solid var(--ink);transform:rotate(45deg);display:grid;place-items:center;flex:none}
+  .copilot .ic i{width:6px;height:6px;background:var(--caramel)}
+  .copilot .q{font-size:12.5px;color:var(--ink-2)}
+  .copilot .q b{font-family:var(--mono);font-weight:500;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);margin-right:8px}
+  .copilot .go{margin-left:auto;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;color:var(--paper);background:var(--ink);padding:5px 10px}
+  .hint{font-family:var(--mono);font-size:9px;color:var(--ink-3);letter-spacing:.1em;white-space:nowrap}
+  .north{position:absolute;right:62px;top:70px;z-index:3;width:46px;height:46px;border:1px solid var(--ink);border-radius:50%;display:grid;place-items:center}
+  .north::before{content:"";width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:20px solid var(--ink);transform:translateY(-6px)}
+  .north span{position:absolute;top:-15px;font-family:var(--mono);font-size:9px}
+
+  /* ---------- live panel ---------- */
+  .live .kpis{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--ink);margin-bottom:18px}
+  .kpi{padding:11px 12px 10px}
+  .kpi:nth-child(2n){border-left:1px solid var(--line-2)}
+  .kpi:nth-child(n+3){border-top:1px solid var(--line-2)}
+  .kpi .v{font-family:var(--serif);font-weight:500;font-size:31px;line-height:1;margin:4px 0 4px}
+  .kpi .v small{font-size:15px;margin-left:2px}
+  .kpi .s{font-family:var(--mono);font-size:9px;color:var(--ink-3)}
+  .kpi .s.r{color:var(--red)}
+  .kpi .bar{height:5px;border:1px solid var(--ink);margin-top:6px;position:relative;background:repeating-linear-gradient(135deg,transparent 0 3px,rgba(20,33,61,.12) 3px 4px)}
+  .kpi .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--ink)}
+  .live .sub-h{display:flex;justify-content:space-between;align-items:baseline;margin:0 0 8px}
+  .live .sub-h .lbl b{color:var(--ink)}
+  .alert{display:grid;grid-template-columns:18px 1fr auto;gap:8px;padding:9px 0;border-top:1px dashed var(--line-2)}
+  .alert:last-of-type{border-bottom:1px dashed var(--line-2)}
+  .alert .mk{width:14px;height:14px;border:1px solid var(--ink);display:grid;place-items:center;font-family:var(--mono);font-size:8px;margin-top:2px}
+  .alert.high .mk{border-color:var(--red);color:var(--red)}
+  .alert .tt{font-weight:600;font-size:11.8px;line-height:1.25}
+  .alert .pp{font-family:var(--mono);font-size:9px;color:var(--ink-3);letter-spacing:.04em;margin-top:2px}
+  .alert .tm{font-family:var(--mono);font-size:9px;color:var(--ink-3)}
+  .alert.high .tt{color:var(--red)}
+  .integr{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border:1px solid var(--ink);margin-top:16px}
+  .ig{display:flex;align-items:center;gap:8px;padding:6.5px 10px;border-bottom:1px solid var(--line);font-size:11.5px}
+  .ig:nth-child(2n){border-left:1px solid var(--line)}
+  .ig:nth-last-child(-n+1){border-bottom:none}
+  .ig .dot{width:7px;height:7px;border-radius:50%;background:var(--ink);flex:none}
+  .ig.warn .dot{background:var(--caramel)}
+  .ig.off .dot{background:transparent;border:1px solid var(--ink-3)}
+  .wr{display:grid;grid-template-columns:1fr 70px 44px 38px;align-items:center;gap:8px;padding:5px 0;border-top:1px dashed var(--line);font-size:11.4px}
+  .wr:last-child{border-bottom:1px solid var(--ink)}
+  .wr .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .wr .gauge{height:9px;position:relative}
+  .wr .gauge::after{content:"";position:absolute;left:50%;top:-2px;bottom:-2px;width:1px;background:var(--ink)}
+  .wr .gauge i{position:absolute;top:2px;bottom:2px;background:var(--ink-2)}
+  .wr .gauge i.over{background:var(--red)}
+  .wr .dl{font-family:var(--mono);font-size:9.5px;text-align:right}
+  .wr .dl.over{color:var(--red)}
+  .wr .op{font-family:var(--mono);font-size:9px;color:var(--ink-3);text-align:right}
+  .ig .sy{margin-left:auto;font-family:var(--mono);font-size:8.6px;color:var(--ink-3)}
+  .ig.warn .sy{color:var(--caramel-d)}
+
+  /* ---------- row 2 : departments ---------- */
+  .row2{padding:24px 26px 26px;border-bottom:1px solid var(--ink)}
+  .depts{display:grid;grid-template-columns:repeat(6,1fr);gap:0;border:1px solid var(--ink);position:relative}
+  .dept{padding:16px 16px 14px;position:relative;background:rgba(244,242,236,.6)}
+  .dept + .dept{border-left:1px solid var(--ink)}
+  .dept .hd{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:10px}
+  .dept .code{font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--caramel-d)}
+  .dept h3{font-family:var(--serif);font-weight:500;font-size:21px;line-height:1.02;margin-top:3px;min-height:43px}
+  .dept .chip{background:var(--caramel);color:#fff;font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;padding:3px 6px;white-space:nowrap}
+  .dept .chip.fin{background:var(--ink)}
+  .dept .st{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--ink);border-bottom:1px solid var(--line-2);margin-bottom:10px}
+  .dept .st div{padding:6px 0 5px 0}
+  .dept .st div + div{padding-left:8px;border-left:1px dashed var(--line-2)}
+  .dept .st b{display:block;font-family:var(--mono);font-weight:500;font-size:13px}
+  .dept .st span{font-family:var(--mono);font-size:7.8px;letter-spacing:.12em;color:var(--ink-3);text-transform:uppercase}
+  .dept ul{list-style:none;margin-bottom:12px}
+  .dept li{display:flex;gap:8px;align-items:baseline;font-size:11.3px;line-height:1.3;padding:3px 0;color:var(--ink-2)}
+  .dept li::before{content:"";width:7px;height:7px;border:1px solid var(--caramel);background:var(--pale);flex:none;transform:translateY(0)}
+  .dept .dg{display:flex;align-items:center;gap:8px}
+  .dept .dg .tr{flex:1;height:6px;border:1px solid var(--ink);position:relative;background:repeating-linear-gradient(135deg,transparent 0 3px,rgba(20,33,61,.12) 3px 4px)}
+  .dept .dg .tr i{position:absolute;left:0;top:0;bottom:0;background:var(--caramel)}
+  .dept .dg .tr i::after{content:"";position:absolute;right:-1px;top:-4px;bottom:-4px;width:1px;background:var(--ink)}
+  .dept .dg span{font-family:var(--mono);font-size:9px;color:var(--ink-2);white-space:nowrap}
+  .dept .src{display:block;margin-top:8px}
+  .dept.focus{background:var(--paper)}
+  .dept.focus::before{content:"P1 FOCUS";position:absolute;top:-1px;right:-1px;font-family:var(--mono);font-size:8px;letter-spacing:.14em;background:var(--red);color:#fff;padding:2px 6px}
+  .dept.focus .chip{display:none}
+  .dim-h{display:flex;align-items:center;gap:10px;margin:0 0 10px;font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--ink-2)}
+  .dim-h .ln{flex:1;height:1px;background:var(--ink);position:relative}
+  .dim-h .ln::before,.dim-h .ln::after{content:"";position:absolute;top:-5px;width:1px;height:11px;background:var(--ink)}
+  .dim-h .ln.l::before{left:0}.dim-h .ln.r::after{right:0}
+  .dim-h .ln.l::after{content:"";right:0;top:-3px;height:0;width:0;border:3px solid transparent;border-left:7px solid var(--ink);background:none;transform:translateX(7px)}
+
+  /* ---------- row 3 ---------- */
+  .row3{display:grid;grid-template-columns:1fr 470px}
+  .road{padding:22px 26px 24px}
+  .tl{position:relative;display:grid;grid-template-columns:1.25fr 1fr 1fr;margin-top:8px}
+  .tl::before{content:"";position:absolute;left:0;right:0;top:29px;height:1px;background:var(--ink)}
+  .ph{position:relative;padding-right:22px}
+  .ph .top{display:flex;align-items:center;gap:10px;height:58px}
+  .ph .node{width:58px;height:58px;border:1px solid var(--ink);border-radius:50%;display:grid;place-items:center;background:var(--paper);font-family:var(--serif);font-size:24px;font-weight:500;position:relative;z-index:1}
+  .ph.p1 .node{background:var(--ink);color:var(--paper)}
+  .ph.p2 .node{background:var(--caramel);color:#fff;border-color:var(--caramel-d)}
+  .ph .when{font-family:var(--mono);font-size:9px;letter-spacing:.12em;color:var(--ink-3);background:var(--paper);padding:2px 6px;border:1px solid var(--line-2);position:relative;z-index:1}
+  .ph h4{font-family:var(--serif);font-weight:500;font-size:19px;line-height:1.1;margin:10px 0 7px}
+  .ph .items{display:flex;flex-wrap:wrap;gap:5px}
+  .ph .items span{font-size:10.6px;border:1px solid var(--line-2);padding:2px 7px;background:rgba(244,242,236,.8)}
+  .ph.p1 .items span{border-color:var(--ink)}
+  .tblock{border-left:1px solid var(--ink);display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto auto auto}
+  .tblock > div{padding:9px 14px;border-bottom:1px solid var(--ink)}
+  .tblock > div:nth-child(2n){border-left:1px solid var(--ink)}
+  .tblock .logo{grid-column:1 / 3;display:flex;align-items:center;justify-content:space-between;padding:14px 16px}
+  .tblock .logo img{height:34px}
+  .tblock .logo .pj{text-align:right}
+  .tblock .logo .pj b{display:block;font-family:var(--serif);font-weight:500;font-size:20px;line-height:1}
+  .tblock .v{font-family:var(--mono);font-size:11.5px;font-weight:500;margin-top:2px}
+  .tblock .sheetno{grid-column:1 / 3;display:flex;align-items:center;justify-content:space-between;border-bottom:none !important}
+  .tblock .sheetno .big{font-family:var(--serif);font-size:38px;font-weight:500;line-height:1}
+  footer{display:flex;justify-content:space-between;padding:9px 26px;border-top:1px solid var(--ink);font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:var(--ink-3)}
+</style>
+</head>
+<body>
+<div class="sheet">
+  <span class="reg t" style="left:25%">A</span><span class="reg t" style="left:50%">B</span><span class="reg t" style="left:75%">C</span>
+  <span class="reg b" style="left:25%">A</span><span class="reg b" style="left:50%">B</span><span class="reg b" style="left:75%">C</span>
+  <span class="reg l" style="top:22%">1</span><span class="reg l" style="top:55%">2</span><span class="reg l" style="top:84%">3</span>
+  <span class="reg r" style="top:22%">1</span><span class="reg r" style="top:55%">2</span><span class="reg r" style="top:84%">3</span>
+
+  <header>
+    <div class="brand">
+      <img src="assets/dior-logo-black.png" alt="Dior">
+      <span class="sep"></span>
+      <span class="sub">Architecture<br>Panoptic platform</span>
+    </div>
+    <nav>
+      <a class="on" href="#"><span class="n">00</span>Overview</a>
+      <a href="#"><span class="n">01</span>Budget</a>
+      <a href="#"><span class="n">02</span>Tenders</a>
+      <a href="#"><span class="n">03</span>Suppliers</a>
+      <a href="#"><span class="n">04</span>Documents</a>
+      <a href="#"><span class="n">05</span>Copilot</a>
+    </nav>
+    <div class="tools">
+      <div class="search">⌕&nbsp; Search SOW, POs, projects<kbd>⌘K</kbd></div>
+      <div class="who">
+        <div class="avatar" id="av">C</div>
+        <div><div class="nm" id="uname"></div><div class="rl" id="urole"></div></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== ROW 1 ===================== -->
+  <section class="row1">
+    <div class="col intro">
+      <div class="kicker">Sheet A-01 · Ecosystem view</div>
+      <h1>One drawing,<br><em>every</em> project.</h1>
+      <p class="lead">The Architecture department, redrawn as a single source of truth: Coupa, Anaplan and the SOW speak to each other, so budget, tenders and documents finally share one plan.</p>
+      <div class="facts">
+        <div><b>1.6<small style="font-size:15px"> TB</small></b><span>Archive</span></div>
+        <div><b>275K</b><span>Files</span></div>
+        <div><b>7</b><span>Systems</span></div>
+      </div>
+      <div class="sec-h" style="margin-bottom:8px"><span class="tag">A-02</span><h2>Strategic <i>reframing</i></h2><span class="rule"></span></div>
+      <table class="reframe">
+        <thead><tr><th></th><th>d-next 2025</th><th>Panoptic</th></tr></thead>
+        <tbody>
+          <tr><td>Core focus</td><td class="old">Catalogue &amp; design book</td><td class="new">Budget control + full system integration</td></tr>
+          <tr><td>Top priority</td><td class="old">Material / furniture browse</td><td class="new">SOW · Coupa · Anaplan connectivity</td></tr>
+          <tr><td>AI role</td><td class="old">Minimal</td><td class="new">Central — predictive, analytical, automated</td></tr>
+          <tr><td>Cost visibility</td><td class="old">Fragmented</td><td class="new">Real-time, unified, panoptic</td></tr>
+          <tr><td>Integration</td><td class="old">DAM / SharePoint</td><td class="new">Coupa + Anaplan + SOW + DAM + ECM</td></tr>
+        </tbody>
+      </table>
+      <div class="src">SRC — Architecture, Panoptic digital platform · Strategic reframing</div>
+    </div>
+
+    <div class="col stage" id="stage">
+      <div class="stage-head">
+        <span class="tag">A-03</span>
+        <div class="sec-h" style="margin:0;flex:1"><h2>Single source <i>of truth</i></h2><span class="rule"></span><span class="meta">Exploded axonometric · 4 layers</span></div>
+      </div>
+      <canvas id="gl"></canvas>
+      <svg id="overlay"></svg>
+      <div id="labels"></div>
+      <div class="north"><span>N</span></div>
+      <div class="dim-v"><span>DATA → DECISION</span></div>
+      <div class="stage-foot">
+        <div class="copilot">
+          <span class="ic"><i></i></span>
+          <span class="q"><b>Panoptic Copilot</b>“Which 2027 openings forecast above their SOP budget, and why?”</span>
+          <span class="go">ASK ↵</span>
+        </div>
+        <span class="hint">DRAG TO ROTATE ⟲</span>
+      </div>
+    </div>
+
+    <div class="col live">
+      <div class="sec-h"><span class="tag">A-04</span><h2>Live <i>readings</i></h2><span class="rule"></span><span class="meta">2027 pipeline</span></div>
+      <div class="kpis" id="kpis"></div>
+      <div class="sub-h"><span class="lbl">Open alerts · <b id="nalerts"></b></span><span class="lbl">View all →</span></div>
+      <div id="alerts"></div>
+      <div class="integr" id="integr"></div>
+      <div class="sub-h" style="margin-top:18px"><span class="lbl">Watchlist · <b>forecast vs SOP</b></span><span class="lbl">Opening</span></div>
+      <div id="watch"></div>
+    </div>
+  </section>
+
+  <!-- ===================== ROW 2 ===================== -->
+  <section class="row2">
+    <div class="sec-h"><span class="tag">A-05</span><h2>The department, <i>redrawn</i></h2><span class="rule"></span><span class="meta">6 functions · 32 processes · digitisation level (illustrative)</span></div>
+    <div class="dim-h"><span class="ln l"></span>ARCHITECTURE DEPARTMENT · ≈ 1.6 TB · 275K FILES · SHAREPOINT, SERVERS, EXCEL, ANAPLAN, COUPA, DIORLEX<span class="ln r"></span></div>
+    <div class="depts" id="depts"></div>
+  </section>
+
+  <!-- ===================== ROW 3 ===================== -->
+  <section class="row3">
+    <div class="road">
+      <div class="sec-h"><span class="tag">A-06</span><h2>Phasing <i>plan</i></h2><span class="rule"></span><span class="meta">P1 + P2 = functionally complete panoptic system</span></div>
+      <div class="tl" id="tl"></div>
+    </div>
+    <div class="tblock">
+      <div class="logo">
+        <img src="assets/dior-logo-black.png" alt="Dior">
+        <div class="pj"><span class="lbl">Project</span><b>Panoptic Digital Platform</b></div>
+      </div>
+      <div><span class="lbl">Sheet title</span><div class="v">Panoptic overview</div></div>
+      <div><span class="lbl">Drawn</span><div class="v">eleven</div></div>
+      <div><span class="lbl">Scale</span><div class="v">1:1</div></div>
+      <div><span class="lbl">Date</span><div class="v">09.11.2026</div></div>
+      <div class="sheetno"><div><span class="lbl">Sheet 01 — Panoptic overview</span><div class="v" style="color:var(--ink-3)">Design proposal D · Atelier · Rev. A</div></div><div class="big">A-01</div></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Illustrative data — Coupa / Anaplan feeds to be connected · eleven × Dior Architecture</span>
+    <span>DIOR ARCHITECTURE · PANOPTIC · CONFIDENTIAL</span>
+  </footer>
+</div>
+
+<script src="vendor/three.min.js"></script>
+<script src="data.js"></script>
+<script>
+(function(){
+  const P = window.PANO;
+  const $ = s => document.querySelector(s);
+  const eur = v => v.toFixed(1);
+
+  /* ---------- header ---------- */
+  $('#uname').textContent = P.user.name;
+  $('#urole').textContent = P.user.role;
+  $('#av').textContent = P.user.name.split(' ').map(x=>x[0]).join('');
+
+  /* ---------- KPIs ---------- */
+  const k = P.kpis;
+  const fcDelta = (k.forecast / k.portfolioBudget - 1) * 100;
+  $('#kpis').innerHTML = [
+    {l:'Portfolio budget', v:eur(k.portfolioBudget), s:'SOP · 6 openings 2027', p:1},
+    {l:'Committed', v:eur(k.committed), s:Math.round(k.committed/k.portfolioBudget*100)+'% of budget · Coupa', p:k.committed/k.portfolioBudget},
+    {l:'Actual', v:eur(k.actual), s:Math.round(k.actual/k.portfolioBudget*100)+'% invoiced · Coupa', p:k.actual/k.portfolioBudget},
+    {l:'Forecast', v:eur(k.forecast), s:'+'+fcDelta.toFixed(1)+'% vs SOP · Anaplan', p:Math.min(1,k.forecast/k.portfolioBudget), r:true}
+  ].map(x=>`<div class="kpi"><div class="lbl">${x.l}</div><div class="v">${x.v}<small>M€</small></div>
+      <div class="s ${x.r?'r':''}">${x.s}</div><div class="bar"><i style="width:${(x.p*100).toFixed(0)}%;${x.r?'background:var(--red)':''}"></i></div></div>`).join('');
+
+  /* ---------- alerts ---------- */
+  $('#nalerts').textContent = k.openAlerts;
+  $('#alerts').innerHTML = P.alerts.slice(0,3).map((a,i)=>`
+    <div class="alert ${a.level}"><span class="mk">${a.level==='high'?'!':'·'}</span>
+      <div><div class="tt">${a.title}</div><div class="pp">${a.project.toUpperCase()} · ${a.source}</div></div>
+      <span class="tm">${a.time}</span></div>`).join('');
+
+  /* ---------- integrations ---------- */
+  $('#integr').innerHTML = P.integrations.map(g=>`<div class="ig ${g.status}"><span class="dot"></span>${g.name}<span class="sy">${g.lastSync}</span></div>`).join('')
+    + `<div class="ig" style="justify-content:center;font-family:var(--mono);font-size:9px;letter-spacing:.12em;color:var(--ink-3)">API GATEWAY ↔</div>`;
+
+  /* ---------- watchlist ---------- */
+  $('#watch').innerHTML = P.projects.map(p=>{
+    const d = (p.forecast/p.budget-1)*100; const w = Math.min(50, Math.abs(d)*8);
+    const over = d>2.5;
+    const dt = new Date(p.opening); const op = String(dt.getMonth()+1).padStart(2,'0')+'.'+String(dt.getFullYear()).slice(2);
+    return `<div class="wr"><span class="nm">${p.name}</span>
+      <span class="gauge"><i class="${over?'over':''}" style="${d>=0?`left:50%;width:${w}%`:`right:50%;width:${w}%`}"></i></span>
+      <span class="dl ${over?'over':''}">${d>=0?'+':''}${d.toFixed(1)}%</span><span class="op">${op}</span></div>`;}).join('');
+
+  /* ---------- departments ---------- */
+  const digit = {"Procurement":34,"Finance":22,"Store Planning":15,"Project Management":41,"Concept Design & 3D":56,"Research & Development":47};
+  const pick = {
+    "Procurement":["RFI, RFQ & negotiations","Tender follow-up SOW","Supplier relationship & KPIs"],
+    "Finance":["Project budget control","Tender follow-up SOW","Budget analysis & reporting"],
+    "Store Planning":["Call for tender & contractualization","Budget follow-up","Direct orders management"],
+    "Project Management":["Project list coordination","Drawings development & layout","DDO & furniture selection"],
+    "Concept Design & 3D":["Concept design management","Technical drawings","Lighting concept book"],
+    "Research & Development":["Material referential","FF&E management","Material & FF&E development"]
+  };
+  const tools = {"Procurement":"R&P SharePoint · Diorlex","Finance":"Server · Anaplan · Coupa","Store Planning":"Server · Anaplan · Coupa","Project Management":"Server · Excel DB","Concept Design & 3D":"Design release server","Research & Development":"R&P SharePoint"};
+  $('#depts').innerHTML = P.departments.map((d,i)=>{
+    const focus = d.name==='Finance';
+    return `<div class="dept ${focus?'focus':''}">
+      <div class="hd"><div><div class="code">F-0${i+1}</div><h3>${d.name.replace('Research & Development','Research &amp; Development').replace('Concept Design & 3D','Concept Design &amp; 3D')}</h3></div>
+        <span class="chip">${d.processes.length} PROC.</span></div>
+      <div class="st"><div><b>${d.folders}</b><span>Folders</span></div><div><b>${d.files}</b><span>Files</span></div><div><b>${d.storage}</b><span>Storage</span></div></div>
+      <ul>${pick[d.name].map(p=>`<li>${p}</li>`).join('')}</ul>
+      <div class="dg"><span>DIGITISED</span><div class="tr"><i style="width:${digit[d.name]}%"></i></div><span>${digit[d.name]}%</span></div>
+      <span class="src">TODAY — ${tools[d.name]}</span>
+    </div>`;}).join('');
+
+  /* ---------- roadmap ---------- */
+  const when = {P1:'Q1 → Q3 2027', P2:'Q4 2027 → Q1 2028', P3:'2028 +'};
+  $('#tl').innerHTML = P.roadmap.map(r=>`<div class="ph ${r.phase.toLowerCase()}">
+      <div class="top"><span class="node">${r.phase}</span><span class="when">${when[r.phase]}</span></div>
+      <h4>${r.label}</h4><div class="items">${r.items.map(x=>`<span>${x}</span>`).join('')}</div></div>`).join('');
+
+  /* =====================================================================
+     3D — exploded axonometric stack
+     ===================================================================== */
+  const stage = $('#stage'), canvas = $('#gl'), svg = $('#overlay'), labelsEl = $('#labels');
+  const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+  renderer.setPixelRatio(Math.min(2, window.devicePixelRatio||1));
+  const scene = new THREE.Scene();
+  const cam = new THREE.OrthographicCamera(-1,1,1,-1,0.1,200);
+  const INK = 0x14213D, CARAMEL = 0xB08D62, PALE = 0xE8DCCB, PAPER = 0xF4F2EC, RED = 0xC0392B;
+
+  const root = new THREE.Group(); scene.add(root);
+  const lineMat = new THREE.LineBasicMaterial({color:INK});
+  const lineMatSoft = new THREE.LineBasicMaterial({color:INK, transparent:true, opacity:.35});
+
+  function boxWithEdges(w,h,d,fill,opacity,edgeMat){
+    const g = new THREE.BoxGeometry(w,h,d);
+    const m = new THREE.Mesh(g, new THREE.MeshBasicMaterial({color:fill, transparent:opacity<1, opacity, depthWrite:opacity>=1}));
+    const e = new THREE.LineSegments(new THREE.EdgesGeometry(g), edgeMat||lineMat);
+    const grp = new THREE.Group(); grp.add(m); grp.add(e); return grp;
+  }
+  function dashed(a,b,color,dash,gap){
+    const g = new THREE.BufferGeometry().setFromPoints([a,b]);
+    const l = new THREE.Line(g, new THREE.LineDashedMaterial({color:color||INK, dashSize:dash||.12, gapSize:gap||.1, transparent:true, opacity:.75}));
+    l.computeLineDistances(); return l;
+  }
+  function hatch(w,d,y,step,opacity){ // diagonal hatch on a plate, drawing-like
+    const pts=[]; const hw=w/2, hd=d/2;
+    for(let c=-hw-d; c<hw; c+=step){
+      // line x - z = c clipped to rect
+      let x1=c+(-hd), z1=-hd, x2=c+hd, z2=hd;
+      if(x1<-hw){ z1 += (-hw-x1); x1=-hw; } if(x2>hw){ z2 -= (x2-hw); x2=hw; }
+      if(z1<z2 && x1<x2) pts.push(new THREE.Vector3(x1,y,z1), new THREE.Vector3(x2,y,z2));
+    }
+    return new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineBasicMaterial({color:INK,transparent:true,opacity:opacity||.08}));
+  }
+
+  const W=7.2, D=4.4, T=.07, GAP=2.3;
+  const plates = [
+    {k:'L0 · Sources', t:'Data sources', d:'Coupa · Anaplan · SharePoint · DAM · Diorlex · AED · OKTA', fill:PAPER, op:.55},
+    {k:'L1 · Model',   t:'Unified data model', d:'Project · Budget line · Tender/SOW · Supplier · Document', fill:PALE, op:.42},
+    {k:'L2 · Processes', t:'Processes', d:'6 departments, 32 processes, one workflow engine', fill:PAPER, op:.55},
+    {k:'L3 · Views',   t:'Panoptic views', d:'Budget control · Tenders · Alerts · Copilot', fill:PALE, op:.42}
+  ];
+  const labels = []; // {el, obj(Vector3 local), plate?}
+  function addLabel(text, pos, cls){
+    const el = document.createElement('div'); el.className = 'olabel '+(cls||''); el.textContent = text; labelsEl.appendChild(el);
+    labels.push({el, p:pos.clone()}); return el;
+  }
+
+  const plateAnchors = [];
+  plates.forEach((pl,i)=>{
+    const y = i*GAP;
+    const p = boxWithEdges(W,T,D,pl.fill,pl.op); p.position.y = y; root.add(p);
+    root.add(hatch(W,D,y+T/2+.001,.32,i%2? .07:.045));
+    // corner ticks (drawing registration)
+    plateAnchors.push(new THREE.Vector3(-W/2, y, D/2));
+    // plate label element (left side)
+    const el = document.createElement('div'); el.className='plabel';
+    el.innerHTML = `<div class="k">${pl.k}</div><div class="t">${pl.t}</div><div class="d">${pl.d}</div>`;
+    labelsEl.appendChild(el); pl.el = el;
+  });
+
+  // vertical dashed connectors between plates (corners + centre spine)
+  for(let i=0;i<plates.length-1;i++){
+    const y1=i*GAP+T/2, y2=(i+1)*GAP-T/2;
+    [[-W/2,-D/2],[W/2,-D/2],[-W/2,D/2],[W/2,D/2]].forEach(([x,z])=> root.add(dashed(new THREE.Vector3(x,y1,z), new THREE.Vector3(x,y2,z), INK,.1,.09)));
+  }
+
+  /* L0 — data sources tiles */
+  const sources = P.integrations.map(s=>s.name);
+  const srcPos = [];
+  sources.forEach((n,i)=>{
+    const cols=4, row = i<4?0:1, col = i<4?i:i-4;
+    const x = row===0 ? -2.55 + col*1.7 : -1.7 + col*1.7;
+    const z = row===0 ? -.85 : 1.0;
+    const st = P.integrations[i].status;
+    const tile = boxWithEdges(1.2,.22,.8, st==='off'?PAPER:(n==='Coupa'||n==='Anaplan'?INK:PALE), st==='off'?.5:1, st==='off'?lineMatSoft:lineMat);
+    tile.position.set(x, T/2+.11, z); root.add(tile);
+    srcPos.push(new THREE.Vector3(x, .22, z));
+    addLabel(n + (st==='off'?' · P2':''), new THREE.Vector3(x,.36,z), (n==='Coupa'||n==='Anaplan')?'cara':'');
+  });
+
+  /* L1 — unified data model entities + relations */
+  const y1 = GAP;
+  const ents = [
+    {n:'Project', x:0, z:0, h:.5, c:INK},
+    {n:'Budget line', x:-2.4, z:-.95, h:.34, c:PALE},
+    {n:'Tender / SOW', x:2.4, z:-.95, h:.34, c:PALE},
+    {n:'Supplier', x:2.2, z:1.25, h:.34, c:PALE},
+    {n:'Document', x:-2.2, z:1.25, h:.34, c:PALE}
+  ];
+  const entPos = ents.map(e=>{
+    const geo = new THREE.CylinderGeometry(.42,.42,e.h,40);
+    const m = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({color:e.c}));
+    const ed = new THREE.LineSegments(new THREE.EdgesGeometry(geo, 30), lineMat);
+    const g = new THREE.Group(); g.add(m); g.add(ed);
+    g.position.set(e.x, y1+T/2+e.h/2, e.z); root.add(g);
+    // circle outline at top for a drawn look
+    const circ = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(Array.from({length:48},(_,k)=>new THREE.Vector3(Math.cos(k/48*Math.PI*2)*.42, 0, Math.sin(k/48*Math.PI*2)*.42))), lineMat);
+    circ.position.set(e.x, y1+T/2+e.h+.001, e.z); root.add(circ);
+    addLabel(e.n, new THREE.Vector3(e.x, y1+T/2+e.h+.12, e.z), e.n==='Project'?'cara':'');
+    return new THREE.Vector3(e.x, y1+T/2+.05, e.z);
+  });
+  [[0,1],[0,2],[0,3],[0,4],[2,3],[1,2]].forEach(([a,b])=>{
+    root.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([entPos[a],entPos[b]]), lineMat));
+  });
+  // source → model rising feeds (dashed)
+  srcPos.forEach((p,i)=>{ if(P.integrations[i].status!=='off') root.add(dashed(new THREE.Vector3(p.x,p.y+.12,p.z), new THREE.Vector3(p.x*0.6,y1-T/2,p.z*0.6), CARAMEL,.07,.07)); });
+
+  /* L2 — 6 department blocks (caramel) */
+  const y2 = GAP*2;
+  const dshort = ['Procurement','Finance','Store Planning','Project Mgmt','Concept & 3D','R&D'];
+  const heights = [.45,.75,.38,.6,.32,.42]; // illustrative "weight" of processes
+  dshort.forEach((n,i)=>{
+    const col=i%3, row=Math.floor(i/3);
+    const x=-2.3+col*2.3, z=row===0?-.95:1.0;
+    const h=heights[i];
+    const isFin = n==='Finance';
+    const b = boxWithEdges(1.6,h,1.15, isFin?INK:CARAMEL, 1);
+    b.position.set(x, y2+T/2+h/2, z); root.add(b);
+    addLabel(n, new THREE.Vector3(x, y2+T/2+h+.14, z), isFin?'red':'');
+  });
+
+  /* L3 — panoptic views : standing screens */
+  const y3 = GAP*3;
+  const views = [{n:'Budget control',x:-2.6},{n:'Tenders',x:-.87},{n:'Alerts',x:.87},{n:'Copilot',x:2.6}];
+  views.forEach(v=>{
+    const isA = v.n==='Alerts';
+    const scr = boxWithEdges(1.35,.92,.06, isA?0xF6E3E0:PAPER, .92, isA?new THREE.LineBasicMaterial({color:RED}):lineMat);
+    scr.position.set(v.x, y3+T/2+.52, 0); root.add(scr);
+    // tiny chart lines on each screen
+    const pts=[]; const n=7;
+    for(let i=0;i<n;i++){ const xx=-.5+i/(n-1); pts.push(new THREE.Vector3(v.x+xx, y3+T/2+.3+Math.abs(Math.sin(i*1.7+v.x))*.4, .04)); }
+    root.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineBasicMaterial({color:isA?RED:CARAMEL})));
+    const foot = boxWithEdges(.5,.06,.36,PALE,1); foot.position.set(v.x, y3+T/2+.03, 0); root.add(foot);
+    addLabel(v.n, new THREE.Vector3(v.x, y3+T/2+1.12, 0), isA?'red':'');
+  });
+  // the "eye" — panoptic ring above the stack
+  const ring = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(Array.from({length:96},(_,k)=>new THREE.Vector3(Math.cos(k/96*Math.PI*2)*1.1, 0, Math.sin(k/96*Math.PI*2)*1.1))), new THREE.LineDashedMaterial({color:INK,dashSize:.08,gapSize:.06}));
+  ring.computeLineDistances(); ring.position.y = y3+1.75; root.add(ring);
+  const dotEye = new THREE.Mesh(new THREE.SphereGeometry(.09,20,20), new THREE.MeshBasicMaterial({color:CARAMEL})); dotEye.position.y = y3+1.75; root.add(dotEye);
+  root.add(dashed(new THREE.Vector3(0,y3+T/2+1.0,0), new THREE.Vector3(0,y3+1.66,0), INK,.06,.06));
+
+  root.position.y = -(GAP*3+1.9)/2 + .15;
+
+  /* camera — isometric */
+  const camDist = 30;
+  function resize(){
+    const r = stage.getBoundingClientRect();
+    renderer.setSize(r.width, r.height, false);
+    canvas.style.width = r.width+'px'; canvas.style.height = r.height+'px';
+    svg.setAttribute('width', r.width); svg.setAttribute('height', r.height);
+    const aspect = r.width / r.height;
+    const viewH = 13.4;
+    cam.left = -viewH*aspect/2; cam.right = viewH*aspect/2; cam.top = viewH/2; cam.bottom = -viewH/2;
+    cam.updateProjectionMatrix();
+  }
+  const baseAz = Math.PI/4, el = Math.atan(1/Math.sqrt(2))*0.6;
+  let az = 0, drag = null, userAz = 0, t0 = performance.now();
+  canvas.addEventListener('pointerdown', e=>{ drag = {x:e.clientX, a:userAz}; canvas.setPointerCapture(e.pointerId); });
+  canvas.addEventListener('pointermove', e=>{ if(drag) userAz = drag.a + (e.clientX-drag.x)*0.008; });
+  canvas.addEventListener('pointerup', ()=> drag=null);
+
+  const v = new THREE.Vector3();
+  function project(p, rect){
+    v.copy(p).applyMatrix4(root.matrixWorld).project(cam);
+    return {x:(v.x+1)/2*rect.width, y:(1-v.y)/2*rect.height};
+  }
+  // offset stack to the right so plate labels have room on the left
+  const shiftX = 1.15;
+
+  function frame(now){
+    const t = (now - t0)/1000;
+    az = baseAz + Math.sin(t*0.22)*0.32 + userAz;
+    cam.position.set(Math.sin(az)*Math.cos(el)*camDist, Math.sin(el)*camDist, Math.cos(az)*Math.cos(el)*camDist);
+    cam.lookAt(0,0,0);
+    // shift in screen space
+    const right = new THREE.Vector3().setFromMatrixColumn(cam.matrixWorld,0);
+    cam.position.addScaledVector(right, -shiftX);
+    cam.updateMatrixWorld();
+    dotEye.scale.setScalar(1+Math.sin(t*2.2)*.15);
+    root.updateMatrixWorld();
+    renderer.render(scene, cam);
+
+    const rect = stage.getBoundingClientRect();
+    // object labels
+    labels.forEach(l=>{ const s = project(l.p, rect); l.el.style.left = s.x+'px'; l.el.style.top = s.y+'px'; });
+    // plate labels + leader lines: pick, for each plate, the corner that projects furthest left
+    let svgHtml = '';
+    plates.forEach((pl,i)=>{
+      const y = i*GAP;
+      let best=null;
+      [[-W/2,-D/2],[W/2,-D/2],[-W/2,D/2],[W/2,D/2]].forEach(([x,z])=>{ const s=project(new THREE.Vector3(x,y,z),rect); if(!best||s.x<best.x) best=s; });
+      const ly = best.y;
+      pl.el.style.top = ly+'px';
+      const x0 = 26+182;
+      svgHtml += `<line x1="${x0}" y1="${ly}" x2="${best.x-4}" y2="${ly}" stroke="#14213D" stroke-width="0.8" stroke-dasharray="3 3"/>`+
+                 `<circle cx="${best.x}" cy="${ly}" r="3.2" fill="#F4F2EC" stroke="#14213D" stroke-width="1"/>`+
+                 `<line x1="${x0}" y1="${ly-5}" x2="${x0}" y2="${ly+5}" stroke="#14213D" stroke-width="1"/>`;
+    });
+    svg.innerHTML = svgHtml;
+    requestAnimationFrame(frame);
+  }
+  resize(); window.addEventListener('resize', resize);
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
