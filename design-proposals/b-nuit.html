@@ -41,14 +41,14 @@
   .brand .app b{display:block;font-weight:500;font-size:10px;letter-spacing:.24em;color:var(--muted);text-transform:uppercase}
   .brand .app span{font-family:var(--serif);font-size:17px;font-style:italic;color:var(--gold)}
   nav.tabs{display:flex;gap:4px}
-  nav.tabs a{white-space:nowrap;color:var(--muted);text-decoration:none;padding:8px 9px;font-size:12.5px;border-radius:8px;position:relative}
+  nav.tabs a{white-space:nowrap;color:var(--muted);text-decoration:none;padding:8px 9px;font-size:12px;border-radius:8px;position:relative}
   nav.tabs a.on{color:var(--ivory)}
   nav.tabs a.on::after{content:"";position:absolute;left:9px;right:9px;bottom:-15px;height:1px;background:var(--gold)}
-  .copilot{flex:1;max-width:470px;min-width:0;margin-left:auto;display:flex;align-items:center;gap:10px;height:40px;padding:0 8px 0 14px;
+  .copilot{flex:1;max-width:470px;min-width:0;margin-left:auto;display:flex;align-items:center;gap:8px;height:40px;padding:0 7px 0 12px;
            border:1px solid var(--line-2);border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015));
            box-shadow:0 0 0 1px rgba(216,194,157,.04) inset, 0 8px 30px rgba(0,0,0,.35)}
   .copilot svg{flex:none}
-  .copilot .ph{color:var(--muted);font-size:12px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .copilot .ph{color:var(--muted);font-size:11.5px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .copilot .ph b{color:var(--gold);font-weight:500}
   kbd{font-family:var(--sans);font-size:10.5px;color:var(--muted);border:1px solid var(--line-2);border-radius:6px;padding:3px 7px;background:rgba(255,255,255,.03)}
   .top-right{display:flex;align-items:center;gap:14px;flex:none;white-space:nowrap}
@@ -611,7 +611,7 @@
     }
     const col = new THREE.Color(statusColor(p.status));
     globe.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),
-      new THREE.LineBasicMaterial({ color: col, transparent: true, opacity: 0.22 })));
+      new THREE.LineBasicMaterial({ color: col, transparent: true, opacity: 0.42 })));
     const travel = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),
       new THREE.LineBasicMaterial({ color: col, transparent: true, opacity: 0.95, blending: THREE.AdditiveBlending }));
     globe.add(travel);
@@ -682,6 +682,7 @@
     // labels
     camDir.copy(camera.position).normalize();
     const w = W(), h = H();
+    const placed = [];
     pins.forEach(p => {
       tmp.copy(p.tip).applyMatrix4(globe.matrixWorld);
       const facing = tmp.clone().normalize().dot(camDir);
@@ -689,9 +690,18 @@
       const x = (tmp.x * 0.5 + 0.5) * w, y = (-tmp.y * 0.5 + 0.5) * h;
       const vis = Math.max(0, Math.min(1, (facing - 0.12) / 0.2));
       p.el.style.opacity = vis.toFixed(3);
-      const lw = p.el.offsetWidth || 160;
+      const lw = p.el.offsetWidth || 160, lh = (p.el.offsetHeight || 28) + 4;
       const lx2 = (x + 14 + lw > w - 14) ? x - 14 - lw : x + 14;
-      p.el.style.transform = `translate(${lx2.toFixed(1)}px, ${(y - 14).toFixed(1)}px)`;
+      let ly2 = y - 14;
+      if (vis > 0.05) {
+        for (let guard = 0; guard < 6; guard++) {
+          const hit = placed.find(r => lx2 < r.x + r.w && lx2 + lw > r.x && ly2 < r.y + r.h && ly2 + lh > r.y);
+          if (!hit) break;
+          ly2 = hit.y + hit.h;
+        }
+        placed.push({ x: lx2, y: ly2, w: lw, h: lh });
+      }
+      p.el.style.transform = `translate(${lx2.toFixed(1)}px, ${ly2.toFixed(1)}px)`;
     });
     requestAnimationFrame(frame);
   }
