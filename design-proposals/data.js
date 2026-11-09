@@ -27,7 +27,7 @@ window.PANO = {
     { id: "201155", name: "Melbourne Flinders Lane", city: "Melbourne", country: "Australia", zone: "EAST", region: "SOUTH ASIA",
       type: "New", boutique: "Flag", concept: "PMA by Dior", opening: "2027-12-31", commitment: "2026-04-23",
       retailSqm: 610, fcExtSqm: 180, budget: 14.50, committed: 12.10, actual: 3.40, forecast: 15.19,
-      phase: "Tender awarded", progress: 0.34, lat: -37.81, lng: 144.96, status: "alert" },
+      phase: "Bid evaluation", progress: 0.34, lat: -37.81, lng: 144.96, status: "alert" },
     { id: "401111", name: "Copenhagen", city: "Copenhagen", country: "Denmark", zone: "WEST", region: "EUROPE",
       type: "New", boutique: "FSS", concept: "PMA Lite", opening: "2027-07-01", commitment: "2026-05-12",
       retailSqm: 365, fcExtSqm: 372, budget: 7.53, committed: 6.02, actual: 2.31, forecast: 7.41,
