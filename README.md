@@ -20,3 +20,10 @@ Plateforme digitale panoptique pour le département Architecture de Dior : sourc
 - `standalone/` : versions autonomes (un seul fichier HTML, images et scripts intégrés), générées par `python3 build_standalone.py`.
 
 Ouvrir `design-proposals/index.html` dans un navigateur. La 3D se fait tourner à la souris.
+
+## Étape 2 — Maquette retenue (`mockup/`)
+
+- `index.html` : maquette Panoptic v0.2 (à ouvrir avec le dossier `assets/`). `standalone/Dior_Architecture_Panoptic_Mockup_v0.2.html` : même maquette en un seul fichier.
+- `original.html` : maquette v0.1 reçue, conservée telle quelle.
+- `COUVERTURE.md` : couverture du backlog Excel (P1 : 40 features montrées et 9 portées par le plan de livraison, sur 49).
+- `build/` : scripts qui produisent la v0.2 à partir de la v0.1 (police, données réelles, images, administration).
