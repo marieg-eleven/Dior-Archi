@@ -23,7 +23,8 @@ Ouvrir `design-proposals/index.html` dans un navigateur. La 3D se fait tourner �
 
 ## Étape 2 — Maquette retenue (`mockup/`)
 
-- `index.html` : maquette Panoptic v0.2 (à ouvrir avec le dossier `assets/`). `standalone/Dior_Architecture_Panoptic_Mockup_v0.2.html` : même maquette en un seul fichier.
+- `index.html` : maquette Panoptic v0.3 (à ouvrir avec le dossier `assets/`). `standalone/Dior_Architecture_Panoptic_Mockup_v0.3.html` : même maquette en un seul fichier.
 - `original.html` : maquette v0.1 reçue, conservée telle quelle.
-- `COUVERTURE.md` : couverture du backlog Excel (P1 : 40 features montrées et 9 portées par le plan de livraison, sur 49).
+- `COUVERTURE.md` : couverture du backlog Excel (toutes les P1 et P2).
+- `UX.md` : logique de navigation, création de projet, mise à jour des données, intégration aux outils actuels.
 - `build/` : scripts qui produisent la v0.2 à partir de la v0.1 (police, données réelles, images, administration).

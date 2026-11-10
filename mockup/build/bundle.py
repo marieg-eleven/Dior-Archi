@@ -8,5 +8,5 @@ def uri(m):
     return f"data:{mimetypes.guess_type(p.name)[0]};base64," + base64.b64encode(p.read_bytes()).decode()
 out = re.sub(r"assets/[\w\-.]+\.(?:png|jpe?g)", uri, html)
 (ROOT / 'standalone').mkdir(exist_ok=True)
-(ROOT / 'standalone' / 'Dior_Architecture_Panoptic_Mockup_v0.2.html').write_text(out, encoding='utf-8')
+(ROOT / 'standalone' / 'Dior_Architecture_Panoptic_Mockup_v0.3.html').write_text(out, encoding='utf-8')
 print(f'standalone: {len(out)/1024/1024:.1f} MB')
