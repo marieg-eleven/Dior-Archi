@@ -13,7 +13,7 @@ import re
 
 ROOT = pathlib.Path(__file__).resolve().parent
 OUT = ROOT / "standalone"
-PAGES = ["a-montaigne.html", "b-nuit.html", "c-cannage.html", "d-atelier.html"]
+PAGES = ["a-montaigne.html", "b-nuit.html", "c-cannage.html", "d-atelier.html", "e-studio.html"]
 
 
 def data_uri(rel: str) -> str:

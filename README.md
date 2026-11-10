@@ -13,6 +13,7 @@ Plateforme digitale panoptique pour le département Architecture de Dior : sourc
 | `b-nuit.html` | B · Nuit Avenue — salle de contrôle sombre | Globe des projets 2027 |
 | `c-cannage.html` | C · Cannage — SaaS gris Dior / rose / marine | Plan extrudé, heatmap budget par zone |
 | `d-atelier.html` | D · Atelier — langage du plan d’architecte | Axonométrie éclatée des couches de données |
+| `e-studio.html` | E · Studio — outil de gestion de travail (timeline, workflows Copilot, board) | Colonnes 3D du portefeuille |
 
 - `data.js` : jeu de données partagé (projets 2027, appel d’offres Melbourne Flinders Lane, alertes, intégrations). Les montants engagés, réels et prévisionnels sont illustratifs.
 - `screens/` : captures des maquettes.
