@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1600">
+<meta name="author" content="Marie Guegain — eleven">
+<meta name="description" content="Dior Architecture — Panoptic platform, design proposal E · Studio">
+<title>Panoptic — Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --side:#1E1F21; --side2:#2A2B2D; --side-txt:#C9C7C4; --side-mute:#8D8B88;
+    --bg:#FFFFFF; --soft:#F6F5F4; --line:#E8E6E3; --line2:#EFEDEA;
+    --ink:#1E1F21; --txt:#3C3B39; --mute:#6F6E6B; --faint:#A3A19D;
+    --coral:#E8857A; --coral2:#D9A8A0; --navy:#14213D; --lilac:#B9A3E3;
+    --ok:#3BA676; --ok-bg:#E3F4EA; --risk:#D99A1E; --risk-bg:#FBF0D9; --off:#D6524A; --off-bg:#FBE4E1;
+    --ph-concept:#D8CCF5; --ph-concept-t:#4E3D8F;
+    --ph-tender:#F6C9C1; --ph-tender-t:#8E3A2F;
+    --ph-build:#C3E5DA; --ph-build-t:#1E5E4F;
+    --grad:linear-gradient(120deg,#E9A8A0 0%,#B9A3E3 52%,#14213D 100%);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:Figtree,system-ui,sans-serif;color:var(--txt);background:var(--bg);font-size:13px;min-width:1600px;-webkit-font-smoothing:antialiased}
+  .app{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+
+  /* ---------- Sidebar ---------- */
+  .side{background:var(--side);color:var(--side-txt);padding:14px 10px 20px;display:flex;flex-direction:column;gap:2px}
+  .brand{display:flex;align-items:center;gap:10px;padding:6px 10px 16px;border-bottom:1px solid #333436;margin-bottom:10px}
+  .brand img{height:24px}
+  .brand .sub{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--side-mute);line-height:1.3;border-left:1px solid #444;padding-left:10px}
+  .nav{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:6px;color:var(--side-txt);font-size:13px;cursor:default}
+  .nav:hover{background:var(--side2)}
+  .nav.active{background:#3A3B3E;color:#fff}
+  .nav svg{width:16px;height:16px;flex:none;opacity:.85}
+  .nav .badge{margin-left:auto;background:var(--coral);color:#fff;font-size:10px;font-weight:600;border-radius:9px;padding:1px 6px}
+  .sec{display:flex;align-items:center;justify-content:space-between;font-size:11px;font-weight:600;color:var(--side-mute);padding:14px 10px 6px;letter-spacing:.02em}
+  .sec span{font-size:15px;font-weight:400}
+  .pico{width:18px;height:18px;border-radius:5px;flex:none;display:grid;place-items:center;color:#fff;font-size:9px;font-weight:700}
+  .team .pico{border-radius:50%;background:#3A3B3E;color:#d5d3cf;font-weight:600}
+  .side .spacer{flex:1}
+  .invite{margin:16px 6px 0;border:1px solid #3A3B3E;border-radius:8px;padding:10px 12px;font-size:12px;color:var(--side-mute);display:flex;align-items:center;gap:8px}
+
+  /* ---------- Top bar ---------- */
+  .top{height:52px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:0 20px;background:#fff}
+  .btn-create{display:flex;align-items:center;gap:6px;background:var(--coral);color:#fff;border:0;border-radius:18px;padding:7px 14px 7px 10px;font:600 13px Figtree;box-shadow:0 1px 2px rgba(232,133,122,.35)}
+  .search{margin:0 auto;width:520px;height:34px;border-radius:18px;background:var(--soft);border:1px solid var(--line);display:flex;align-items:center;gap:8px;padding:0 14px;color:var(--faint)}
+  .search kbd{margin-left:auto;font:500 11px Figtree;color:var(--faint);border:1px solid var(--line);border-radius:4px;padding:1px 5px;background:#fff}
+  .btn-ai{display:flex;align-items:center;gap:7px;color:#fff;border:0;border-radius:18px;padding:7px 14px;font:600 13px Figtree;background:var(--grad);box-shadow:0 2px 10px rgba(185,163,227,.45)}
+  .iconbtn{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;color:var(--mute)}
+  .av{width:26px;height:26px;border-radius:50%;display:inline-grid;place-items:center;color:#fff;font-size:10px;font-weight:700;border:2px solid #fff;flex:none}
+  .av.sm{width:22px;height:22px;font-size:9px}
+  .av.lg{width:30px;height:30px;font-size:11px}
+  .stack{display:flex}.stack .av+.av{margin-left:-5px}
+
+  /* ---------- Portfolio header ---------- */
+  .phead{padding:16px 24px 0;border-bottom:1px solid var(--line)}
+  .prow{display:flex;align-items:center;gap:12px}
+  .picon-lg{width:36px;height:36px;border-radius:9px;background:var(--navy);display:grid;place-items:center}
+  .picon-lg img{width:26px;opacity:.95}
+  .ptitle{font-size:20px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+  .crumb{font-size:12px;color:var(--mute);margin-bottom:2px}
+  .pill{display:inline-flex;align-items:center;gap:5px;border-radius:12px;padding:3px 9px;font-size:11.5px;font-weight:600;white-space:nowrap}
+  .pill i{width:7px;height:7px;border-radius:50%;display:inline-block}
+  .pill.ok{background:var(--ok-bg);color:#24714F}.pill.ok i{background:var(--ok)}
+  .pill.risk{background:var(--risk-bg);color:#8A5F0B}.pill.risk i{background:var(--risk)}
+  .pill.off{background:var(--off-bg);color:#A2342D}.pill.off i{background:var(--off)}
+  .pright{margin-left:auto;display:flex;align-items:center;gap:10px}
+  .btn-ghost{border:1px solid var(--line);background:#fff;border-radius:7px;padding:6px 12px;font:600 12.5px Figtree;color:var(--txt);display:flex;align-items:center;gap:6px}
+  .tabs{display:flex;gap:2px;margin-top:14px}
+  .tab{display:flex;align-items:center;gap:6px;padding:9px 12px 11px;color:var(--mute);font-weight:500;border-bottom:2px solid transparent;margin-bottom:-1px}
+  .tab svg{width:14px;height:14px}
+  .tab.on{color:var(--ink);border-color:var(--ink);font-weight:600}
+  .tab.add{color:var(--faint)}
+
+  /* ---------- Content grid ---------- */
+  .content{display:grid;grid-template-columns:1fr 372px;gap:20px;padding:18px 24px 10px;background:var(--soft)}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px}
+  .ch{display:flex;align-items:center;gap:8px;padding:14px 16px 0}
+  .ch h3{margin:0;font-size:14px;font-weight:700;color:var(--ink)}
+  .ch .more{margin-left:auto;color:var(--faint);font-size:12px;display:flex;gap:10px;align-items:center}
+  .muted{color:var(--mute)}
+
+  /* Overview row */
+  .ovw{display:grid;grid-template-columns:372px 1fr 232px;gap:14px;margin-bottom:16px}
+  .three{position:relative;min-height:240px;overflow:hidden}
+  .three canvas{position:absolute;inset:0}
+  .three .lbl{position:absolute;transform:translate(-50%,-100%);font-size:10px;font-weight:600;color:var(--ink);background:rgba(255,255,255,.88);border:1px solid var(--line);border-radius:5px;padding:1px 5px;white-space:nowrap;pointer-events:none}
+  .three .hdr{position:absolute;left:16px;top:12px;z-index:2}
+  .three .hdr b{font-size:13.5px;color:var(--ink)}
+  .three .hdr div{font-size:11px;color:var(--mute)}
+  .three .legend{position:absolute;left:16px;bottom:11px;z-index:2;display:flex;gap:10px;font-size:10.5px;color:var(--mute)}
+  .three .legend span{display:flex;align-items:center;gap:4px}
+  .three .legend i{width:9px;height:9px;border-radius:2px;display:inline-block}
+  .three .drag{position:absolute;right:12px;bottom:10px;font-size:10.5px;color:var(--faint);z-index:2}
+  .kgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .kpi{padding:14px 16px}
+  .kpi .k{font-size:12px;color:var(--mute);display:flex;align-items:center;gap:6px}
+  .kpi .v{font-size:26px;font-weight:700;color:var(--ink);letter-spacing:-.02em;margin-top:6px}
+  .kpi .v small{font-size:13px;font-weight:600;color:var(--mute);margin-left:3px}
+  .kpi .s{font-size:11.5px;color:var(--mute);margin-top:4px;display:flex;align-items:center;gap:6px}
+  .bar{height:5px;border-radius:3px;background:var(--line2);margin-top:9px;overflow:hidden;display:flex}
+  .up{color:var(--off);font-weight:600}.down{color:var(--ok);font-weight:600}
+  .status{padding:14px 16px;display:flex;flex-direction:column;gap:9px}
+  .status .t{font-size:11.5px;color:var(--mute);display:flex;justify-content:space-between;align-items:center}
+  .status p{margin:0;font-size:12.5px;line-height:1.5;color:var(--txt)}
+  .seg{display:flex;height:8px;border-radius:4px;overflow:hidden;gap:2px}
+  .segl{display:flex;justify-content:space-between;font-size:11px;color:var(--mute)}
+
+  /* Timeline */
+  .tl-tools{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line)}
+  .tl-tools .sp{flex:1}
+  .chip{border:1px solid var(--line);border-radius:6px;padding:4px 9px;font-size:12px;color:var(--txt);background:#fff;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+  .chip.dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .tl{position:relative}
+  .tl-row{display:grid;grid-template-columns:var(--cols);height:44px;border-bottom:1px solid var(--line2);align-items:center}
+  .tl-row.head{height:46px;background:#FCFBFA;font-size:11px;color:var(--mute);font-weight:600}
+  .tl-row.sub{height:36px;background:#FDFCFB}
+  .tl-row > div{padding:0 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tl-row .num{text-align:right;font-variant-numeric:tabular-nums}
+  .pname{display:flex;align-items:center;gap:8px;font-weight:600;color:var(--ink)}
+  .pname .tw{color:var(--faint);font-size:10px;width:10px}
+  .pname small{display:block;font-weight:500;color:var(--faint);font-size:10.5px;margin-top:1px}
+  .subname{display:flex;align-items:center;gap:8px;padding-left:36px !important;font-size:12px;color:var(--txt)}
+  .chk{width:14px;height:14px;border-radius:50%;border:1.5px solid #B9B6B1;flex:none}
+  .chk.done{background:var(--ok);border-color:var(--ok)}
+  .gcell{position:relative;height:100%;padding:0 !important;overflow:visible !important;border-left:1px solid var(--line)}
+  .gh-q{position:absolute;top:6px;font-size:11px;color:var(--ink);font-weight:600}
+  .gh-m{position:absolute;bottom:6px;font-size:9.5px;color:var(--faint);width:20px;text-align:center;font-weight:500}
+  .gbar{position:absolute;top:11px;height:22px;border-radius:6px;font-size:10.5px;font-weight:600;display:flex;align-items:center;padding:0 7px;overflow:hidden;white-space:nowrap}
+  .sub .gbar{top:8px;height:20px}
+  .gbar .prog{position:absolute;left:0;top:0;bottom:0;border-radius:6px 0 0 6px;opacity:.28}
+  .gbar span{position:relative}
+  .gdia{position:absolute;top:15px;width:13px;height:13px;transform:translateX(-50%) rotate(45deg);border-radius:2px;box-shadow:0 0 0 2px #fff}
+  .sub .gdia{top:11px}
+  .grid-v{position:absolute;top:0;bottom:0;width:1px;background:var(--line2)}
+  .today{position:absolute;top:0;bottom:0;width:2px;background:var(--coral);z-index:3}
+  .today b{position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--coral);color:#fff;font-size:9.5px;font-weight:700;border-radius:4px;padding:1px 5px;white-space:nowrap}
+  .tl svg.deps{position:absolute;left:0;top:0;pointer-events:none;z-index:4;overflow:visible}
+  .tl-add{display:flex;align-items:center;gap:6px;color:var(--faint);padding:10px 16px;font-size:12.5px}
+  .phleg{display:flex;gap:12px;font-size:11px;color:var(--mute)}
+  .phleg span{display:flex;align-items:center;gap:5px}
+  .phleg i{width:12px;height:8px;border-radius:2px;display:inline-block}
+
+  /* Board */
+  .board{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;padding:14px 16px 16px}
+  .col h4{margin:0 0 8px;font-size:12.5px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:6px}
+  .col h4 .n{color:var(--faint);font-weight:500}
+  .col h4 .pl{margin-left:auto;color:var(--faint);font-weight:400;font-size:15px}
+  .tcard{background:#fff;border:1px solid var(--line);border-radius:9px;padding:10px 11px;margin-bottom:8px;box-shadow:0 1px 2px rgba(30,31,33,.04)}
+  .tcard .cover{height:70px;margin:-10px -11px 9px;border-radius:9px 9px 0 0;background-size:cover;background-position:center 40%;position:relative}
+  .tcard .cover span{position:absolute;left:8px;bottom:6px;font-size:9.5px;color:#fff;background:rgba(20,33,61,.7);border-radius:4px;padding:1px 6px}
+  .tcard .tt{font-weight:600;color:var(--ink);font-size:12.5px;display:flex;gap:7px;align-items:flex-start;line-height:1.3}
+  .tcard .tag{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:600;border-radius:4px;padding:2px 6px;margin-top:7px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .tcard .bid{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}
+  .tcard .bid span{font-size:10.5px;background:var(--soft);border:1px solid var(--line2);border-radius:10px;padding:1px 7px;color:var(--txt)}
+  .tcard .ft{display:flex;align-items:center;justify-content:space-between;margin-top:9px;font-size:11px;color:var(--mute)}
+  .tcard .ft b{color:var(--ink);font-weight:700;font-size:12px}
+  .tcard .ai{font-size:10.5px;margin-top:7px;padding:5px 7px;border-radius:6px;background:linear-gradient(120deg,rgba(233,168,160,.16),rgba(185,163,227,.18));color:#4A3C7A;line-height:1.35}
+  .addcard{color:var(--faint);font-size:12px;padding:4px 2px}
+
+  /* Workflow builder */
+  .wf{display:flex;flex-direction:column}
+  .wf-top{padding:14px 16px 12px;border-bottom:1px solid var(--line)}
+  .wf-top .r{display:flex;align-items:center;gap:8px}
+  .wf-top h3{margin:0;font-size:14px;font-weight:700;color:var(--ink)}
+  .toggle{margin-left:auto;display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:#24714F}
+  .toggle i{width:30px;height:17px;border-radius:9px;background:var(--ok);position:relative;display:inline-block}
+  .toggle i:after{content:"";position:absolute;right:2px;top:2px;width:13px;height:13px;border-radius:50%;background:#fff}
+  .wf-top .d{font-size:12px;color:var(--mute);margin-top:4px}
+  .wf-stats{display:flex;gap:8px;margin-top:10px}
+  .wf-stats div{flex:1;background:var(--soft);border-radius:8px;padding:7px 9px}
+  .wf-stats b{display:block;font-size:15px;color:var(--ink)}
+  .wf-stats span{font-size:10.5px;color:var(--mute)}
+  .canvas{position:relative;padding:16px 16px 18px;background-color:#FBFAF9;background-image:radial-gradient(#DCD8D2 1px,transparent 1px);background-size:14px 14px;border-radius:0 0 12px 12px}
+  .node{position:relative;z-index:2;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px;box-shadow:0 2px 6px rgba(30,31,33,.05)}
+  .node .lab{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);display:flex;align-items:center;gap:6px}
+  .node .lab .ic{width:20px;height:20px;border-radius:6px;display:grid;place-items:center;color:#fff}
+  .node .tx{font-size:12.5px;font-weight:600;color:var(--ink);margin-top:6px;line-height:1.35}
+  .node .meta{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+  .node .meta span:not(.av){font-size:10.5px;border-radius:5px;padding:2px 6px;background:var(--soft);color:var(--txt);border:1px solid var(--line2)}
+  .node.ai{border:1.5px solid transparent;background:linear-gradient(#fff,#fff) padding-box,var(--grad) border-box}
+  .node.ai .lab{color:#5E4BA0}
+  .node.cond{border-style:dashed;border-color:#C9C4BD;background:#FFFDF8}
+  .conn{height:26px;position:relative;display:flex;justify-content:center}
+  .conn:before{content:"";position:absolute;top:0;bottom:0;left:50%;width:1.5px;background:#C9C4BD}
+  .conn .plus{position:relative;z-index:1;align-self:center;width:18px;height:18px;border-radius:50%;background:#fff;border:1px solid #C9C4BD;color:var(--mute);display:grid;place-items:center;font-size:13px;line-height:1}
+  .branches{display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative;padding-top:30px}
+  .branches svg{position:absolute;left:0;top:0;width:100%;height:30px;overflow:visible}
+  .branches .yn{position:absolute;top:6px;font-size:10px;font-weight:700;border-radius:4px;padding:1px 6px;z-index:2}
+  .node.small .tx{font-size:12px}
+  .wf-foot{display:flex;align-items:center;gap:8px;margin-top:14px;font-size:11px;color:var(--mute)}
+  .wf-foot .dot{width:7px;height:7px;border-radius:50%;background:var(--ok)}
+
+  /* Copilot */
+  .cop{margin-top:16px;overflow:hidden}
+  .cop .hd{padding:14px 16px;display:flex;align-items:center;gap:10px;background:linear-gradient(120deg,rgba(233,168,160,.22),rgba(185,163,227,.22) 60%,rgba(20,33,61,.08))}
+  .orb{width:30px;height:30px;border-radius:50%;background:var(--grad);display:grid;place-items:center;color:#fff;box-shadow:0 3px 10px rgba(185,163,227,.6)}
+  .cop .hd b{display:block;font-size:13.5px;color:var(--ink)}
+  .cop .hd span{font-size:11.5px;color:var(--mute)}
+  .cop .body{padding:12px 16px 16px}
+  .bubble{background:var(--soft);border-radius:10px 10px 10px 2px;padding:9px 11px;font-size:12px;line-height:1.5;color:var(--txt)}
+  .bubble b{color:var(--ink)}
+  .src{display:flex;gap:5px;margin-top:7px}
+  .src span{font-size:10px;color:var(--mute);border:1px solid var(--line);border-radius:4px;padding:1px 5px;background:#fff}
+  .sugg{display:flex;flex-direction:column;gap:6px;margin-top:12px}
+  .sugg span{align-self:flex-start;font-size:11.5px;border:1px solid #D9CDF3;color:#4A3C7A;background:#F7F3FE;border-radius:14px;padding:4px 10px}
+  .ask{margin-top:12px;display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:10px;padding:8px 8px 8px 12px;color:var(--faint);font-size:12.5px}
+  .ask .send{margin-left:auto;width:26px;height:26px;border-radius:7px;background:var(--ink);display:grid;place-items:center;color:#fff}
+
+  footer{display:flex;justify-content:space-between;padding:10px 24px 18px;background:var(--soft);font-size:11px;color:var(--faint)}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="side">
+    <div class="brand"><img src="assets/dior-logo-white.png" alt="Dior"><div class="sub">Architecture<br>Panoptic</div></div>
+    <div class="nav"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2.5 7.5 8 3l5.5 4.5V13H9.5V9.5h-3V13h-4z"/></svg>Home</div>
+    <div class="nav"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="5.5"/><path d="m5.6 8.1 1.7 1.7 3.2-3.4"/></svg>My tasks</div>
+    <div class="nav"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3.5 6.5a4.5 4.5 0 0 1 9 0V10l1 1.5h-11l1-1.5z"/><path d="M6.5 13.5h3"/></svg>Inbox<span class="badge" id="inboxBadge">7</span></div>
+
+    <div class="sec">Insights <span>+</span></div>
+    <div class="nav"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 13V8M8 13V3M13 13V6"/></svg>Reporting</div>
+    <div class="nav active"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2.5" y="4.5" width="11" height="8.5" rx="1.5"/><path d="M6 4.5V3h4v1.5"/></svg>Portfolios</div>
+    <div class="nav"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="5.5"/><circle cx="8" cy="8" r="2.5"/></svg>Goals</div>
+
+    <div class="sec">Projects <span>+</span></div>
+    <div id="sideProjects"></div>
+
+    <div class="sec">Teams <span>+</span></div>
+    <div id="sideTeams"></div>
+
+    <div class="spacer"></div>
+    <div class="invite"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="3.5" width="12" height="9" rx="1.5"/><path d="m2.5 4.5 5.5 4 5.5-4"/></svg>Invite GCs &amp; millworkers</div>
+  </aside>
+
+  <!-- ===================== MAIN ===================== -->
+  <main>
+    <div class="top">
+      <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="#6F6E6B" stroke-width="1.5"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11"/></svg>
+      <button class="btn-create"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2"><path d="M8 3v10M3 8h10"/></svg>Create</button>
+      <div class="search"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3 3"/></svg>Search projects, tenders, SOW lines, suppliers…<kbd>⌘K</kbd></div>
+      <button class="btn-ai"><svg width="14" height="14" viewBox="0 0 16 16" fill="#fff"><path d="M8 1.5 9.4 6.6 14.5 8 9.4 9.4 8 14.5 6.6 9.4 1.5 8 6.6 6.6z"/></svg>Panoptic Copilot</button>
+      <div class="iconbtn"><svg width="17" height="17" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="6"/><path d="M6.3 6.2a1.8 1.8 0 1 1 2.4 1.7c-.5.2-.7.6-.7 1.1v.3M8 11.3v.2"/></svg></div>
+      <span class="av lg" style="background:#14213D">CN</span>
+    </div>
+
+    <section class="phead">
+      <div class="crumb">Portfolios › Architecture › Store openings</div>
+      <div class="prow">
+        <div class="picon-lg"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="1.5"><rect x="2.5" y="4.5" width="11" height="8.5" rx="1.5"/><path d="M6 4.5V3h4v1.5"/></svg></div>
+        <div class="ptitle">2027 Openings</div>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#A3A19D" stroke-width="1.3"><path d="m8 2 1.8 3.8 4.2.5-3.1 2.9.8 4.1L8 11.3l-3.7 2 .8-4.1L2 6.3l4.2-.5z"/></svg>
+        <span class="pill risk"><i></i>At risk</span>
+        <span class="muted" style="font-size:12px">6 projects · 2 zones · SOP <b style="color:var(--ink)" id="hdrBudget"></b></span>
+        <div class="pright">
+          <div class="stack"><span class="av" style="background:#14213D">CN</span><span class="av" style="background:#E8857A">AK</span><span class="av" style="background:#8C6FD1">MG</span><span class="av" style="background:#3BA676">MC</span><span class="av" style="background:#B9B6B1;color:#3C3B39">+9</span></div>
+          <button class="btn-ghost"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3.5" y="7" width="9" height="6.5" rx="1.2"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg>Share</button>
+          <button class="btn-ghost">Customize</button>
+        </div>
+      </div>
+      <div class="tabs">
+        <div class="tab"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2.5" y="2.5" width="11" height="11" rx="2"/><path d="M5 6h6M5 9h4"/></svg>Overview</div>
+        <div class="tab"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M5.5 4h8M5.5 8h8M5.5 12h8"/><circle cx="2.8" cy="4" r=".6"/><circle cx="2.8" cy="8" r=".6"/><circle cx="2.8" cy="12" r=".6"/></svg>List</div>
+        <div class="tab on"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2.5 4h6M5 8h7M8 12h5.5"/></svg>Timeline</div>
+        <div class="tab"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2.5" y="3" width="3" height="10" rx="1"/><rect x="6.5" y="3" width="3" height="7" rx="1"/><rect x="10.5" y="3" width="3" height="5" rx="1"/></svg>Board</div>
+        <div class="tab"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2.5" width="5" height="3.5" rx="1"/><rect x="9" y="10" width="5" height="3.5" rx="1"/><path d="M4.5 6v2.5a1.5 1.5 0 0 0 1.5 1.5h3"/></svg>Workflow</div>
+        <div class="tab"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 13V8M8 13V3M13 13V6"/></svg>Dashboard</div>
+        <div class="tab"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 2.5h5l3 3v8H4z"/><path d="M9 2.5v3h3"/></svg>Files</div>
+        <div class="tab add">+</div>
+      </div>
+    </section>
+
+    <div class="content">
+      <!-- ============ LEFT ============ -->
+      <div>
+        <div class="ovw">
+          <div class="card three" id="three">
+            <div class="hdr"><b>3D portfolio</b><div>Height = SOP budget (M€) · by opening date</div></div>
+            <div class="legend"><span><i style="background:rgba(30,31,33,.06);border:1px solid #cfccc7"></i>Budget</span><span><i style="background:#E8857A"></i>Committed</span><span><i style="background:#D6524A;height:3px"></i>Forecast</span></div>
+            <div class="drag">⟲ Drag to rotate</div>
+          </div>
+          <div class="kgrid" id="kpis"></div>
+          <div class="card status">
+            <div class="t"><span style="font-weight:700;color:var(--ink);font-size:13px">Status update</span><span>Nov 10</span></div>
+            <span class="pill risk" style="align-self:flex-start"><i></i>At risk</span>
+            <p>Forecast <b id="stFc"></b> vs SOP <b id="stBud"></b>. Flinders Lane MEP and Sanya millwork drive the gap; arbitration this week.</p>
+            <div class="seg" id="seg"></div>
+            <div class="segl" id="segl"></div>
+            <div style="display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--mute)"><span class="av sm" style="background:#14213D;border:0">CN</span>Christophe Ngo · Cost Control</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="tl-tools">
+            <span class="chip" style="color:var(--mute)">+ Add project</span>
+            <span class="chip">Filter</span><span class="chip">Sort: Opening date</span><span class="chip">Group: none</span>
+            <div class="phleg" style="margin-left:6px">
+              <span><i style="background:var(--ph-concept)"></i>Concept design</span>
+              <span><i style="background:var(--ph-tender)"></i>Tender</span>
+              <span><i style="background:var(--ph-build)"></i>Construction</span>
+              <span><i style="background:var(--ink);width:8px;height:8px;transform:rotate(45deg)"></i>Opening</span>
+            </div>
+            <span class="sp"></span>
+            <span class="chip">Today</span><span class="chip dark">Months ▾</span>
+          </div>
+          <div class="tl" id="tl"></div>
+          <div class="tl-add">+ Add project to portfolio</div>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <div class="ch"><h3>Tenders</h3><span class="muted" style="font-size:12px">Board · all lots across the portfolio</span><div class="more"><span class="chip">Filter</span><span class="chip">Group: Stage</span></div></div>
+          <div class="board" id="board"></div>
+        </div>
+      </div>
+
+      <!-- ============ RIGHT ============ -->
+      <div>
+        <div class="card wf">
+          <div class="wf-top">
+            <div class="r"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#14213D" stroke-width="1.5"><rect x="2" y="2.5" width="5" height="3.5" rx="1"/><rect x="9" y="10" width="5" height="3.5" rx="1"/><path d="M4.5 6v2.5a1.5 1.5 0 0 0 1.5 1.5h3"/></svg><h3>Workflow</h3><span class="toggle"><i></i>Active</span></div>
+            <div class="d">Tender intake → budget check · applies to all 6 projects</div>
+            <div class="wf-stats">
+              <div><b>42</b><span>runs this month</span></div>
+              <div><b>~31 h</b><span>saved vs manual</span></div>
+              <div><b>09:05</b><span>last run · SOR R2</span></div>
+            </div>
+          </div>
+          <div class="canvas">
+            <div class="node">
+              <div class="lab"><span class="ic" style="background:#14213D"><svg width="11" height="11" viewBox="0 0 16 16" fill="#fff"><path d="M9 1 3 9h4l-1 6 6-8H8z"/></svg></span>Trigger</div>
+              <div class="tx">When a SOW / bid is uploaded to Tenders</div>
+              <div class="meta"><span>Tenders · any project</span><span>PDF · Excel</span></div>
+            </div>
+            <div class="conn"><span class="plus">+</span></div>
+            <div class="node ai">
+              <div class="lab"><span class="ic" style="background:var(--grad)"><svg width="11" height="11" viewBox="0 0 16 16" fill="#fff"><path d="M8 1.5 9.4 6.6 14.5 8 9.4 9.4 8 14.5 6.6 9.4 1.5 8 6.6 6.6z"/></svg></span>Panoptic Copilot</div>
+              <div class="tx">Extract SOW line items &amp; map to Anaplan budget codes</div>
+              <div class="meta"><span>PRELIM · GC · MEP · MW</span><span>→ Anaplan codes</span></div>
+            </div>
+            <div class="conn"><span class="plus">+</span></div>
+            <div class="node ai">
+              <div class="lab"><span class="ic" style="background:var(--grad)"><svg width="11" height="11" viewBox="0 0 16 16" fill="#fff"><path d="M8 1.5 9.4 6.6 14.5 8 9.4 9.4 8 14.5 6.6 9.4 1.5 8 6.6 6.6z"/></svg></span>Panoptic Copilot</div>
+              <div class="tx">Compare bids vs budget &amp; flag scope gaps</div>
+              <div class="meta" id="wfBids"></div>
+            </div>
+            <div class="conn"><span class="plus">+</span></div>
+            <div class="node cond">
+              <div class="lab"><span class="ic" style="background:#D99A1E"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="1.8"><path d="M8 2v5M8 7 3.5 13M8 7l4.5 6"/></svg></span>Condition</div>
+              <div class="tx">If forecast gap &gt; 5% of SOP budget line</div>
+            </div>
+            <div class="branches">
+              <svg viewBox="0 0 100 30" preserveAspectRatio="none"><path d="M50 0 V10 Q50 14 46 14 H29 Q25 14 25 18 V30" fill="none" stroke="#C9C4BD" stroke-width="1.5" vector-effect="non-scaling-stroke"/><path d="M50 10 Q50 14 54 14 H71 Q75 14 75 18 V30" fill="none" stroke="#C9C4BD" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg>
+              <span class="yn" style="left:calc(25% - 12px);background:var(--off-bg);color:#A2342D">Yes</span>
+              <span class="yn" style="left:calc(75% - 10px);background:var(--ok-bg);color:#24714F">No</span>
+              <div class="node small">
+                <div class="lab"><span class="ic" style="background:#E8857A"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="1.8"><path d="m4 8.2 2.6 2.6L12 5.4"/></svg></span>Task</div>
+                <div class="tx">Create approval task for Cost Control</div>
+                <div class="meta" style="align-items:center"><span class="av sm" style="background:#14213D;border:0">CN</span><span>Due in 2 days</span></div>
+              </div>
+              <div class="node small">
+                <div class="lab"><span class="ic" style="background:#3BA676"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="1.6"><path d="M2.5 8h9M8.5 4.5 12 8l-3.5 3.5"/></svg></span>Notify &amp; sync</div>
+                <div class="tx">Notify Finance channel + push committed cost to Anaplan</div>
+                <div class="meta"><span>Anaplan</span><span>Coupa PO</span></div>
+              </div>
+            </div>
+            <div class="wf-foot"><span class="dot"></span>Last run · Flinders Lane · gap +4.8% → No<span style="margin-left:auto;color:var(--ink);font-weight:600">View runs →</span></div>
+          </div>
+        </div>
+
+        <div class="card cop">
+          <div class="hd"><div class="orb"><svg width="14" height="14" viewBox="0 0 16 16" fill="#fff"><path d="M8 1.5 9.4 6.6 14.5 8 9.4 9.4 8 14.5 6.6 9.4 1.5 8 6.6 6.6z"/></svg></div><div><b>Ask Copilot about this portfolio</b><span>Coupa · Anaplan · SOW · documents</span></div></div>
+          <div class="body">
+            <div class="bubble" id="copAns"></div>
+            <div class="src"><span>Anaplan</span><span>Coupa</span><span>SOR R2 · 02 Apr</span></div>
+            <div class="sugg"><span>Which openings are at risk of overrun?</span><span>Summarise Flinders Lane bid gaps</span></div>
+            <div class="ask">Ask anything…<span class="send"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer><span>Illustrative data — Coupa / Anaplan feeds to be connected · eleven × Dior Architecture</span><span>Proposal E · Studio</span></footer>
+  </main>
+</div>
+
+<script src="vendor/three.min.js"></script>
+<script src="data.js"></script>
+<script>
+(function(){
+  const P = window.PANO;
+  const COLORS = { "201155":"#E8857A", "401111":"#8C6FD1", "100610":"#3AA897", "300407":"#E0A63E", "200769":"#5B8DEF", "601421":"#14213D" };
+  const SHORT  = { "201155":"Melbourne", "401111":"Copenhagen", "100610":"Los Cabos", "300407":"Sanya", "200769":"Kuala Lumpur", "601421":"Ras Al Khaimah" };
+  const OWNERS = { "201155":["CN","AK"], "401111":["MC"], "100610":["AK","MG"], "300407":["MG"], "200769":["MC","CN"], "601421":["AK"] };
+  const AVC = { CN:"#14213D", AK:"#E8857A", MG:"#8C6FD1", MC:"#3BA676" };
+  const STATUS = { ok:["ok","On track"], watch:["risk","At risk"], alert:["off","Off track"] };
+  const eur = v => v.toFixed(2).replace(/\.?0+$/,'') ;
+  const m = v => v.toFixed(2) + " M€";
+  const av = (i, cls="sm") => `<span class="av ${cls}" style="background:${AVC[i]}">${i}</span>`;
+
+  /* Sidebar */
+  document.getElementById('sideProjects').innerHTML = P.projects.map(p =>
+    `<div class="nav"><span class="pico" style="background:${COLORS[p.id]}"></span>${p.name}</div>`).join('');
+  document.getElementById('sideTeams').innerHTML = P.departments.map(d =>
+    `<div class="nav team"><span class="pico">${d.name.split(/[ &]+/).filter(Boolean).map(w=>w[0]).join('').slice(0,2)}</span>${d.name}</div>`).join('');
+  document.getElementById('inboxBadge').textContent = P.kpis.openAlerts;
+  document.getElementById('hdrBudget').textContent = P.kpis.portfolioBudget.toFixed(1) + " M€";
+
+  /* KPIs */
+  const K = P.kpis, comPct = K.committed / K.portfolioBudget, actPct = K.actual / K.portfolioBudget, fcD = (K.forecast - K.portfolioBudget) / K.portfolioBudget;
+  const stages = P.tenders.reduce((a,t)=>(a[t.stage]=(a[t.stage]||0)+1,a),{});
+  document.getElementById('kpis').innerHTML = `
+    <div class="card kpi"><div class="k">SOP budget</div><div class="v">${K.portfolioBudget.toFixed(1)}<small>M€</small></div><div class="s">Anaplan</div>
+      <div class="bar"><span style="width:100%;background:#D7D3CD"></span></div></div>
+    <div class="card kpi"><div class="k">Committed</div><div class="v">${K.committed.toFixed(1)}<small>M€</small></div><div class="s">${Math.round(comPct*100)}% of SOP</div>
+      <div class="bar"><span style="width:${actPct*100}%;background:#14213D"></span><span style="width:${(comPct-actPct)*100}%;background:#E8857A"></span></div></div>
+    <div class="card kpi"><div class="k">Forecast</div><div class="v">${K.forecast.toFixed(1)}<small>M€</small></div><div class="s"><span class="up">▲ +${(fcD*100).toFixed(1)}%</span> vs SOP</div>
+      <div class="bar"><span style="width:${100/(1+fcD)}%;background:#D7D3CD"></span><span style="width:${100-100/(1+fcD)}%;background:#D6524A"></span></div></div>
+    <div class="card kpi"><div class="k">Active tenders</div><div class="v">${K.activeTenders}</div><div class="s">${stages.Evaluated||0} in evaluation</div>
+      <div class="bar">${["Draft","Issued","Received","Evaluated","Awarded"].map((s,i)=>`<span style="flex:${stages[s]||0};background:${["#D8CCF5","#B9A3E3","#F6C9C1","#E8857A","#3BA676"][i]};margin-right:2px"></span>`).join('')}</div></div>`;
+
+  /* Status update */
+  document.getElementById('stFc').textContent = K.forecast.toFixed(1) + " M€";
+  document.getElementById('stBud').textContent = K.portfolioBudget.toFixed(1) + " M€";
+  const cnt = {ok:0,watch:0,alert:0}; P.projects.forEach(p=>cnt[p.status]++);
+  document.getElementById('seg').innerHTML = `<span style="flex:${cnt.ok};background:var(--ok)"></span><span style="flex:${cnt.watch};background:var(--risk)"></span><span style="flex:${cnt.alert};background:var(--off)"></span>`;
+  document.getElementById('segl').innerHTML = `<span>${cnt.ok} on track</span><span>${cnt.watch} at risk</span><span>${cnt.alert} off track</span>`;
+
+  /* ---------------- Timeline ---------------- */
+  // Phase plan (illustrative), consistent with each project's phase on 10 Nov 2026
+  const PLAN = {
+    "201155": [["c","2026-03-01","2026-07-15"],["t","2026-08-01","2026-12-10"],["b","2027-01-15","2027-12-15"]],
+    "401111": [["c","2026-03-15","2026-06-15"],["t","2026-06-15","2026-09-30"],["b","2026-10-01","2027-06-15"]],
+    "100610": [["c","2026-02-01","2026-04-30"],["t","2026-05-01","2026-07-31"],["b","2026-08-01","2027-01-20"]],
+    "300407": [["c","2026-05-15","2026-08-31"],["t","2026-09-01","2026-12-05"],["b","2027-01-10","2027-05-20"]],
+    "200769": [["c","2026-06-15","2026-09-30"],["t","2026-10-01","2027-01-10"],["b","2027-01-11","2027-04-20"]],
+    "601421": [["c","2026-07-15","2027-01-15"],["t","2027-01-16","2027-03-20"],["b","2027-03-21","2027-07-05"]]
+  };
+  const PH = { c:["var(--ph-concept)","var(--ph-concept-t)","Concept"], t:["var(--ph-tender)","var(--ph-tender-t)","Tender"], b:["var(--ph-build)","var(--ph-build-t)","Construction"] };
+  const T0 = new Date("2026-01-01"), T1 = new Date("2028-02-01"), TODAY = new Date("2026-11-10");
+  const COLS = "196px 56px 60px 98px 1fr 60px";
+  const tl = document.getElementById('tl'); tl.style.setProperty('--cols', COLS);
+
+  let html = `<div class="tl-row head"><div>Project</div><div class="num">SOP</div><div class="num">Fcst Δ</div><div>Status</div><div class="gcell" id="ghead"></div><div>Owner</div></div>`;
+  const rows = [];
+  P.projects.slice().sort((a,b)=>a.opening.localeCompare(b.opening)).forEach(p => {
+    const d = (p.forecast - p.budget) / p.budget, st = STATUS[p.status];
+    rows.push({type:"p", p});
+    html += `<div class="tl-row" data-id="${p.id}">
+      <div class="pname"><span class="tw">${p.id==="201155"?"▾":"▸"}</span><span class="pico" style="background:${COLORS[p.id]}"></span><div>${p.name}<small>${p.id} · ${p.country} · ${p.boutique}</small></div></div>
+      <div class="num">${p.budget.toFixed(2)}</div>
+      <div class="num ${d>0?'up':'down'}">${d>0?'+':''}${(d*100).toFixed(1)}%</div>
+      <div><span class="pill ${st[0]}"><i></i>${st[1]}</span></div>
+      <div class="gcell" data-g="${p.id}"></div>
+      <div><div class="stack">${OWNERS[p.id].map(i=>av(i)).join('')}</div></div></div>`;
+    if (p.id === "201155") {
+      const tp = P.tender.packages, lg = tp.reduce((s,x)=>s+x.legend,0), rw = tp.reduce((s,x)=>s+x.redwood,0);
+      html += `<div class="tl-row sub"><div class="subname"><span class="chk"></span>Bid evaluation · SOR R2</div><div></div><div></div><div><span class="pill risk"><i></i>Due Nov 28</span></div><div class="gcell" data-g="sub1"></div><div>${av("CN")}</div></div>`;
+      html += `<div class="tl-row sub"><div class="subname"><span class="chk"></span>Award &amp; Coupa PO</div><div></div><div></div><div><span class="muted" style="font-size:11.5px">Milestone</span></div><div class="gcell" data-g="sub2"></div><div>${av("AK")}</div></div>`;
+    }
+  });
+  tl.innerHTML = html;
+
+  const gW = () => document.querySelector('.gcell[data-g="201155"]').getBoundingClientRect().width;
+  const W = gW();
+  const x = d => ((new Date(d) - T0) / (T1 - T0)) * W;
+
+  // header: quarters & months
+  const gh = document.getElementById('ghead'); let gh_html = "";
+  for (let i=0;i<25;i++){
+    const dt = new Date(2026, i, 1), px = x(dt);
+    if (px > W - 34) continue;
+    if (i%3===0) gh_html += `<span class="gh-q" style="left:${px+5}px">Q${i%12/3+1} ${String(dt.getFullYear()).slice(2)}</span>`;
+    gh_html += `<span class="gh-m" style="left:${px + W/50 - 10}px">${"JFMAMJJASOND"[i%12]}</span>`;
+  }
+  gh.innerHTML = gh_html;
+
+  // grid lines (quarters), bars, diamonds
+  document.querySelectorAll('.gcell[data-g]').forEach(cell => {
+    let h = "";
+    for (let i=0;i<24;i+=3) h += `<span class="grid-v" style="left:${x(new Date(2026,i,1))}px"></span>`;
+    const g = cell.dataset.g;
+    if (PLAN[g]) {
+      const p = P.projects.find(q=>q.id===g);
+      PLAN[g].forEach(([k,a,b]) => {
+        const l = x(a), w = Math.max(6, x(b)-l), [bg,fg,lab] = PH[k];
+        const done = Math.max(0, Math.min(1, (TODAY - new Date(a)) / (new Date(b) - new Date(a))));
+        const need = {c:50,t:44,b:80}[k];
+        const showLab = w >= need ? lab : "";
+        h += `<div class="gbar" style="left:${l}px;width:${w}px;background:${bg};color:${fg}"><div class="prog" style="width:${done*100}%;background:${fg}"></div><span>${showLab}</span></div>`;
+      });
+      h += `<span class="gdia" style="left:${x(p.opening)}px;background:${COLORS[g]}" title="Opening ${p.opening}"></span>`;
+    }
+    if (g==="sub1") h += `<div class="gbar" style="left:${x("2026-10-05")}px;width:${x("2026-11-28")-x("2026-10-05")}px;background:#fff;border:1.5px solid var(--coral);color:var(--ph-tender-t)"><div class="prog" style="width:${(TODAY-new Date("2026-10-05"))/(new Date("2026-11-28")-new Date("2026-10-05"))*100}%;background:var(--coral)"></div><span></span></div>`;
+    if (g==="sub2") h += `<span class="gdia" style="left:${x("2026-12-15")}px;background:var(--navy)"></span><span style="position:absolute;left:${x("2026-12-15")+12}px;top:10px;font-size:10.5px;color:var(--mute);white-space:nowrap">Award · 15 Dec</span>`;
+    cell.innerHTML = h;
+  });
+
+  // today line spanning all gantt cells
+  const tlRect = tl.getBoundingClientRect();
+  const firstG = document.querySelector('.gcell[data-g="201155"]').getBoundingClientRect();
+  const gLeft = firstG.left - tlRect.left;
+  tl.insertAdjacentHTML('beforeend', `<div class="today" style="left:${gLeft + x(TODAY) - 1}px"><b>Today</b></div>`);
+
+  // dependency connectors (elbow arrows)
+  const svgNS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(svgNS,"svg"); svg.setAttribute("class","deps");
+  svg.setAttribute("width", tlRect.width); svg.setAttribute("height", tlRect.height);
+  svg.innerHTML = `<defs><marker id="ah" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 7 3.5 0 7z" fill="#8D8B88"/></marker></defs>`;
+  const rowY = sel => { const r = document.querySelector(sel).getBoundingClientRect(); return r.top - tlRect.top + r.height/2; };
+  const link = (x1,y1,x2,y2) => {
+    const midx = x1 + 8, path = document.createElementNS(svgNS,"path");
+    const dy = y2>y1 ? 1 : -1;
+    path.setAttribute("d", `M${x1} ${y1} H${midx-4} Q${midx} ${y1} ${midx} ${y1+4*dy} V${y2-4*dy} Q${midx} ${y2} ${midx+4} ${y2} H${x2-2}`);
+    if (x2 < midx + 6) path.setAttribute("d", `M${x1} ${y1} H${x1+6} V${(y1+y2)/2} H${x2-10} V${y2} H${x2-2}`);
+    path.setAttribute("fill","none"); path.setAttribute("stroke","#8D8B88"); path.setAttribute("stroke-width","1.3"); path.setAttribute("marker-end","url(#ah)");
+    svg.appendChild(path);
+  };
+  const gx = d => gLeft + x(d);
+  const yP = rowY('.tl-row[data-id="201155"]'), yS1 = rowY('.gcell[data-g="sub1"]'), yS2 = rowY('.gcell[data-g="sub2"]');
+  link(gx("2026-11-28"), yS1, gx("2026-12-15") - 7, yS2);           // bid evaluation → award milestone
+  link(gx("2026-12-15") + 7, yS2, gx("2027-01-15"), yP + 0);         // award → construction start (parent row)
+  const ySa = rowY('.tl-row[data-id="300407"]');
+  // Sanya: tender → construction, looping under the bar
+  (function(){ const p = document.createElementNS(svgNS,"path"); const x1=gx("2026-12-05"), x2=gx("2027-01-10");
+    p.setAttribute("d",`M${x1} ${ySa+4} V${ySa+16} H${x2-6} V${ySa+13}`); p.setAttribute("fill","none"); p.setAttribute("stroke","#8D8B88"); p.setAttribute("stroke-width","1.3"); p.setAttribute("marker-end","url(#ah)"); svg.appendChild(p); })();
+  tl.appendChild(svg);
+
+  /* ---------------- Board ---------------- */
+  const pid = name => (P.projects.find(p=>p.name===name)||{}).id;
+  const owner = t => (OWNERS[pid(t.project)]||["CN"])[0];
+  const order = ["Draft","Issued","Received","Evaluated","Awarded"];
+  const due = { "Draft":"Jan 16", "Issued":"Nov 14", "Received":"Nov 21", "Evaluated":"Nov 28" };
+  document.getElementById('board').innerHTML = order.map(s => {
+    const list = P.tenders.filter(t=>t.stage===s);
+    const shown = s==="Awarded" ? list.slice(0,2) : list;
+    const cards = shown.map(t => {
+      const id = pid(t.project), c = COLORS[id];
+      const cover = (s==="Evaluated") ? `<div class="cover" style="background-image:url(assets/store-bangkok-facade.jpg)"><span>Concept ref. · Bangkok EM Quartier</span></div>` : "";
+      const ai = (s==="Evaluated") ? `<div class="ai">✦ MEP: ${P.tender.bidders[1]} +${Math.round((P.tender.packages.find(x=>x.code==="MEP").redwood/P.tender.packages.find(x=>x.code==="MEP").legend-1)*100)}% vs ${P.tender.bidders[0]} — scope gap suspected</div>` : "";
+      return `<div class="tcard">${cover}
+        <div class="tt"><span class="chk ${s==="Awarded"?"done":""}" style="margin-top:2px"></span>${t.lot}</div>
+        <span class="tag" style="background:${c}1F;color:${id==="601421"?"#14213D":c}"><i style="width:7px;height:7px;border-radius:2px;background:${c};display:inline-block"></i>${t.project}</span>
+        ${t.bidders[0]!=="—"?`<div class="bid">${t.bidders.map(b=>`<span>${b}</span>`).join('')}</div>`:`<div class="bid"><span style="color:var(--faint)">No bids yet</span></div>`}
+        ${ai}
+        <div class="ft">${t.value!=null?`<b>${t.value.toFixed(2)} M€</b>`:`<span>${s==="Draft"?"Issue "+due[s]:"Closes "+due[s]}</span>`}${av(owner(t))}</div></div>`;
+    }).join('');
+    const more = list.length > shown.length ? `<div class="addcard" style="color:var(--mute)">+ ${list.length-shown.length} more awarded lots</div>` : `<div class="addcard">+ Add tender</div>`;
+    return `<div class="col"><h4>${s} <span class="n">${list.length}</span><span class="pl">+</span></h4>${cards}${more}</div>`;
+  }).join('');
+
+  /* Workflow bid chips + Copilot answer */
+  const mep = P.tender.packages.find(x=>x.code==="MEP");
+  document.getElementById('wfBids').innerHTML = `<span>${P.tender.bidders.join(" vs ")}</span><span style="background:var(--off-bg);color:#A2342D;border-color:#F3CFCB">MEP +${Math.round((mep.redwood/mep.legend-1)*100)}%</span><span>Budget line ${mep.budget.toFixed(2)} M€</span>`;
+  const atRisk = P.projects.filter(p=>p.forecast>p.budget).sort((a,b)=>(b.forecast-b.budget)/b.budget-(a.forecast-a.budget)/a.budget);
+  document.getElementById('copAns').innerHTML = `<b>${atRisk.length} of 6 openings</b> forecast above SOP. Largest gaps: ` +
+    atRisk.slice(0,3).map(p=>`<b>${SHORT[p.id]}</b> +${((p.forecast-p.budget)/p.budget*100).toFixed(1)}%`).join(', ') +
+    `. Flinders Lane recovers ~${(mep.redwood-mep.legend).toFixed(2)} M€ if MEP goes to ${P.tender.bidders[0]}.`;
+
+  /* ---------------- 3D portfolio ---------------- */
+  const host = document.getElementById('three');
+  const Wd = host.clientWidth, Ht = host.clientHeight;
+  const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
+  renderer.setSize(Wd, Ht); renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  host.prepend(renderer.domElement);
+  const scene = new THREE.Scene();
+  const aspect = Wd/Ht, fr = 4.3;
+  const cam = new THREE.OrthographicCamera(-fr*aspect, fr*aspect, fr, -fr, 0.1, 100);
+  cam.position.set(3.2, 6.2, 13); cam.lookAt(0, 1.75, 0);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xE8E6E3, 0.85));
+  const sun = new THREE.DirectionalLight(0xffffff, 0.75); sun.position.set(5,12,7); sun.castShadow = true;
+  sun.shadow.mapSize.set(1024,1024); Object.assign(sun.shadow.camera,{left:-10,right:10,top:10,bottom:-10}); scene.add(sun);
+
+  const world = new THREE.Group(); world.position.y = -0.2; scene.add(world);
+  const roundedRect = (w,d,r) => { const s = new THREE.Shape(), x0=-w/2, y0=-d/2;
+    s.moveTo(x0+r,y0); s.lineTo(x0+w-r,y0); s.quadraticCurveTo(x0+w,y0,x0+w,y0+r); s.lineTo(x0+w,y0+d-r); s.quadraticCurveTo(x0+w,y0+d,x0+w-r,y0+d);
+    s.lineTo(x0+r,y0+d); s.quadraticCurveTo(x0,y0+d,x0,y0+d-r); s.lineTo(x0,y0+r); s.quadraticCurveTo(x0,y0,x0+r,y0); return s; };
+  const col = (w,d,h,r,mat) => { const g = new THREE.ExtrudeGeometry(roundedRect(w,d,r), {depth:h, bevelEnabled:false, curveSegments:8}); g.rotateX(-Math.PI/2); g.translate(0,0,0); return new THREE.Mesh(g, mat); };
+
+  const plate = col(10.6, 2.6, 0.18, 0.5, new THREE.MeshStandardMaterial({color:0xEFEDEA, roughness:.9}));
+  plate.position.y = -0.18; plate.receiveShadow = true; world.add(plate);
+  const pEdge = new THREE.LineSegments(new THREE.EdgesGeometry(plate.geometry, 30), new THREE.LineBasicMaterial({color:0xD7D3CD}));
+  pEdge.position.copy(plate.position); world.add(pEdge);
+  const CODE = { "201155":"MEL", "401111":"CPH", "100610":"SJD", "300407":"SYX", "200769":"KUL", "601421":"RKT" };
+  const sorted = P.projects.slice().sort((a,b)=>a.opening.localeCompare(b.opening));
+  const scaleH = 0.3, labels = [];
+  sorted.forEach((p,i) => {
+    const xx = -4.4 + i*1.76, zz = 0;
+    const c = new THREE.Color(COLORS[p.id]);
+    const hB = p.budget*scaleH, hC = p.committed*scaleH;
+    const glass = col(1.15,1.15,hB,0.28,new THREE.MeshStandardMaterial({color:0xffffff, transparent:true, opacity:.45, roughness:.2}));
+    glass.position.set(xx,0,zz); world.add(glass);
+    const edges = new THREE.LineSegments(new THREE.EdgesGeometry(glass.geometry, 30), new THREE.LineBasicMaterial({color:0xB9B4AC}));
+    edges.position.copy(glass.position); world.add(edges);
+    const fill = col(1.0,1.0,hC,0.22,new THREE.MeshStandardMaterial({color:c, roughness:.55}));
+    fill.position.set(xx,0.01,zz); fill.castShadow = true; world.add(fill);
+    if (p.forecast > p.budget) {
+      const ringG = col(1.22,1.22,0.001,0.3,new THREE.MeshBasicMaterial()).geometry;
+      const ring = new THREE.LineSegments(new THREE.EdgesGeometry(ringG, 30), new THREE.LineBasicMaterial({color:0xD6524A}));
+      ring.position.set(xx,p.forecast*scaleH,zz); world.add(ring);
+    }
+    const el = document.createElement('div'); el.className='lbl';
+    el.innerHTML = `${CODE[p.id]} <span style="color:#6F6E6B;font-weight:500">${p.budget.toFixed(1)}</span>`;
+    el.title = p.name;
+    host.appendChild(el); labels.push({el, v:new THREE.Vector3(xx, Math.max(hB, p.forecast*scaleH)+0.22, zz)});
+  });
+
+  let rotY = -0.12, target = rotY, drag = false, lx = 0, t0 = performance.now();
+  renderer.domElement.addEventListener('pointerdown', e => { drag = true; lx = e.clientX; renderer.domElement.setPointerCapture(e.pointerId); });
+  renderer.domElement.addEventListener('pointermove', e => { if (!drag) return; target += (e.clientX - lx) * 0.01; lx = e.clientX; });
+  renderer.domElement.addEventListener('pointerup', () => drag = false);
+  renderer.domElement.style.cursor = 'grab';
+  const v = new THREE.Vector3();
+  (function loop(now){
+    if (!drag) target += Math.sin((now - t0) / 4000) * 0.0009;
+    rotY += (target - rotY) * 0.12; world.rotation.y = rotY;
+    world.updateMatrixWorld();
+    renderer.render(scene, cam);
+    labels.forEach(l => { v.copy(l.v).applyMatrix4(world.matrixWorld).project(cam);
+      l.el.style.left = ((v.x+1)/2*Wd) + 'px'; l.el.style.top = ((1-v.y)/2*Ht) + 'px'; });
+    requestAnimationFrame(loop);
+  })(performance.now());
+})();
+</script>
+</body>
+</html>
