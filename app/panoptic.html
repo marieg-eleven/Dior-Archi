@@ -1,11 +1,6 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Architecture Panoptic</title>
 <meta name="author" content="Marie Guégain, eleven">
-<meta name="description" content="Architecture Panoptic: interactive mockup of the Dior Architecture project, cost and asset platform. Prepared by eleven for Dior Architecture and D-NEXT. Sample data only.">
+<meta name="description" content="Architecture Panoptic: working prototype of the project, cost and tender platform. Prepared by eleven.">
 <meta name="copyright" content="eleven">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -591,12 +586,17 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
 .newbtn{height:38px;padding:0 16px;border-radius:999px;border:1px solid var(--line-2);background:#fff;font:500 14px var(--sans);cursor:pointer;margin-right:4px}
 .newbtn:hover{border-color:var(--ink)}
 @media (max-width:900px){.form-grid,.form-grid.three,.ws{grid-template-columns:1fr}.np-steps{grid-template-columns:repeat(5,minmax(0,1fr))}}
+
+/* --- v1.0 app --- */
+.mywork li{display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line)}
+.mywork li .row.mw{flex:1;min-width:0;border-bottom:0}
+.mw-x{flex:none;height:30px;padding:0 12px;border-radius:999px;border:1px solid var(--line-2);background:var(--paper);color:var(--ink);font:500 12.5px var(--sans);cursor:pointer}
+.mw-x:hover,.mw-x:focus-visible{border-color:var(--ink)}
+.chip input{accent-color:#000}
 </style>
-</head>
-<body>
 <header class="top" id="top"></header>
 <main id="main"></main>
-<footer class="foot"><div class="foot-in"><span>Architecture Panoptic · interactive mockup prepared by eleven for Dior Architecture and D-NEXT · v0.3, 10 November 2026</span><span>Real: the six 2027 openings (ADMIN FOLLOW UP), the Flinders Lane main-contract bids (SOR R2), photos, plans and tables from the 9 Nov workshop. Everything else is sample data.</span></div></footer>
+<footer class="foot"><div class="foot-in"><span>Architecture Panoptic · working prototype prepared by eleven for Dior Architecture and D-NEXT · v1.0, 11 November 2026</span><span>Real: the six 2027 openings (ADMIN FOLLOW UP), the Flinders Lane main-contract bids (SOR R2), photos, plans and tables from the 9 Nov workshop. Everything else is sample data.</span></div></footer>
 <div class="pal-scrim" id="palScrim"></div>
 <div class="pal" id="pal" role="dialog" aria-modal="true" aria-label="Ask Panoptic"><div class="pal-in"><span class="orb"></span><input id="palInput" autocomplete="off" placeholder="Search or ask: projects above budget in Europe" aria-label="Search or ask Panoptic"><button class="btn sm ghost" type="button" onclick="document.getElementById('palScrim').click()">Esc</button></div><div class="pal-body" id="palBody"></div></div>
 <div class="scrim" id="scrim"></div>
@@ -604,7 +604,8 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
 <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Document"></aside>
 <div class="compare-tray" id="tray"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script>window.LOGO_URI="data:image/png;base64,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";</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>window.LOGO_URI="";</script>
 <script>
 /* =========================================================================
    Panoptic mockup — SAMPLE DATA ONLY
@@ -721,7 +722,7 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
   const INVOICE_BY_STATUS = { Brief: 0.03, Design: 0.09, Tender: 0.16, Works: 0.6, Handover: 0.9 };
 
   let poSeq = 41200;
-  PROJECTS.forEach(p => {
+  function genLines(p) {
     const r = rng(hash(p.id));
     const supKey = p.region === 'Middle East' ? 'West' : p.zone;
     const commitBase = COMMIT_BY_STATUS[p.status], invBase = INVOICE_BY_STATUS[p.status];
@@ -757,9 +758,10 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
     const sum = k => p.lines.reduce((a, l) => a + l[k], 0);
     p.budget = sum('budget'); p.committed = sum('committed'); p.actual = sum('actual'); p.forecast = sum('forecast');
     p.variance = p.forecast - p.budget; p.variancePct = p.variance / p.budget;
-    if (p.name2) p.city = p.city + ' ' + p.name2; p.name = p.city + ' — ' + p.type;
+    if (p.name2 && !p.city.endsWith(' ' + p.name2)) p.city = p.city + ' ' + p.name2; p.name = p.city + ' — ' + p.type;
     p.suppliers = [...new Set(p.lines.flatMap(l => l.pos.map(x => x.supplier)).filter(Boolean))];
-  });
+  }
+  PROJECTS.forEach(genLines);
 
   /* ---------- Tenders ---------- */
   const TENDERS = [
@@ -784,7 +786,7 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
   const FIXTURES = { '01': [['Wall fixtures', 'lm', 4200], ['Vitrines & niches', 'unit', 9800], ['Cash wrap', 'unit', 38000]], '06': [['Display tables', 'unit', 7600], ['Seating', 'unit', 5200]], '04': [['Lighting', 'm²', 310]], '02': [['Flooring', 'm²', 420]] };
   const UNI_PRICE = { 'Women RTW': 0.95, Bags: 1.14, SLG: 1.02, Shoes: 0.97, CJ: 1.06, 'Fine Jewellery': 1.38, Men: 0.92, Maison: 0.88 };
   const COST_ITEMS = [];
-  PROJECTS.forEach(p => {
+  function genCostItems(p) {
     const r = rng(hash(p.id + 'uni'));
     const uni = UNIVERS.filter(u => !(u === 'Fine Jewellery' && /FSS/.test(p.type))).filter(u => !(u === 'Men' && /jewellery/i.test(p.type)));
     const tot = uni.reduce((a, u) => a + UNI_SHARE[u], 0);
@@ -798,7 +800,8 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
         COST_ITEMS.push({ project: p.id, univers: u, fixture: f[0], unit: f[1], unitPrice, qty: Math.max(1, Math.round(amount * 1000 / unitPrice)), amount, line: l.code, supplier: po ? po.supplier : null, concept: p.concept, zone: p.zone, status: p.status });
       }));
     });
-  });
+  }
+  PROJECTS.forEach(genCostItems);
 
   const TENDER_STAGES = ['Draft', 'Issued', 'Received', 'Evaluated', 'Awarded'];
   const SOW_ITEMS = {
@@ -942,7 +945,7 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
     { id: 'gc', name: 'General contractor (external)', fin: false, external: true }
   ];
 
-  window.DATA = { UNIVERS, COST_ITEMS, BOUTIQUES, DAM_FOLDERS, TODAY, DEPARTMENTS, CONCEPTS, SUPPLIERS, MATERIALS, PROJECTS, STATUSES, TENDERS, TENDER_STAGES, BOOKS, PRODUCTS, DOCS, ALERTS, SOURCES, ROLES, rng, hash };
+  window.DATA = { genLines, genCostItems, UNIVERS, COST_ITEMS, BOUTIQUES, DAM_FOLDERS, TODAY, DEPARTMENTS, CONCEPTS, SUPPLIERS, MATERIALS, PROJECTS, STATUSES, TENDERS, TENDER_STAGES, BOOKS, PRODUCTS, DOCS, ALERTS, SOURCES, ROLES, rng, hash };
 })();
 
 window.FEATURES = [{"id": "1.1", "cat": "Data Model", "f": "Financial Project Entity", "dept": "", "d": "Unified project data model integrating budget lines & project codes, tender references, supplier IDs  & contracts, PO numbers, Coupa IDs, and Anaplan budget codes", "op": "8", "p": "P1", "oe": "—", "re": "", "n": "Replaces fragmented \"Project\" data model"}, {"id": "1.2", "cat": "Data Model", "f": "Material Database", "dept": "", "d": "Reference materials with cost, supplier pricing, validated specs linked to R&D material files and tender doc SOW", "op": "5", "p": "P2", "oe": "23", "re": "", "n": "Enrich with cost & supplier pricing fields"}, {"id": "1.3", "cat": "Data Model", "f": "Tender & SOW Data Model", "dept": "", "d": "Structured data model for Tender documents, SOW line items, cost breakdown structures (CBS), and versioning", "op": "8", "p": "P1", "oe": "—", "re": "", "n": "Core to cost control priority"}, {"id": "1.4", "cat": "Data Model", "f": "Supplier & Contract Entity", "dept": "", "d": "Supplier profiles linked to contracts, performance KPIs, Coupa vendor IDs, and tender history", "op": "8", "p": "P1", "oe": "—", "re": "", "n": "Connect to Coupa vendor master"}, {"id": "1.5", "cat": "Data Model", "f": "Budget Control Entity", "dept": "", "d": "Budget lines linked to Anaplan, actual spend from Coupa, committed costs from SOW/tenders, forecast delta", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "Central to panoptic cost view"}, {"id": "1.6", "cat": "Data Model", "f": "Services & User Model", "dept": "", "d": "User, Role, Content hierarchy, Tags — extended to include financial access roles", "op": "4", "p": "P2", "oe": "—", "re": "", "n": "Add Finance / Budget Controller role"}, {"id": "1.7", "cat": "Data Model", "f": "Design Book", "dept": "", "d": "Furniture, Look — maintain but de-prioritize vs. financial entities", "op": "6", "p": "P3", "oe": "—", "re": "", "n": "Deprioritized vs. original"}, {"id": "2.1", "cat": "Budget Control", "f": "Live Budget Dashboard", "dept": "", "d": "Real-time consolidated view of budget vs. actual vs. committed costs per project, zone, category — fed by Coupa + Anaplan", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "Central panoptic view"}, {"id": "2.2", "cat": "Budget Control", "f": "Anaplan ↔ Platform Sync", "dept": "", "d": "Bi-directional integration: pull budget plans/forecasts from Anaplan, push actuals and committed costs back", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "Real-time or scheduled sync"}, {"id": "2.3", "cat": "Budget Control", "f": "Coupa ↔ Platform Sync", "dept": "", "d": "Pull PO data, invoice status, supplier spend, and commitment data from Coupa into unified cost view", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "Critical integration"}, {"id": "2.4", "cat": "Budget Control", "f": "SOW Cost Breakdown Integrator", "dept": "", "d": "Parse and extract line-item costs from SOW documents (PDF/Excel), map to budget categories, flag variances vs. Anaplan budget", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "AI-assisted extraction"}, {"id": "2.5", "cat": "Budget Control", "f": "Budget Variance & Alert Engine", "dept": "", "d": "Automated alerts when committed spend (Coupa POs) exceeds budget lines (Anaplan), with drill-down by supplier / category / project", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "Rule-based + AI anomaly detection"}, {"id": "2.6", "cat": "Budget Control", "f": "Commitment Tracker", "dept": "", "d": "Track all financial commitments (signed SOWs, POs, contracts) vs. available budget in real time", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "Replaces manual Excel tracking"}, {"id": "2.7", "cat": "Budget Control", "f": "Budget Reporting & Export", "dept": "", "d": "Generate budget reports by project / zone / category, exportable to PDF/Excel, with Anaplan-compatible formats", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "Replaces manual reporting"}, {"id": "2.8", "cat": "Budget Control", "f": "Audit Trail & Budget History", "dept": "", "d": "Full versioning of all budget changes, approvals, and amendments with timestamp and user attribution", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "Compliance & governance"}, {"id": "3.1", "cat": "Tender Mgmt", "f": "Tender Repository & Index", "dept": "", "d": "Centralized repository for all tender documents (RFI, RFQ, SOW, BOQ), versioned and searchable", "op": "6 (Not Priority)", "p": "P1", "oe": "—", "re": "", "n": "Replaces SharePoint/server fragmentation"}, {"id": "3.2", "cat": "Tender Mgmt", "f": "Tender Lifecycle Tracking", "dept": "", "d": "Track tender status (draft → issued → received → evaluated → awarded) with timeline and owner", "op": "6 (Not Priority)", "p": "P1", "oe": "—", "re": "", "n": "Full lifecycle visibility"}, {"id": "3.3", "cat": "Tender Mgmt", "f": "SOW Line-Item Management", "dept": "", "d": "Structured entry and management of SOW scope items, unit costs, quantities, and totals — linked to budget lines", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "Core cost control feature"}, {"id": "3.4", "cat": "Tender Mgmt", "f": "Multi-Bid Comparison Tool", "dept": "", "d": "Side-by-side comparison of multiple contractor bids against SOW requirements and budget benchmarks", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "AI-assisted scoring & ranking"}, {"id": "3.5", "cat": "Tender Mgmt", "f": "AI-Powered Tender Analysis", "dept": "", "d": "Automatically extract cost items, flag scope gaps, identify discrepancies vs. budget, highlight risk clauses in tender docs", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "Core AI feature"}, {"id": "3.6", "cat": "Tender Mgmt", "f": "Tender <> Coupa Integration", "dept": "", "d": "Upon tender award, automatically generate/sync PO in Coupa, link to budget line in Anaplan", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "Closes the loop end-to-end"}, {"id": "3.7", "cat": "Tender Mgmt", "f": "Tender <> Material Quality Control", "dept": "", "d": "Link awarded tender items to material specs, flag substitutions or non-compliant materials", "op": "3 (Nice to have)", "p": "P2", "oe": "—", "re": "", "n": "Originally \"Nice to have\""}, {"id": "3.8", "cat": "Tender Mgmt", "f": "Bidder Access Portal", "dept": "", "d": "Controlled access for GCs / MWs to view selected specs and submit pricing — with audit log", "op": "6", "p": "P2", "oe": "—", "re": "", "n": "Secure, role-controlled"}, {"id": "3.9", "cat": "Tender Mgmt", "f": "Tender Document Archiving", "dept": "", "d": "Automatic archiving of all tender-related documents upon award or closure, with metadata tagging", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "Links to Document Lifecycle module"}, {"id": "4.1", "cat": "Contractors", "f": "Supplier Directory & Profiles", "dept": "", "d": "Browse, filter, and manage supplier profiles with Coupa vendor ID linkage, performance history, and contract status", "op": "10", "p": "P1", "oe": "15", "re": "", "n": ""}, {"id": "4.2", "cat": "Contractors", "f": "Supplier Performance KPIs", "dept": "", "d": "Track delivery, quality, cost adherence KPIs per supplier — linked to Coupa PO history and project outcomes", "op": "—", "p": "P2", "oe": "—", "re": "", "n": ""}, {"id": "4.3", "cat": "Contractors", "f": "Contract Repository", "dept": "", "d": "Store, version, and manage all supplier contracts and Master Agreements (Legal/Diorlex integration)", "op": "—", "p": "P2", "oe": "—", "re": "NEW", "n": "Replaces Diorlex fragmentation"}, {"id": "4.4", "cat": "Contractors", "f": "Material / Furniture Pricing", "dept": "", "d": "Price management via import/export, linked to supplier profiles and project budget lines", "op": "5", "p": "P2", "oe": "—", "re": "Maintained", "n": "Enriched with budget linkage"}, {"id": "4.5", "cat": "Contractors", "f": "Supplier Onboarding & Due Diligence", "dept": "", "d": "Digital onboarding workflow integrated with Coupa vendor setup and compliance checks", "op": "—", "p": "P3", "oe": "—", "re": "NEW", "n": "Replaces Admin SharePoint"}, {"id": "4.6", "cat": "Contractors", "f": "Bidder Access & Data Control", "dept": "", "d": "Share material specs / pricing with bidders in a controlled environment with role-based access", "op": "6", "p": "P3", "oe": "—", "re": "", "n": "Maintained"}, {"id": "5.1", "cat": "Document Mgmt", "f": "Budget Document Archive", "dept": "", "d": "Centralized, structured archive of all budget-related documents (SOW, BOQ, budgets, amendments) with version history", "op": "12 (Nice to have)", "p": "P1", "oe": "—", "re": "", "n": "Elevated from \"Nice to have\""}, {"id": "5.2", "cat": "Document Mgmt", "f": "Intelligent Document Tagging (AI)", "dept": "", "d": "AI-powered automatic tagging and categorization of uploaded documents by type, project, supplier, cost category", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "Core AI capability"}, {"id": "5.3", "cat": "Document Mgmt", "f": "Flow to ECM (SharePoint)", "dept": "", "d": "Structured storage and sync with SharePoint for all platform-generated documents", "op": "8", "p": "P2", "oe": "26", "re": "", "n": "Rationalized"}, {"id": "5.4", "cat": "Document Mgmt", "f": "Flow to DAM (Dior DAM)", "dept": "", "d": "Asset storage for design-related documents and media assets in Dior DAM", "op": "8", "p": "P3", "oe": "25", "re": "", "n": "De-prioritized vs. financial docs"}, {"id": "5.5", "cat": "Document Mgmt", "f": "Document Lifecycle Management", "dept": "", "d": "Full lifecycle from creation → review → approval → archive, with automated retention policies", "op": "12", "p": "P2", "oe": "—", "re": "", "n": "Compliance & audit readiness"}, {"id": "5.6", "cat": "Document Mgmt", "f": "Full-Text Search on Documents", "dept": "", "d": "AI-powered search within archived documents to retrieve cost data, clause references, and specifications", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "Cross-document intelligence via AI"}, {"id": "5.7", "cat": "Document Mgmt", "f": "Flow to AED Services", "dept": "", "d": "Integration with AED services platform", "op": "10", "p": "P3", "oe": "—", "re": "", "n": ""}, {"id": "6.1", "cat": "Catalog", "f": "Browse & Filter Catalog", "dept": "", "d": "Browse/filter materials, furniture, lighting based on cost, specs, sustainability", "op": "4", "p": "P3", "oe": "40", "re": "", "n": "Reduced scope — Phase 2"}, {"id": "6.2", "cat": "Catalog", "f": "Manage & Dashboard — Catalog", "dept": "", "d": "Update database fields manually or via export", "op": "3", "p": "P3", "oe": "—", "re": "", "n": ""}, {"id": "6.3", "cat": "Catalog", "f": "Extract Data from Catalog", "dept": "", "d": "Product/provider data export with quantities", "op": "5", "p": "P3", "oe": "—", "re": "", "n": ""}, {"id": "6.4", "cat": "Catalog", "f": "Browse Furnishing / Material / Lighting", "dept": "", "d": "Individual browse modules per category", "op": "4", "p": "P4", "oe": "—", "re": "", "n": "Grouped into single browse module"}, {"id": "6.5", "cat": "Look", "f": "Browse & Manage Look", "dept": "", "d": "Visual browse of design looks/concepts", "op": "8", "p": "P4", "oe": "10", "re": "", "n": "De-prioritized"}, {"id": "6.6", "cat": "Design Book", "f": "Create & Browse Design Book", "dept": "", "d": "Full design book creation (materials, PDFs, AutoCAD, lighting concept)", "op": "8", "p": "P3", "oe": "26", "re": "", "n": "Phase 2 delivery, t o integrate TAGGING"}, {"id": "6.7", "cat": "Design Book", "f": "Technical Drawings", "dept": "", "d": "AutoCAD plan management", "op": "5", "p": "P4", "oe": "—", "re": "", "n": "Phase 3"}, {"id": "6.8", "cat": "Design Book", "f": "Lighting Concept", "dept": "", "d": "PDF + AutoCAD plan for lighting", "op": "5", "p": "P4", "oe": "—", "re": "", "n": "Phase 3"}, {"id": "6.9", "cat": "Design Book", "f": "Guideline Design Export", "dept": "", "d": "Material composition → PDF guideline export", "op": "5", "p": "P4", "oe": "—", "re": "", "n": "Phase 3, optional"}, {"id": "7.1.1", "cat": "Technical Foundation", "f": "Project Bootstrap & Infrastructure", "dept": "", "d": "Cloud hosting (Azure/AWS), Dev/Staging/Prod environments, containerisation (Docker/Kubernetes)", "op": "10", "p": "P1", "oe": "93", "re": "", "n": "—"}, {"id": "7.1.2", "cat": "Technical Foundation", "f": "API Gateway & Integration Bus", "dept": "", "d": "Central API gateway orchestrating all external integrations (Coupa, Anaplan, OKTA, DAM, SharePoint, AED, Diorlex) with auth, rate limiting and logging", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.1.3", "cat": "Technical Foundation", "f": "Coupa API Integration Layer", "dept": "", "d": "Bi-directional integration: PO sync, invoice status, supplier master, commitment data — with reconciliation logic", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.1.4", "cat": "Technical Foundation", "f": "Anaplan API Integration Layer", "dept": "", "d": "Bi-directional integration: pull budgets/forecasts, push actuals and committed costs, scenario data exchange", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.1.5", "cat": "Technical Foundation", "f": "Unified Database Architecture", "dept": "", "d": "Hybrid DB: PostgreSQL (financial/structured data) + MongoDB (unstructured/documents) — scalable and performant", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.1.6", "cat": "Technical Foundation", "f": "Data Migration & ETL Pipeline", "dept": "", "d": "Migration of ~275K files / 1.6TB from SharePoint/Server/Excel — includes data cleansing, field mapping and validation", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.1.7", "cat": "Technical Foundation", "f": "Platform Security Architecture", "dept": "", "d": "Encryption (TLS 1.3+), secrets management, WAF, DDoS protection, network segmentation", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.2.1", "cat": "DevOps", "f": "CI/CD Pipeline Setup", "dept": "", "d": "Automated build, test and deployment pipelines (GitHub Actions / Azure DevOps)", "op": "8", "p": "P1", "oe": "—", "re": "", "n": "Maintained"}, {"id": "7.2.2", "cat": "DevOps", "f": "Platform Monitoring & Alerting", "dept": "", "d": "Real-time health monitoring (Datadog/Grafana): uptime, API sync status, error rates", "op": "8", "p": "P1", "oe": "—", "re": "", "n": ""}, {"id": "7.2.3", "cat": "DevOps", "f": "Security & Penetration Testing", "dept": "", "d": "OWASP-standard vulnerability scanning and third-party pen testing — mandatory for financial data platform", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.2.4", "cat": "DevOps", "f": "Backup & Disaster Recovery", "dept": "", "d": "Daily encrypted backups, geo-redundant storage, documented RTO/RPO targets", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.2.5", "cat": "DevOps", "f": "Performance & Load Testing", "dept": "", "d": "Simulate peak usage (tender submission periods, month-end budget cycles)", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.2.6", "cat": "DevOps", "f": "Test Automation Framework", "dept": "", "d": "End-to-end automated testing for all critical financial workflows and user journeys", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.2.7", "cat": "DevOps", "f": "Release Management & Rollback", "dept": "", "d": "Staged rollouts (canary/blue-green), instant rollback capability, formal release notes", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.3.1", "cat": "Identity & Access", "f": "OKTA SSO Integration", "dept": "", "d": "SSO for all internal and external users via OKTA — OAuth 2.0 / SAML 2.0 with MFA enforcement", "op": "4", "p": "P1", "oe": "—", "re": "", "n": "Maintained"}, {"id": "7.3.3", "cat": "Identity & Access", "f": "Role & ACL — Internal Users", "dept": "", "d": "RBAC for: Architect, PM, Store Planner, Local Architect, Finance Manager, Budget Controller, Procurement Officer", "op": "6", "p": "P1", "oe": "—", "re": "", "n": ""}, {"id": "7.3.4", "cat": "Identity & Access", "f": "Role & ACL — External Users", "dept": "", "d": "Scoped, time-limited access profiles for: Consultants, GCs, Milworkers, Suppliers", "op": "6", "p": "P1", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.3.5", "cat": "Identity & Access", "f": "Granular Financial Data ACL", "dept": "", "d": "Additional access control layer for sensitive financial data — restricted to Finance and Procurement roles only, with full access logging", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "NEW alignment with confidentiality charter"}, {"id": "7.3.6", "cat": "Identity & Access", "f": "External Party Secure Access Portal", "dept": "", "d": "Project-scoped portal for bidders/contractors: view assigned specs, submit pricing, receive tender communications — full audit log", "op": "6", "p": "P2", "oe": "—", "re": "", "n": ""}, {"id": "7.3.7", "cat": "Identity & Access", "f": "GDPR & Data Privacy Compliance", "dept": "", "d": "Data mapping, consent management, right-to-erasure workflows — aligned with LVMH group data governance policies", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.3.8", "cat": "Identity & Access", "f": "Access Review & Recertification", "dept": "", "d": "Quarterly automated access review: flag dormant accounts, expired external access, role mismatches", "op": "—", "p": "P3", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.4.1", "cat": "Team Management", "f": "Team Structure Configuration", "dept": "", "d": "Configure teams: Concept Design, R&D, Procurement, Compliance, PM, Store Planning, Finance — with team-level permissions and content scoping", "op": "8", "p": "P2", "oe": "—", "re": "", "n": ""}, {"id": "7.4.2", "cat": "Team Management", "f": "Zone Management", "dept": "", "d": "East/West Zone segmentation applied across projects, budgets, tenders, suppliers and documents", "op": "5", "p": "P2", "oe": "—", "re": "", "n": ""}, {"id": "7.4.3", "cat": "Team Management", "f": "Content Hierarchy & Tree Management", "dept": "", "d": "Configurable hierarchy: Brand → Zone → Project → Category → Document/Asset", "op": "8", "p": "P2", "oe": "—", "re": "", "n": "Maintained"}, {"id": "7.4.4", "cat": "Team Management", "f": "Project-Level Team Assignment", "dept": "", "d": "Assign internal/external members per project with scoped view, edit, and approval rights", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.4.5", "cat": "Team Management", "f": "Organisational Structure Sync", "dept": "", "d": "Sync team/reporting structures from LVMH HR systems or OKTA directory", "op": "—", "p": "P3", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.5.1", "cat": "Search & Tagging", "f": "Tags Management & Taxonomy", "dept": "", "d": "Multi-dimensional tagging: project, zone, category, supplier, document type, financial status, tender phase", "op": "6", "p": "P2", "oe": "—", "re": "", "n": ""}, {"id": "7.5.2", "cat": "Search & Tagging", "f": "Native Faceted Search", "dept": "", "d": "Full-text faceted search across all content: documents, budgets, suppliers, materials, tenders, design books", "op": "5", "p": "P2", "oe": "—", "re": "", "n": ""}, {"id": "7.5.3", "cat": "Search & Tagging", "f": "Financial Data Search", "dept": "", "d": "Dedicated search for financial records: budget lines, POs, committed costs, SOW items — by project, supplier, amount, period, by fixture & \"univers\" (women, men, bags, slg, cj, …), facade cocept…", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.5.4", "cat": "Search & Tagging", "f": "Cross-Document Content Search", "dept": "", "d": "Full-text search within document content (PDF, Word, Excel) across the entire archive — find clauses, figures, references within SOWs", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.5.5", "cat": "Search & Tagging", "f": "Saved Searches & Automated Alerts", "dept": "", "d": "Save frequent queries; receive alerts when new matching content is published", "op": "—", "p": "P3", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.5.6", "cat": "Search & Tagging", "f": "Search Analytics & Query Reporting", "dept": "", "d": "Track search behaviour: frequent queries, zero-result searches, most accessed content", "op": "—", "p": "P3", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.6.1", "cat": "Versioning", "f": "Object Versioning & Audit Trail", "dept": "", "d": "Full immutable versioning of all platform objects with timestamp, user attribution and change description", "op": "5", "p": "P1", "oe": "—", "re": "", "n": ""}, {"id": "7.6.2", "cat": "Versioning", "f": "Budget Amendment Versioning", "dept": "", "d": "Dedicated version track for budget changes: original approved value, each amendment, approver, delta", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.6.3", "cat": "Versioning", "f": "Tender Document Version Control", "dept": "", "d": "Track all tender/SOW iterations with side-by-side version comparison and change highlighting", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.6.4", "cat": "Notifications", "f": "Real-Time Notification Engine", "dept": "", "d": "Multi-channel alerts (email + in-app): budget breaches, tender status, approvals pending, PO sync failures", "op": "5", "p": "P1", "oe": "—", "re": "", "n": ""}, {"id": "7.6.5", "cat": "Notifications", "f": "Budget Threshold & Overspend Alerts", "dept": "", "d": "Automated alerts when committed spend approaches/exceeds budget lines — configurable thresholds per project and zone", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.6.6", "cat": "Notifications", "f": "Escalation & Deadline Reminders", "dept": "", "d": "Auto-escalate overdue approvals; remind stakeholders of tender deadlines and budget review dates", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.6.7", "cat": "Workflow", "f": "Configurable Approval Workflows", "dept": "", "d": "Multi-step RBAC approval workflows for: budget amendments, tender awards, PO authorisation, supplier onboarding, document publication", "op": "12", "p": "P2", "oe": "—", "re": "", "n": "Elevated"}, {"id": "7.6.8", "cat": "Workflow", "f": "Delegation & Out-of-Office Rules", "dept": "", "d": "Approvers delegate authority during absence — full delegation log maintained, no workflow blockage", "op": "—", "p": "P3", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.6.9", "cat": "Workflow", "f": "Workflow Analytics & SLA Reporting", "dept": "", "d": "Track approval times, SLA breach rates, bottlenecks by process type and team", "op": "—", "p": "P3", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.7.1", "cat": "Reporting", "f": "Role-Based Home Dashboard", "dept": "", "d": "Personalised dashboard per role: KPIs, pending actions, recent activity, upcoming deadlines", "op": "4", "p": "P2", "oe": "—", "re": "", "n": ""}, {"id": "7.7.2", "cat": "Reporting", "f": "Financial KPI Dashboard", "dept": "", "d": "Real-time: budget utilisation, committed vs. available, actuals vs. forecast — by zone/category/supplier/project", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.7.3", "cat": "Reporting", "f": "Tender Activity Dashboard", "dept": "", "d": "Active tender pipeline: status, deadlines, bidder count, awarded value vs. budget", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.7.4", "cat": "Reporting", "f": "Supplier Performance Dashboard", "dept": "", "d": "Supplier KPIs: delivery rate, cost adherence, quality scores, active contracts, PO volumes — fed from Coupa", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.7.5", "cat": "Reporting", "f": "Project Cost Summary Dashboard", "dept": "", "d": "Per-project: approved budget, committed costs, actual spend, forecast-to-complete, remaining budget", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.7.6", "cat": "Reporting", "f": "Custom Report Builder", "dept": "", "d": "Self-service ad-hoc report builder: select dimensions and metrics, export to PDF/Excel", "op": "—", "p": "P3", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.7.7", "cat": "Reporting", "f": "Scheduled Report Distribution", "dept": "", "d": "Auto-generate and distribute reports on schedule (daily/weekly/monthly) to defined stakeholder lists", "op": "—", "p": "P3", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.7.8", "cat": "Reporting", "f": "BI Tool Connectivity", "dept": "", "d": "Secure API/connector for Power BI or Tableau — advanced analytics beyond native platform capabilities", "op": "—", "p": "P3", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.7.9", "cat": "Reporting", "f": "Governance & Compliance Reporting", "dept": "", "d": "Audit trail coverage, workflow SLA adherence, retention policy compliance — for IT, Legal and Finance governance", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "ATTN : Interconnectivite \"Aprovall\""}, {"id": "7.8.1", "cat": "Doc Lifecycle", "f": "Lifecycle Policy Engine", "dept": "", "d": "Enforce end-to-end lifecycle per document type: creation → draft → review → approved → archived → disposed", "op": "12", "p": "P2", "oe": "—", "re": "", "n": "Elevated"}, {"id": "7.8.2", "cat": "Doc Lifecycle", "f": "Automated Retention Rules", "dept": "", "d": "Retention by type: financial (10 yrs), tender (7 yrs), contracts (lifetime +5 yrs), design books (project lifetime)", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.8.3", "cat": "Doc Lifecycle", "f": "Legal Hold Management", "dept": "", "d": "Place documents/projects on legal hold — prevents modification/deletion during audits or disputes", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.8.4", "cat": "Doc Lifecycle", "f": "Document Status Tracking", "dept": "", "d": "Real-time lifecycle status per document: owner, current stage, next action, responsible party, deadline", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.8.5", "cat": "Doc Lifecycle", "f": "Automated Archiving Triggers", "dept": "", "d": "Auto-archive on business events: tender closure, project completion, contract expiry, budget period end", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.8.6", "cat": "Doc Lifecycle", "f": "Archive Access & Retrieval", "dept": "", "d": "Searchable historical archive filterable by project, period, supplier, document type, financial category", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.8.7", "cat": "Doc Lifecycle", "f": "Controlled Disposal Workflow", "dept": "", "d": "Audited disposal process: owner notification → authorised approval → permanent deletion → disposal log entry", "op": "—", "p": "P3", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.8.8", "cat": "Doc Lifecycle", "f": "Compliance & Lifecycle Reporting", "dept": "", "d": "Coverage rates, retention adherence, overdue reviews, approval completion rates — for Legal/IT/Finance governance", "op": "—", "p": "P3", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.9.1", "cat": "Integrations", "f": "Integration Management Console", "dept": "", "d": "Centralised admin console: real-time status, last sync, error logs, manual re-trigger per connector", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.9.2", "cat": "Integrations", "f": "Coupa Connector Management", "dept": "", "d": "Full operational management: sync frequency, field mappings, reconciliation exceptions, health reporting", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.9.3", "cat": "Integrations", "f": "Anaplan Connector Management", "dept": "", "d": "Full operational management: budget import schedules, forecast sync rules, actuals push, reconciliation reports", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.9.4", "cat": "Integrations", "f": "SharePoint / ECM Connector", "dept": "", "d": "Bi-directional sync with SharePoint libraries — auto-push approved documents, pull existing content for archiving", "op": "8", "p": "P2", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.9.5", "cat": "Integrations", "f": "Dior DAM Connector", "dept": "", "d": "One-way push of validated design assets to Dior DAM with automated metadata mapping", "op": "8", "p": "P2", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.9.6", "cat": "Integrations", "f": "AED Services Connector", "dept": "", "d": "Structured data exchange with AED services platform: project records, cost data, document references", "op": "10", "p": "P2", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.9.7", "cat": "Integrations", "f": "Diorlex / Legal Connector", "dept": "", "d": "Read/write integration with Diorlex — access and link Legal Master Agreements directly within the platform", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.9.8", "cat": "Integrations", "f": "AutoCAD / Design Tool Connector", "dept": "", "d": "AutoCAD file version sync notifications — alerts material and design book owners when drawings are updated", "op": "—", "p": "P3", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.9.9", "cat": "Integrations", "f": "Integration Health Monitoring", "dept": "", "d": "Continuous monitoring of all endpoints — instant IT alerts on sync failure, API unavailability, or data errors", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.9.10", "cat": "Integrations", "f": "Integration Audit Log", "dept": "", "d": "Immutable log of all data exchanges: what, when, which process, initiator, and outcome — for compliance and traceability", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.10.1", "cat": "Administration", "f": "Global Admin Console", "dept": "", "d": "Unified admin interface: users, roles, hierarchy, integrations, notifications, workflows, system parameters", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.10.2", "cat": "Administration", "f": "No-Code Configuration Management", "dept": "", "d": "Configure workflows, alert thresholds, tag taxonomies, retention policies via admin UI — no code deployment required", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.10.3", "cat": "Administration", "f": "Feature Flag Management", "dept": "", "d": "Enable/disable features per team/zone/group — supports phased rollout and regional configuration", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.10.4", "cat": "Administration", "f": "Multi-Language Support (EN/FR)", "dept": "", "d": "Platform UI in English and French baseline — extensible localisation framework for additional languages", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.10.5", "cat": "Administration", "f": "Platform Usage & Adoption Analytics", "dept": "", "d": "Track active users, feature usage, search patterns, workflow completion rates — monitor adoption health", "op": "—", "p": "P3", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.10.6", "cat": "Administration", "f": "Maintenance & Downtime Management", "dept": "", "d": "Planned maintenance tooling: advance user notifications, graceful shutdown, post-maintenance health checks", "op": "—", "p": "P3", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.10.7", "cat": "Administration", "f": "Helpdesk & IT Support Integration", "dept": "", "d": "In-platform issue reporting linked to ServiceNow (or equivalent) — automatic ticket creation and SLA tracking", "op": "—", "p": "P3", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.11.1", "cat": "Change Mgmt", "f": "Stakeholder Engagement & Comms Plan", "dept": "", "d": "Structured communication plan for all impacted teams: Architecture, Finance, Procurement, Store Planning, IT", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.11.2", "cat": "Change Mgmt", "f": "UAT Framework", "dept": "", "d": "Structured UAT per module: test scripts, business testers, acceptance criteria, sign-off — critical for financial modules", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.11.3", "cat": "Change Mgmt", "f": "Role-Based Training Programme", "dept": "", "d": "Tailored training per role: Architects, PMs, Finance, Procurement, Store Planners, external GCs/MWs", "op": "—", "p": "P1", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.11.4", "cat": "Change Mgmt", "f": "Super User / Champion Network", "dept": "", "d": "Train platform champions per team — first-line support, feedback collection, adoption advocacy", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.11.5", "cat": "Change Mgmt", "f": "In-Platform Onboarding & Help", "dept": "", "d": "Contextual tooltips, guided tours, help overlays built into UI — reduces learning curve at go-live", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.11.6", "cat": "Change Mgmt", "f": "Feedback Loop & Continuous Improvement", "dept": "", "d": "Structured post-launch feedback collection and quarterly platform review cycles with IT and business", "op": "—", "p": "P2", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.11.7", "cat": "Change Mgmt", "f": "External Party Onboarding", "dept": "", "d": "Onboarding process for GCs, MWs, Suppliers: access setup, NDA/compliance acknowledgement, platform orientation", "op": "—", "p": "P3", "oe": "—", "re": "", "n": "NEW"}, {"id": "7.11.8", "cat": "Change Mgmt", "f": "Post Go-Live Hypercare Support", "dept": "", "d": "4–6 week hypercare per phase go-live: increased support availability, daily issue triage, rapid bug-fix cycles", "op": "—", "p": "P3", "oe": "—", "re": "", "n": "NEW"}];
@@ -1515,6 +1518,7 @@ window.FEATURES = [{"id": "1.1", "cat": "Data Model", "f": "Financial Project En
   /* ================= HOME ================= */
   const EXAMPLES = ['Projects above budget in Europe', 'Travertin utilisé en Europe', 'Façades similar to Bangkok EM Quartier', 'Documents linked to supplier EXAMPLE-04'];
   function myWork() {
+    if (window.Pano && Pano.work) return Pano.work();
     const W = {
       proc: [['Approve', 'Award the Melbourne main contract (T-26-026)', 'Redwood €12.47M against Legend €12.54M · MEP gap to clarify', '2026-11-20', '#/tender/T-26-026'], ['Review', 'Scope gap in the Melbourne stone offers', 'Waterproofing missing from the lowest bid (T-26-031)', '2026-11-18', '#/tender/T-26-031'], ['Match', '3 Coupa invoices without a budget line', 'Ras Al Khaimah Wynn · suggestion ready', '2026-11-14', '#/cost'], ['Confirm', 'Copenhagen project sheet', 'Last confirmed 34 days ago', '2026-11-13', '#/project/401111/data'], ['Renew', 'Master agreement with EXAMPLE-04', 'Ends 20 Dec · Diorlex', '2026-12-01', '#/supplier/EX04']],
       pm: [['Confirm', 'Copenhagen project sheet', 'Last confirmed 34 days ago', '2026-11-13', '#/project/401111/data'], ['Approve', 'Award the Melbourne main contract', 'Second approver after Procurement', '2026-11-20', '#/tender/T-26-026'], ['Upload', 'Sanya Swire GA plans, rev 13', 'Two versions of the façade elevation to reconcile', '2026-11-17', '#/project/300407/documents'], ['Publish', 'Kuala Lumpur site photos, November', 'To Dior DAM', '2026-11-21', '#/project/200769/documents']],
@@ -1536,7 +1540,7 @@ window.FEATURES = [{"id": "1.1", "cat": "Data Model", "f": "Financial Project En
         <p class="hello">${greet()}. You are in the ${esc(state.role.name)} view</p>
         <h1 class="display work">${mw.length} things need you this week.</h1>
         <form class="ask" data-ask><input name="q" autocomplete="off" placeholder="Ask about a project, a supplier, a material" aria-label="Ask Panoptic"><button class="btn" type="submit">Ask</button></form>
-        <div class="mywork">${blkH('My work', `${esc(state.role.name)} · approvals, checks and updates`, req('7.7.1', '7.6.6'))}<ul class="list">${mw.map(w => { const n = days(w[3]); return `<li><a class="row mw" href="${w[4]}"><span class="tag ${w[0] === 'Approve' ? 'ai' : ''}">${w[0]}</span><span class="t"><b>${esc(w[1])}</b><span>${esc(w[2])}</span></span><span class="due ${n <= 4 ? 'soon' : ''}">${n <= 0 ? 'Today' : n === 1 ? 'Tomorrow' : 'In ' + n + ' days'}</span></a></li>`; }).join('')}</ul></div>
+        <div class="mywork">${blkH('My work', `${esc(state.role.name)} · approvals, checks and updates`, req('7.7.1', '7.6.6'))}<ul class="list">${mw.map(w => { const n = days(w[3]); return `<li><a class="row mw" href="${w[4]}"><span class="tag ${w[0] === 'Approve' ? 'ai' : ''}">${w[0]}</span><span class="t"><b>${esc(w[1])}</b><span>${esc(w[2])}</span></span><span class="due ${n <= 4 ? 'soon' : ''}">${n <= 0 ? 'Today' : n === 1 ? 'Tomorrow' : 'In ' + n + ' days'}</span></a>${w[5] ? `<button class="mw-x" data-act="${w[6] || 'mw-done'}" data-v="${esc(w[7] || w[5])}">${w[6] === 'amend-ok' ? 'Approve' : w[6] === 'confirm-block' ? 'Confirm' : 'Done'}</button>` : ''}</li>`; }).join('')}</ul></div>
       </div>
       <div class="hero-3d" id="hero3d" role="img" aria-label="3D model of the Panoptic platform: six Architecture departments around one shared data core, fed by eight source systems"></div>
     </section>
@@ -1620,12 +1624,14 @@ window.FEATURES = [{"id": "1.1", "cat": "Data Model", "f": "Financial Project En
       ['Documents', 'Minutes, technical sheets', 'R&P SharePoint, project site', 'Everyone', Math.floor(r() * 4), 30, 'Open in SharePoint'],
       ['Photos', 'Site and opening photos', 'Dior DAM', 'Project manager', 2 + Math.floor(r() * 20), 60, 'Open in DAM'],
       ['Contracts', 'Master agreements, project contracts', 'Diorlex', 'Legal', 5 + Math.floor(r() * 40), 90, 'Open in Diorlex']];
+    if (window.Pano) rows.forEach(x => { x[4] = Pano.age(p, x[0], x[4]); });
     const ago = n => n === 0 ? 'Synced today' : n === 1 ? 'Yesterday' : n + ' days ago';
     const slug = p.city.toLowerCase().replace(/[^a-z]+/g, '-');
     const ws = [['SharePoint project site', `/sites/RP-Architecture/${p.id}`], ['Server folder', `S:\\DIOR\\PROJECTS\\${p.id}_${p.city.replace(/\s+/g, '_')}`], ['Design release server', `\\\\release\\architecture\\${p.id}`], ['Teams channel', `Architecture · #${slug}`], ['Coupa project', `ARC-${p.id}`], ['Anaplan project', `ARC-${p.id} · version 3`], ['Dior DAM album', `Architecture › ${p.city}`], ['Excel', 'ADMIN FOLLOW UP row, export and re-import']];
     const team = [['Project manager', `PM, ${p.zone} zone`, 'Edit'], ['Architect', 'Concept Design & 3D', 'Edit'], ['Store planner', 'Store Planning', 'Edit'], ['Budget controller', 'Finance', 'Edit · financial data'], ['Procurement officer', `Procurement, ${p.zone}`, 'Edit · financial data'], ['Local architect', p.country, 'View · drawings and documents'], [p.id === '201155' ? 'Legend, Redwood (external)' : 'General contractor (external)', 'Bidder portal', p.id === '201155' ? 'Own bids · until 20 Nov 2026' : 'Shared documents · until handover']];
     return `<section class="blk grid g-7-5"><div>${blkH('Where each piece of data lives', 'One owner and one source per block. Panoptic reads, links and flags what is out of date.', req('7.1.2', '7.8.4', '7.6.6'))}
-        <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Data</th><th>System of record</th><th>Owner</th><th>Last update</th><th></th></tr></thead><tbody>${rows.map(x => { const stale = x[4] > x[5]; return `<tr><td><b style="font-weight:600">${x[0]}</b><div class="small muted">${x[1]}</div></td><td class="small">${x[2]}</td><td class="small">${x[3]}</td><td>${stale ? `<span class="status s-warn">${ago(x[4])}</span>` : `<span class="status s-ok">${ago(x[4])}</span>`}</td><td>${stale ? `<button class="btn sm" data-act="req-update" data-v="${x[0]}|${x[3]}">Ask to confirm</button>` : `<button class="btn sm ghost" data-act="open-tool" data-v="${x[6]}">${x[6]}</button>`}</td></tr>`; }).join('')}</tbody></table></div>
+        <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Data</th><th>System of record</th><th>Owner</th><th>Last update</th><th></th></tr></thead><tbody>${rows.map(x => { const stale = x[4] > x[5]; return `<tr><td><b style="font-weight:600">${x[0]}</b><div class="small muted">${x[1]}</div></td><td class="small">${x[2]}</td><td class="small">${x[3]}</td><td>${stale ? `<span class="status s-warn">${ago(x[4])}</span>` : `<span class="status s-ok">${ago(x[4])}</span>`}</td><td>${stale ? `<button class="btn sm" data-act="req-update" data-v="${x[0]}|${x[3]}">Ask to confirm</button> <button class="btn sm ghost" data-act="confirm-block" data-v="${p.id}|${x[0]}">Confirm</button>` : `<button class="btn sm ghost" data-act="open-tool" data-v="${x[6]}">${x[6]}</button>`}</td></tr>`; }).join('')}</tbody></table></div>
+        <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap"><button class="btn sm" data-act="sheet-edit" data-v="${p.id}">Edit the project sheet</button><button class="btn sm ghost" data-act="open-tool" data-v="Upload documents">Upload documents</button><button class="btn sm ghost" data-act="req-update" data-v="Budget amendment">Request a budget amendment</button></div>
         <p class="small muted" style="margin-top:12px">Rule: a block older than its limit (30 days for the project sheet, 7 for the budget) sends a confirmation request to its owner in Teams. Confirming takes one click when nothing changed.</p></div>
       <div>${blkH('Team and access', 'From OKTA groups', req('7.4.4', '7.3.4'))}<ul class="list">${team.map(t => `<li style="display:grid;grid-template-columns:1fr auto;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)"><span><b style="font-weight:600">${t[0]}</b><span class="small muted" style="display:block">${t[1]}</span></span><span class="small muted" style="text-align:right">${t[2]}</span></li>`).join('')}</ul>
         <button class="btn sm ghost" style="margin-top:12px" data-act="open-tool" data-v="the team editor">Add someone</button></div></section>
@@ -1776,7 +1782,7 @@ window.FEATURES = [{"id": "1.1", "cat": "Data Model", "f": "Financial Project En
           <div style="display:flex;align-items:center;gap:14px"><input type="range" min="0" max="20" step="1" value="${state.threshold}" data-input="threshold" style="flex:1;accent-color:#000" aria-label="Threshold in percent"><b class="serif" style="font-size:30px;font-weight:400;min-width:60px" id="thrV">${state.threshold}%</b></div>
           <div id="flagged" style="margin-top:12px">${flagged(all)}</div></div>
           <div class="panel" style="margin-top:22px"><h3 style="margin:0 0 6px;font:600 22px var(--serif)">Invoices to match ${req('7.9.2')}</h3><p class="small muted" style="margin:0 0 6px">Coupa invoices with no budget line. Panoptic suggests one; a person confirms.</p>
-          <ul class="list small">${[['INV-88412', 'Gulf Interiors', 84], ['INV-88430', 'Gulf Interiors', 46], ['INV-88447', 'Thermis MEP', 23]].map(([n, s, a]) => `<li class="row" style="padding:12px 0;align-items:center"><div style="flex:1"><b>${n}</b> · ${s} · ${kE(a)}<div class="muted">Suggested: ARC-601421.${s === 'Thermis MEP' ? '05 MEP & HVAC' : '07 General works'}</div></div><button class="btn sm ghost" data-act="match" data-v="${n}">Confirm</button></li>`).join('')}</ul></div></div>
+          <ul class="list small">${[['INV-88412', 'Gulf Interiors', 84], ['INV-88430', 'Gulf Interiors', 46], ['INV-88447', 'Thermis MEP', 23]].map(([n, s, a]) => `<li class="row" style="padding:12px 0;align-items:center"><div style="flex:1"><b>${n}</b> · ${s} · ${kE(a)}<div class="muted">Suggested: ARC-601421.${s === 'Thermis MEP' ? '05 MEP & HVAC' : '07 General works'}</div></div>${window.Pano && Pano.invoices.has(n) ? '<span class="status s-ok">Matched</span>' : `<button class="btn sm ghost" data-act="match" data-v="${n}">Confirm</button>`}</li>`).join('')}</ul></div></div>
       </section>`;
     return { html };
   }
@@ -1898,7 +1904,7 @@ window.FEATURES = [{"id": "1.1", "cat": "Data Model", "f": "Financial Project En
     return `<div class="sw"><a href="#/material/${m.id}"><div class="pic">${TEX.swatch(m.tex, (D.hash(m.id) % 90) + 1)}</div><h3>${esc(m.name)}</h3><div class="mt"><span>${m.id} · ${m.cat}</span><span>${price(m)}</span></div></a><button class="cmp ${on ? 'on' : ''}" data-act="cmp" data-v="${m.id}" aria-pressed="${on}">${on ? '✓ Comparing' : '+ Compare'}</button></div>`;
   }
   function prodCard(x) { return `<div class="sw prod"><div class="pic">${TEX.productIcon(x.icon)}</div><h3>${esc(x.name)}</h3><div class="mt"><span>${x.id} · ${sup(x.supplier).name}</span><span>${state.role.external ? mask() : '€' + x.price.toLocaleString('en-GB') + ' / ' + x.unit}</span></div><div class="small muted">${esc(x.finish)} · ${x.lead}</div></div>`; }
-  function bookCard(b) { return `<a class="book ${isDark(b.tone) ? 'dark' : ''}" href="#/book/${b.id}"><div class="cover" style="background:${b.tone}"><div><img src="${window.LOGO_URI}" alt=""><div class="t" style="margin-top:18px">${esc(b.name)}</div></div><div class="sw-row">${b.mats.slice(0, 4).map(m => `<span>${TEX.swatch(M[m].tex, 3)}</span>`).join('')}</div></div><h3 style="margin:14px 0 2px;font-weight:500;font-size:14.5px">${esc(b.scope)}</h3><div class="small muted">${b.version} · updated ${dfmt(b.updated)} · ${b.dwg} drawings</div></a>`; }
+  function bookCard(b) { return `<a class="book ${isDark(b.tone) ? 'dark' : ''}" href="#/book/${b.id}"><div class="cover" style="background:${b.tone}"><div>${window.LOGO_URI ? `<img src="${window.LOGO_URI}" alt="">` : ''}<div class="t" style="margin-top:18px">${esc(b.name)}</div></div><div class="sw-row">${b.mats.slice(0, 4).map(m => `<span>${TEX.swatch(M[m].tex, 3)}</span>`).join('')}</div></div><h3 style="margin:14px 0 2px;font-weight:500;font-size:14.5px">${esc(b.scope)}</h3><div class="small muted">${b.version} · updated ${dfmt(b.updated)} · ${b.dwg} drawings</div></a>`; }
   function boutiquesView() {
     return `<div class="filters"><span class="muted small">Opened boutiques used as references: photos from ARCHITECTURE PHOTOS on the S: drive, plans and project info from the opening books ${req('5.4', '6.5', '6.7')}</span></div>
       ${D.BOUTIQUES.map(b => `<article class="btq"><div><div class="main"><img class="ph" src="${b.photos[0]}" alt="${b.name}"></div><div class="thumbs">${b.photos.slice(1).map(ph => `<a href="${ph}" target="_blank" rel="noopener"><img src="${ph}" alt=""></a>`).join('')}${b.plan ? `<a href="${b.plan}" target="_blank" rel="noopener"><img src="${b.plan}" alt="Layout plan" style="object-fit:contain;background:#fff"></a>` : ''}</div></div>
@@ -2028,7 +2034,7 @@ window.FEATURES = [{"id": "1.1", "cat": "Data Model", "f": "Financial Project En
     else if (d.type === 'Site photos' && d.img) ai = 'From ARCHITECTURE PHOTOS / 2025 best of on the S: drive. Pushed to Dior DAM with project, concept and area tags.';
     else ai = 'Summary and tags generated on upload.';
     openDrawer(`<span class="ext ${d.ext}" style="width:48px;height:58px;font-size:10px">${d.ext}</span><h2 class="serif" style="font-weight:400;font-size:28px;line-height:1.15;margin:16px 0 6px;word-break:break-word">${esc(d.name)}</h2><p class="muted" style="margin:0 0 14px">${d.type} · ${d.src}</p>
-      ${d.img ? `<a class="doc-prev" href="${d.img}" target="_blank" rel="noopener"><img src="${d.img}" alt="Preview of ${esc(d.name)}"></a><p class="small muted" style="margin:0 0 12px">Preview from the workshop screen, 9 Nov 2026</p>` : ''}
+      ${d.url ? `<p style="margin:14px 0 0"><a class="btn sm" href="${d.url}" target="_blank" rel="noopener">Open the file</a></p>` : ''}${d.img ? `<a class="doc-prev" href="${d.img}" target="_blank" rel="noopener"><img src="${d.img}" alt="Preview of ${esc(d.name)}"></a><p class="small muted" style="margin:0 0 12px">Preview from the workshop screen, 9 Nov 2026</p>` : ''}
       <div class="chips">${d.tags.map(x => `<span class="tag ai">${esc(x)}</span>`).join('')}${req('5.2')}</div>
       <div class="ai-box" style="margin-top:20px;padding:16px 18px"><p style="margin:0">${ai}</p></div>
       <div class="life">${LIFE.map((s, i) => `<span class="${i <= li ? 'done' : ''}">${s}</span>`).join('')}</div>${req('5.5', '7.8.1', '7.8.4')}
@@ -2071,7 +2077,7 @@ window.FEATURES = [{"id": "1.1", "cat": "Data Model", "f": "Financial Project En
           <div class="wf-split">${node('Approve 1', 'Procurement lead', 'Due in 2 days')}${node('Approve 2', 'Budget controller', 'Then Director Architecture above €1M')}</div>${link}${node('Then', 'Raise the PO in Coupa, update the commitment in Anaplan, archive the tender file', '42 runs this quarter · median approval 1.6 days', '')}</div></div></section>
       <section class="blk grid g-6-6"><div>${blkH('Workflows', 'Switch on per zone', req('7.6.6', '7.6.9', '7.10.3'))}<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Workflow</th><th>Trigger</th><th class="r">Steps</th><th>Active</th></tr></thead><tbody>${flows.map(f => `<tr><td><b style="font-weight:600">${f[0]}</b></td><td class="small">${f[1]}</td><td class="r">${f[2]}</td><td><span class="tog ${f[3] ? 'on' : ''}"></span></td></tr>`).join('')}</tbody></table></div>
         <div class="panel" style="margin-top:18px;display:flex;gap:18px;align-items:center;flex-wrap:wrap"><span><b style="font-weight:600">Language</b> ${req('7.10.4')}</span><span class="chip on">English</span><span class="chip">Français</span><span class="small muted" style="margin-left:auto">Questions to Copilot work in both</span></div></div>
-        <div>${blkH('Audit log', 'Every change and every data exchange', req('7.9.10', '7.6.1', '7.7.9'))}<ul class="list">${audit.map(a => `<li style="display:grid;grid-template-columns:52px 1fr;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)"><span class="code">${a[0]}</span><span><b style="font-weight:600">${a[1]}</b> · ${a[2]} <span class="tag src" style="margin-left:6px">${a[3]}</span></span></li>`).join('')}</ul></div></section>
+        <div>${blkH('Audit log', 'Every change and every data exchange', req('7.9.10', '7.6.1', '7.7.9'))}<ul class="list">${(window.Pano ? Pano.auditItems().concat(audit) : audit).slice(0, 10).map(a => `<li style="display:grid;grid-template-columns:52px 1fr;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)"><span class="code">${a[0]}</span><span><b style="font-weight:600">${a[1]}</b> · ${a[2]} <span class="tag src" style="margin-left:6px">${a[3]}</span></span></li>`).join('')}</ul></div></section>
       <section class="blk">${blkH('Delivery and run', 'Backlog items with no screen of their own, carried by the delivery plan', req('7.1.1', '7.2.1', '7.11.1'))}<div class="tbl-wrap"><table class="tbl"><thead><tr><th>#</th><th>Item</th><th>Priority</th><th>Where it shows</th></tr></thead><tbody>${[['7.1.1', 'Cloud hosting, dev / staging / prod, containers', 'P1', 'Platform status, Connector console'], ['7.1.7', 'Security architecture: TLS 1.3, secrets, WAF', 'P1', 'Security review before go-live'], ['7.2.1', 'CI/CD pipelines', 'P1', 'Release notes'], ['7.2.2', 'Monitoring and alerting', 'P1', 'Connector status, Sync now'], ['7.2.3', 'Penetration testing (OWASP)', 'P1', 'Mandatory before financial data'], ['7.2.4', 'Backups and disaster recovery', 'P1', 'RTO / RPO in the run book'], ['7.11.1', 'Stakeholder engagement and comms plan', 'P1', 'Architecture, Finance, Procurement, IT'], ['7.11.2', 'UAT framework per module', 'P1', 'Sign-off on cost and tender modules'], ['7.11.3', 'Role-based training', 'P1', 'One path per role, GC and MW included']].map(r => `<tr><td class="code">${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td class="small muted">${r[3]}</td></tr>`).join('')}</tbody></table></div></section>`;
   }
   function toolsView() {
@@ -2092,7 +2098,7 @@ window.FEATURES = [{"id": "1.1", "cat": "Data Model", "f": "Financial Project En
   }
   function healthView() {
     const ps = D.PROJECTS.filter(p => visIds().has(p.id));
-    const rows = ps.map(p => { const r = D.rng(D.hash(p.id + 'fresh')); const age = p.id === '401111' ? 34 : 2 + Math.floor(r() * 12); const missing = p.admin ? 0 : 2 + Math.floor(r() * 3); const untagged = Math.floor(r() * 9); const unmatched = p.id === '601421' ? 3 : 0; const score = Math.max(55, 100 - missing * 6 - (age > 30 ? 12 : 0) - untagged - unmatched * 4); return { p, age, missing, untagged, unmatched, score }; }).sort((a, b) => a.score - b.score);
+    const rows = ps.map(p => { const r = D.rng(D.hash(p.id + 'fresh')); let age = p.id === '401111' ? 34 : 2 + Math.floor(r() * 12); if (window.Pano) age = Pano.age(p, 'Project sheet', age); const missing = p.admin ? 0 : 2 + Math.floor(r() * 3); const untagged = Math.floor(r() * 9); const unmatched = p.id === '601421' ? 3 : 0; const score = Math.max(55, 100 - missing * 6 - (age > 30 ? 12 : 0) - untagged - unmatched * 4); return { p, age, missing, untagged, unmatched, score }; }).sort((a, b) => a.score - b.score);
     const avg = Math.round(rows.reduce((a, x) => a + x.score, 0) / rows.length);
     return `<section class="blk">${blkH('Data health', `Average ${avg}% · checked every night`, req('7.8.4', '7.6.6', '7.10.2'))}<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Project</th><th class="r">Health</th><th>Project sheet</th><th class="r">Missing fields</th><th class="r">Files to tag</th><th class="r">Invoices to match</th><th></th></tr></thead><tbody>${rows.map(x => `<tr><td><b>${x.p.city}</b> <span class="code">ARC-${x.p.id}</span></td><td class="r"><b style="font-weight:600;color:${x.score < 80 ? 'var(--rouge)' : x.score < 90 ? 'var(--ochre)' : 'var(--sage)'}">${x.score}%</b></td><td>${x.age > 30 ? `<span class="status s-warn">${x.age} days old</span>` : `<span class="status s-ok">Confirmed ${x.age} days ago</span>`}</td><td class="r">${x.missing || '—'}</td><td class="r">${x.untagged || '—'}</td><td class="r">${x.unmatched || '—'}</td><td><a class="btn sm ghost" href="#/project/${x.p.id}/data">Open</a></td></tr>`).join('')}</tbody></table></div>
         <div style="display:flex;gap:10px;margin-top:16px"><button class="btn" data-act="req-update" data-v="all stale blocks|their owners">Send confirmation requests</button><button class="btn ghost" data-act="export" data-v="data health report">Export</button></div></section>
@@ -2247,6 +2253,7 @@ window.FEATURES = [{"id": "1.1", "cat": "Data Model", "f": "Financial Project En
     clearInterval(typing);
     body.innerHTML = `<div class="answer"><div class="thinking"><i></i>Reading Anaplan, Coupa, tenders and the document index</div></div>`;
     const out = understand(raw);
+    if (window.Pano && Pano.sampleReady) { clearInterval(typing); return Pano.askClaude(raw, body, resHTML(out.res), out.text); }
     setTimeout(() => {
       body.innerHTML = `<div class="answer"><div class="txt cur" id="ansTxt"></div><div class="srcs" id="ansSrc" style="opacity:0;transition:opacity .4s"><span class="small muted">Sources</span>${out.src.map(s => `<span class="tag src">${s}</span>`).join('')}${req('7.5.2', '7.5.3', '7.5.4')}</div></div><div id="ansRes" style="opacity:0;transition:opacity .5s">${resHTML(out.res)}</div>`;
       const el = document.getElementById('ansTxt');
@@ -2276,7 +2283,7 @@ window.FEATURES = [{"id": "1.1", "cat": "Data Model", "f": "Financial Project En
   /* ================= SHELL ================= */
   const NAV = [['#/home', 'Home'], ['#/projects', 'Projects'], ['#/cost', 'Cost control'], ['#/tenders', 'Tenders'], ['#/suppliers', 'Suppliers'], ['#/assets', 'Documents'], ['#/library', 'Library'], ['#/platform', 'Admin']];
   function header() {
-    return `<div class="top-in"><a class="brand" href="#/home" aria-label="Panoptic home"><img src="${window.LOGO_URI}" alt="Dior"><span class="sep"></span><span class="prod"><b>Architecture</b><span>Panoptic</span></span></a>
+    return `<div class="top-in"><a class="brand" href="#/home" aria-label="Panoptic home"><span class="prod"><b>Architecture</b><span>Panoptic</span></span></a>
       <nav class="nav" aria-label="Main">${NAV.map(n => `<a href="${n[0]}" data-nav="${n[0]}">${n[1]}</a>`).join('')}</nav>
       <div class="top-r"><button class="newbtn" data-act="new-menu">+ New</button><button class="ask-btn" data-act="palette" title="Search or ask (⌘K)"><span class="orb"></span><span class="t">Search or ask</span></button>
       <select class="role" id="role" aria-label="View as role">${D.ROLES.map(r => `<option value="${r.id}">${r.name}</option>`).join('')}</select>
@@ -2320,6 +2327,7 @@ window.FEATURES = [{"id": "1.1", "cat": "Data Model", "f": "Financial Project En
     const href = e.target.closest('[data-href]'); if (href && !e.target.closest('a,button')) { location.hash = href.dataset.href; return; }
     const b = e.target.closest('[data-act]'); if (!b) return;
     const v = b.dataset.v, act = b.dataset.act;
+    if (window.Pano && Pano.handle(act, v, b)) return;
     switch (act) {
       case 'palette': openPalette(); break;
       case 'close': closeOverlays(); break;
@@ -2408,5 +2416,545 @@ window.FEATURES = [{"id": "1.1", "cat": "Data Model", "f": "Financial Project En
 })();
 
 </script>
-</body>
-</html>
+<script>
+/* Architecture Panoptic — functional layer.
+ * Author: Marie Guegain — eleven.
+ * Persists every change (projects, sheet confirmations, awards, budget amendments,
+ * invoice matches, completed tasks, uploads, audit log) in the artifact's shared
+ * store when the page runs as a claude.ai artifact, otherwise in this browser.
+ * Reads and writes real Excel files (SheetJS), saves files through the viewer,
+ * and answers Copilot questions with Claude when the viewer allows it. */
+(function () {
+  'use strict';
+  const A = window.A; if (!A) return;
+  const D = A.D, state = A.state, esc = A.esc;
+  const COLS = ['projects', 'tenders', 'amendments', 'done', 'invoices', 'audit', 'docs'];
+  const INVOICES = ['INV-88412', 'INV-88430', 'INV-88447'];
+  const today = () => new Date().toISOString().slice(0, 10);
+  const addDays = (iso, n) => { const d = new Date(iso + 'T12:00:00'); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); };
+  const daysSince = iso => Math.max(0, Math.round((Date.now() - new Date(iso + 'T12:00:00').getTime()) / 864e5));
+  const wait = ms => new Promise(r => setTimeout(() => r(null), ms));
+  const kE = A.kE;
+
+  const Pano = window.Pano = {
+    mode: 'memory', canWrite: true, sample: null, sampleReady: false, downloads: null, assets: null,
+    done: new Set(), invoices: new Set(), audit: [], np: null, imp: null,
+    amendments: [{ id: 'AM-201155-05', project: '201155', line: '05', amount: 521, reason: 'Main-contract offers (SOR R2): MEP priced above its budget line', status: 'pending', created: '2026-11-09' }]
+  };
+
+  /* ---------------- store: artifact db, else this browser, else memory ---------------- */
+  const Store = {
+    db: null, mem: {},
+    local(col) { try { return JSON.parse(localStorage.getItem('panoptic:' + col) || '{}'); } catch (e) { return this.mem[col] || {}; } },
+    async put(col, id, data) {
+      if (this.db) return this.db.collection(col).doc(id).set(data);
+      const all = this.local(col); all[id] = data; this.mem[col] = all;
+      try { localStorage.setItem('panoptic:' + col, JSON.stringify(all)); } catch (e) { /* memory only */ }
+    }
+  };
+  async function save(col, id, data) {
+    try { await Store.put(col, id, data); return true; }
+    catch (e) {
+      if (e && e.code === 'invalid_argument') { Pano.canWrite = false; setBadge(); A.toast('You can view this page but not change it. Ask the owner for Contributor access.'); }
+      else if (e && e.code === 'quota_exceeded') A.toast('The shared store is full. Delete old uploads or audit entries, then try again.');
+      else A.toast('The change could not be saved. Try again in a moment.');
+      return false;
+    }
+  }
+  function guard() { if (Pano.canWrite) return true; A.toast('You can view this page but not change it. Ask the owner for Contributor access.'); return false; }
+
+  /* ---------------- applying stored state to the in-memory model ---------------- */
+  const BASE = {};
+  D.PROJECTS.forEach(p => { BASE[p.id] = { budget0: p.budget, over: JSON.parse(JSON.stringify(p.over || {})) }; });
+  function recompute(p) {
+    const b = BASE[p.id];
+    p.budget = b.budget0; p.over = Object.assign({}, b.over);
+    D.genLines(p);
+    const adj = p.adj || {};
+    if (Object.keys(adj).length) {
+      Object.entries(adj).forEach(([code, k]) => { const l = p.lines.find(x => x.short === code); if (l) l.budget += +k; });
+      const sum = k => p.lines.reduce((a, l) => a + l[k], 0);
+      p.budget = sum('budget'); p.variance = p.forecast - p.budget; p.variancePct = p.variance / p.budget;
+    }
+    for (let i = D.COST_ITEMS.length - 1; i >= 0; i--) if (D.COST_ITEMS[i].project === p.id) D.COST_ITEMS.splice(i, 1);
+    D.genCostItems(p);
+  }
+  const FIELDS = ['city', 'name2', 'country', 'region', 'zone', 'type', 'status', 'surface', 'floors', 'concept', 'handover', 'progress', 'admin', 'fresh', 'adj', 'mats'];
+  function applyProject(doc) {
+    let p = A.P[doc.id];
+    if (!p) {
+      p = { id: doc.id, city: doc.city, country: doc.country || '', region: doc.region || '', zone: doc.zone || 'West', type: doc.type || 'New boutique', status: doc.status || 'Brief', surface: +doc.surface || 300, floors: +doc.floors || 1, concept: doc.concept || 'PLI', budget: +doc.sopK || 3000, handover: doc.handover || addDays(today(), 365), progress: +doc.progress || 0.03, mats: doc.mats || [], over: {}, created: true };
+      BASE[p.id] = { budget0: p.budget, over: {} };
+      D.PROJECTS.push(p); A.P[p.id] = p;
+    }
+    FIELDS.forEach(k => { if (doc[k] !== undefined && doc[k] !== null) p[k] = doc[k]; });
+    if (doc.sopK) BASE[p.id].budget0 = +doc.sopK;
+    recompute(p);
+  }
+  function applyCol(col, docs) {
+    if (col === 'projects') docs.forEach(applyProject);
+    else if (col === 'tenders') docs.forEach(d => { const t = A.T[d.id]; if (t) { t.status = d.status || t.status; if (d.awarded) t.awarded = d.awarded; } });
+    else if (col === 'amendments') { docs.forEach(d => { const i = Pano.amendments.findIndex(a => a.id === d.id); if (i >= 0) Pano.amendments[i] = Object.assign({}, Pano.amendments[i], d); else Pano.amendments.push(d); }); syncAlerts(); }
+    else if (col === 'done') docs.forEach(d => Pano.done.add(d.id));
+    else if (col === 'invoices') docs.forEach(d => Pano.invoices.add(d.id));
+    else if (col === 'audit') { const seen = new Set(Pano.audit.map(a => a.id)); docs.forEach(d => { if (!seen.has(d.id)) Pano.audit.push(d); }); Pano.audit.sort((a, b) => String(b.at).localeCompare(String(a.at))); }
+    else if (col === 'docs') docs.forEach(d => { if (!D.DOCS.some(x => x.id === d.id)) D.DOCS.unshift(d); });
+  }
+  function syncAlerts() {
+    const done = Pano.amendments.some(a => a.id === 'AM-201155-05' && a.status === 'approved');
+    const i = (D.ALERTS || []).findIndex(a => a.id === 'A7'); if (done && i >= 0) D.ALERTS.splice(i, 1);
+  }
+  let renderTimer = null;
+  function scheduleRender() {
+    clearTimeout(renderTimer);
+    renderTimer = setTimeout(() => {
+      const busy = document.querySelector('.modal.on, .drawer.on, .pal.on');
+      if (busy) return scheduleRender();
+      A.render(true);
+    }, 250);
+  }
+
+  async function init() {
+    setBadge('Connecting…');
+    const c = window.claude;
+    let db = null, user = null;
+    if (c && typeof c.use === 'function') {
+      try { db = await Promise.race([c.use('db'), wait(10000)]); } catch (e) { db = null; }
+      try { user = await Promise.race([c.use('user'), wait(4000)]); } catch (e) { user = null; }
+      c.use('sample').then(s => { if (s) { Pano.sample = s; Pano.sampleReady = true; } }).catch(() => {});
+      c.use('downloads').then(d => { Pano.downloads = d; }).catch(() => {});
+      c.use('assets').then(a => { Pano.assets = a; }).catch(() => {});
+    }
+    if (db) {
+      Store.db = db; Pano.mode = 'shared';
+      if (user) { try { const w = await user.can('data.write'); if (w === false) Pano.canWrite = false; } catch (e) { /* keep inputs */ } }
+      let first = 0;
+      const timer = setTimeout(() => setBadge('Saved data not reachable yet'), 10000);
+      COLS.forEach(col => {
+        db.collection(col).onSnapshot(snap => {
+          applyCol(col, snap.docs.map(d => Object.assign({ id: d.id }, d.data())));
+          if (!snap.metadata.fromCache && ++first >= COLS.length) { clearTimeout(timer); setBadge(); }
+          scheduleRender();
+        }, () => { clearTimeout(timer); setBadge('Saved data unavailable'); });
+      });
+    } else {
+      try { localStorage.setItem('panoptic:probe', '1'); Pano.mode = 'local'; } catch (e) { Pano.mode = 'memory'; }
+      COLS.forEach(col => applyCol(col, Object.entries(Store.local(col)).map(([id, d]) => Object.assign({ id }, d))));
+      setBadge(); A.render(true);
+    }
+  }
+  function setBadge(text) {
+    const el = document.querySelector('.sample'); if (!el) return;
+    const t = text || (Pano.mode === 'shared' ? (Pano.canWrite ? 'Prototype · changes saved for everyone' : 'Prototype · read-only for you') : Pano.mode === 'local' ? 'Prototype · changes saved in this browser' : 'Prototype · changes not saved');
+    el.textContent = t; el.title = 'Six 2027 projects, Flinders Lane bids, photos, plans and tables are real; other figures are sample data.';
+  }
+
+  /* ---------------- audit ---------------- */
+  async function log(what, project) {
+    const e = { id: 'AU-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), at: new Date().toISOString(), role: state.role.name, what, project: project || null };
+    Pano.audit.unshift(e); await save('audit', e.id, { at: e.at, role: e.role, what: e.what, project: e.project });
+  }
+  Pano.auditItems = () => Pano.audit.slice(0, 8).map(a => { const d = new Date(a.at); const same = d.toDateString() === new Date().toDateString(); return [same ? d.toTimeString().slice(0, 5) : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }), a.role, a.what, 'Panoptic']; });
+
+  /* ---------------- freshness ---------------- */
+  function defaultSheetAge(p) { const r = D.rng(D.hash(p.id + 'fresh')); return p.id === '401111' ? 34 : 2 + Math.floor(r() * 12); }
+  Pano.age = (p, block, def) => (p.fresh && p.fresh[block]) ? daysSince(p.fresh[block]) : def;
+
+  /* ---------------- My work ---------------- */
+  const STATIC = [
+    { roles: ['proc', 'arch'], key: 'stone-gap', verb: 'Review', title: 'Scope gap in the Melbourne stone offers', sub: 'Waterproofing missing from the lowest bid (T-26-031)', due: '2026-11-18', href: '#/tender/T-26-031' },
+    { roles: ['proc'], key: 'renew-ex04', verb: 'Renew', title: 'Master agreement with EXAMPLE-04', sub: 'Ends 20 Dec · Diorlex', due: '2026-12-01', href: '#/supplier/EX04' },
+    { roles: ['pm', 'arch'], key: 'sanya-ga', verb: 'Upload', title: 'Sanya Swire GA plans, rev 13', sub: 'Two versions of the façade elevation to reconcile', due: '2026-11-17', href: '#/project/300407/documents' },
+    { roles: ['pm'], key: 'kl-photos', verb: 'Publish', title: 'Kuala Lumpur site photos, November', sub: 'To Dior DAM', due: '2026-11-21', href: '#/project/200769/documents' },
+    { roles: ['bc'], key: 'lcb-co2', verb: 'Decide', title: 'Los Cabos façade change order', sub: '21% above its budget line', due: '2026-11-15', href: '#/project/100610/costs' },
+    { roles: ['bc'], key: 'fc-v4', verb: 'Refresh', title: 'Monthly forecast to Anaplan', sub: 'Push committed and forecast to v4', due: '2026-11-28', href: '#/cost' },
+    { roles: ['arch'], key: 'db-v43', verb: 'Update', title: 'Women boutique design book, v4.3', sub: 'Two materials replaced', due: '2026-11-25', href: '#/library/books' },
+    { roles: ['sp'], key: 'sin-brief', verb: 'Brief', title: 'Singapore shop-in-shop', sub: 'Survey and schedule to upload', due: '2026-11-26', href: '#/project/SIN11' },
+    { roles: ['gc'], key: 'gc-mep', verb: 'Clarify', title: 'MEP pricing, Melbourne main contract', sub: 'Fire services and plumbing allowances', due: '2026-11-18', href: '#/tender/T-26-026' },
+    { roles: ['gc'], key: 'gc-sow', verb: 'Download', title: 'SOW v3 and drawings', sub: 'Main-contract package', due: '2026-11-14', href: '#/tender/T-26-026' }
+  ];
+  Pano.work = () => {
+    const r = state.role.id, out = [];
+    const add = (roles, w) => { if (roles.includes(r)) out.push(w); };
+    D.TENDERS.filter(t => t.status === 'Evaluated' && A.P[t.project]).forEach(t => {
+      const best = (t.bids || []).slice().sort((a, b) => a.total - b.total)[0];
+      add(['proc', 'pm'], ['Approve', `Award: ${t.pkg} · ${A.P[t.project].city}`, best ? `Lowest offer ${A.sup(best.supplier).name}, ${kE(best.total)} · ${t.id}` : t.id, t.date, '#/tender/' + t.id]);
+    });
+    Pano.amendments.filter(a => a.status === 'pending' && A.P[a.project]).forEach(a => {
+      add(['bc', 'pm'], ['Approve', `Budget amendment · ${A.P[a.project].city}, line ${a.line}`, `+€${(+a.amount).toLocaleString('en-GB')}k · ${a.reason}`, addDays(a.created, 7), `#/project/${a.project}/costs`, a.id, 'amend-ok', a.id]);
+    });
+    D.PROJECTS.forEach(p => { const age = Pano.age(p, 'Project sheet', defaultSheetAge(p)); if (age > 30) add(['pm', 'proc', 'sp'], ['Confirm', `${p.city} project sheet`, `Last confirmed ${age} days ago`, today(), `#/project/${p.id}/data`, 'sheet:' + p.id, 'confirm-block', `${p.id}|Project sheet`]); });
+    const left = INVOICES.filter(n => !Pano.invoices.has(n)).length;
+    if (left) add(['proc', 'bc'], ['Match', `${left} Coupa invoice${left > 1 ? 's' : ''} without a budget line`, 'Ras Al Khaimah Wynn · suggestion ready', '2026-11-14', '#/cost']);
+    STATIC.filter(x => x.roles.includes(r) && !Pano.done.has(x.key)).forEach(x => out.push([x.verb, x.title, x.sub, x.due, x.href, x.key]));
+    return out.sort((a, b) => a[3].localeCompare(b[3]));
+  };
+
+  /* ---------------- forms ---------------- */
+  const fld = (label, id, value, attrs = '') => `<label class="fld" for="${id}">${label}<input id="${id}" value="${esc(value == null ? '' : String(value))}" ${attrs}></label>`;
+  const sel = (label, id, opts, value) => `<label class="fld" for="${id}">${label}<select id="${id}">${opts.map(o => { const [v, t] = Array.isArray(o) ? o : [o, o]; return `<option value="${esc(v)}" ${String(v) === String(value) ? 'selected' : ''}>${esc(t)}</option>`; }).join('')}</select></label>`;
+  const val = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+  const ZONES = [['East|Asia', 'East · Asia'], ['East|South Asia', 'East · South Asia'], ['East|Mainland China', 'East · Mainland China'], ['East|Oceania', 'East · Oceania'], ['West|Europe', 'West · Europe'], ['West|Americas', 'West · Americas'], ['West|Middle East', 'West · Middle East']];
+  const TEMPLATE = [['01', 'Millwork & fixtures', 26], ['02', 'Stone & flooring', 14], ['03', 'Façade & glazing', 12], ['04', 'Lighting', 7], ['05', 'MEP & HVAC', 13], ['06', 'Furniture FF&E', 9], ['07', 'General works', 12], ['08', 'Fees & consultants', 5], ['09', 'Contingency', 2]];
+
+  /* New project wizard */
+  function npDefaults() { return { step: 1, src: 'anaplan', f: { code: 'ARC-201390', city: '', name2: '', country: '', zr: 'East|Asia', ptype: 'New', boutique: 'FSS', bconcept: 'PMA by Dior', facade: 'PLI', commitment: addDays(today(), 21), opening: addDays(today(), 380), retail: '420', fcInt: '60', fcExt: '', sop: '6200000', pm: 'PM, East zone', arch: 'Concept Design & 3D', sp: 'Store Planning', bc: 'Finance', po: 'Procurement, East', la: 'To appoint' }, uni: new Set(['Women RTW', 'Bags', 'SLG', 'Shoes', 'CJ', 'Men']), err: '' }; }
+  function npRead() {
+    const f = Pano.np.f;
+    Object.keys(f).forEach(k => { const el = document.getElementById('np-' + k); if (el) f[k] = el.value.trim(); });
+    document.querySelectorAll('[data-np-uni]').forEach(el => { if (el.checked) Pano.np.uni.add(el.value); else Pano.np.uni.delete(el.value); });
+  }
+  function npHTML() {
+    const n = Pano.np, f = n.f, st = n.step, steps = ['Start', 'Programme', 'Budget', 'Team', 'Workspace'];
+    const id = (f.code.match(/\d{4,}/) || [''])[0];
+    let body = '';
+    if (st === 1) body = `${[['anaplan', 'From an Anaplan project code', 'The code and SOP budget come from Anaplan and stay in sync.'], ['excel', 'From the ADMIN FOLLOW UP file', 'Import one or several rows from the Excel file.'], ['blank', 'From scratch', 'For a brief that has no budget code yet. Give it a provisional code.']].map(o => `<button class="opt ${n.src === o[0] ? 'on' : ''}" style="width:100%;text-align:left;cursor:pointer" data-act="np-src" data-v="${o[0]}"><b>${o[1]}</b><span class="small muted">${o[2]}</span></button>`).join('')}
+      ${n.src === 'excel' ? '<p class="small muted">Continue to open the Excel import.</p>' : `<div class="form-grid" style="margin-top:6px">${fld(n.src === 'anaplan' ? 'Anaplan project code' : 'Provisional code', 'np-code', f.code, 'placeholder="ARC-201390"')}${fld('SOP budget (€)', 'np-sop', f.sop, 'inputmode="numeric"')}</div>`}`;
+    else if (st === 2) body = `<div class="form-grid three">${fld('City', 'np-city', f.city, 'placeholder="e.g. Doha" required')}${fld('Site or mall', 'np-name2', f.name2, 'placeholder="e.g. Place Vendôme Qatar"')}${fld('Country', 'np-country', f.country, 'placeholder="e.g. Qatar"')}
+        ${sel('Zone and region', 'np-zr', ZONES, f.zr)}${sel('Project type', 'np-ptype', ['New', 'Expansion', 'Relocation', 'Renovation', 'Temporary'], f.ptype)}${sel('Boutique type', 'np-boutique', ['FSS', 'Flag', 'SIS'], f.boutique)}
+        ${sel('Boutique concept', 'np-bconcept', ['PMA by Dior', 'PMA Lite'], f.bconcept)}${sel('Façade concept', 'np-facade', D.CONCEPTS.map(c => [c.id, c.name]), f.facade)}${fld('Commitment date', 'np-commitment', f.commitment, 'type="date"')}
+        ${fld('Opening date', 'np-opening', f.opening, 'type="date"')}${fld('Retail m²', 'np-retail', f.retail, 'inputmode="numeric"')}${fld('Interior façade m²', 'np-fcInt', f.fcInt, 'inputmode="numeric"')}${fld('Exterior façade m²', 'np-fcExt', f.fcExt, 'inputmode="numeric"')}</div>
+        <p class="small" style="margin:18px 0 8px"><b style="font-weight:600">Univers in the boutique</b></p><div class="chips">${D.UNIVERS.map(u => `<label class="chip ${n.uni.has(u) ? 'on' : ''}" style="cursor:pointer"><input type="checkbox" data-np-uni value="${u}" ${n.uni.has(u) ? 'checked' : ''} style="margin:0 6px 0 0">${u}</label>`).join('')}</div>`;
+    else if (st === 3) { const sop = +f.sop || 0; body = `<div class="form-grid">${fld('SOP budget (€)', 'np-sop', f.sop, 'inputmode="numeric"')}<label class="fld">Budget template<select><option>${esc(f.boutique)} · ${esc(f.bconcept)}</option></select></label></div>
+        <div class="tbl-wrap" style="margin-top:16px"><table class="tbl"><thead><tr><th>Budget line</th><th class="r">Share</th><th class="r">Budget</th></tr></thead><tbody>${TEMPLATE.map(l => `<tr><td>${l[0]} ${l[1]}</td><td class="r">${l[2]}%</td><td class="r">€${Math.round(sop * l[2] / 100000).toLocaleString('en-GB')}k</td></tr>`).join('')}</tbody></table></div><p class="small muted">Lines are created under ARC-${esc(id || '…')} and sent to Anaplan for approval.</p>`; }
+    else if (st === 4) body = `<div class="form-grid">${fld('Project manager', 'np-pm', f.pm)}${fld('Architect', 'np-arch', f.arch)}${fld('Store planner', 'np-sp', f.sp)}${fld('Budget controller', 'np-bc', f.bc)}${fld('Procurement officer', 'np-po', f.po)}${fld('Local architect', 'np-la', f.la)}</div><p class="small muted" style="margin-top:14px">Access comes from OKTA groups. External parties are invited per tender, with access that expires on its own.</p>`;
+    else body = `<p class="muted" style="margin:0 0 12px">Panoptic creates the project now. The connected workspaces are requested from IT with the standard structure.</p><ul class="checklist"><li><span>Project ARC-${esc(id)} · ${esc(f.city)}${f.name2 ? ' ' + esc(f.name2) : ''}, opening ${A.dlong(f.opening)}</span><span class="small muted">Panoptic</span></li><li><span>SharePoint project site: 01 Brief · 02 Design · 03 Tender · 04 Works · 05 Handover</span><span class="small muted">R&P SharePoint</span></li><li><span>Folder S:\\DIOR\\PROJECTS\\${esc(id)} with the same tree</span><span class="small muted">Server</span></li><li><span>Teams channel with the project team, alerts and approvals</span><span class="small muted">Teams</span></li><li><span>Coupa project code, linked to the Anaplan lines</span><span class="small muted">Coupa · Anaplan</span></li><li><span>Row in the ADMIN FOLLOW UP export</span><span class="small muted">Excel</span></li></ul>`;
+    return `<h2>New project</h2><p class="muted" style="margin:0">Five steps. Nothing is saved until you create the project.</p>
+      <div class="np-steps">${steps.map((x, i) => `<span class="${i + 1 === st ? 'on' : i + 1 < st ? 'done' : ''}">${i + 1}. ${x}</span>`).join('')}</div>${body}
+      ${n.err ? `<p class="over small" role="alert" style="margin:14px 0 0">${esc(n.err)}</p>` : ''}
+      <div class="np-foot">${st > 1 ? `<button class="btn ghost" data-act="np-step" data-v="${st - 1}">Back</button>` : '<span></span>'}${st < 5 ? `<button class="btn" data-act="np-step" data-v="${st + 1}">Continue</button>` : '<button class="btn" data-act="np-create">Create the project</button>'}</div>`;
+  }
+  function npValidate(upTo) {
+    const f = Pano.np.f, id = (f.code.match(/\d{4,}/) || [''])[0];
+    if (upTo >= 1) { if (!id) return 'Enter a project code with at least four digits, for example ARC-201390.'; if (A.P[id]) return `ARC-${id} already exists. Open it from Projects or use another code.`; if (!(+f.sop > 0)) return 'Enter the SOP budget in euros.'; }
+    if (upTo >= 2) { if (!f.city) return 'Enter the city.'; if (!f.opening) return 'Enter the opening date.'; if (!(+f.retail > 0)) return 'Enter the retail surface in m².'; }
+    return '';
+  }
+  async function npCreate() {
+    npRead(); const err = npValidate(2); if (err) { Pano.np.err = err; A.openModal(npHTML()); return; }
+    if (!guard()) return;
+    const f = Pano.np.f, id = (f.code.match(/\d{4,}/) || [''])[0], [zone, region] = f.zr.split('|');
+    const retail = +f.retail, months = Math.max(0, Math.round((new Date(f.opening) - new Date(f.commitment)) / (30.4 * 864e5)));
+    const doc = { city: f.city, name2: f.name2 || null, country: f.country, region, zone, type: `${f.ptype} boutique, ${f.boutique}`.replace('New boutique, Flag', 'New flagship'), status: 'Brief', surface: retail, floors: retail > 450 ? 2 : 1, concept: f.facade, sopK: Math.round(+f.sop / 1000), handover: f.opening, progress: 0.03, mats: [], created: true, createdAt: new Date().toISOString(),
+      admin: { opening: f.opening, commitment: f.commitment, boutique: f.boutique, concept: f.bconcept, retail, fcInt: +f.fcInt || null, fcExt: +f.fcExt || null, fcIntConcept: f.fcInt ? 'Generic' : '—', fcExtConcept: f.fcExt ? 'Generic' : '—', sop: +f.sop, months },
+      univers: [...Pano.np.uni], team: { pm: f.pm, arch: f.arch, sp: f.sp, bc: f.bc, po: f.po, la: f.la }, fresh: { 'Project sheet': today() } };
+    if (!(await save('projects', id, doc))) return;
+    applyProject(Object.assign({ id }, doc));
+    await log(`Created project ARC-${id} · ${f.city}`, id);
+    A.closeOverlays(); location.hash = '#/project/' + id + '/data'; A.render();
+    A.toast(`ARC-${id} created. Workspace requests sent; the team will find it in Projects.`);
+  }
+
+  /* Edit project sheet */
+  function sheetHTML(p) {
+    const a = p.admin || {};
+    return `<h2>Project sheet</h2><p class="muted" style="margin:0 0 18px">${esc(p.city)} · ARC-${p.id}. Saving also confirms the sheet for the next 30 days.</p>
+      <div class="form-grid three">${sel('Stage', 'ps-status', D.STATUSES, p.status)}${fld('Opening date', 'ps-opening', a.opening || p.handover, 'type="date"')}${fld('Commitment date', 'ps-commitment', a.commitment || '', 'type="date"')}
+      ${fld('Retail m²', 'ps-retail', a.retail || p.surface, 'inputmode="numeric"')}${fld('Interior façade m²', 'ps-fcInt', a.fcInt || '', 'inputmode="numeric"')}${fld('Exterior façade m²', 'ps-fcExt', a.fcExt || '', 'inputmode="numeric"')}
+      ${sel('Boutique type', 'ps-boutique', ['FSS', 'Flag', 'SIS'], a.boutique || 'FSS')}${sel('Boutique concept', 'ps-bconcept', ['PMA by Dior', 'PMA Lite'], a.concept || 'PMA by Dior')}${fld('Progress (%)', 'ps-progress', Math.round(p.progress * 100), 'inputmode="numeric"')}</div>
+      <p class="small muted" style="margin-top:14px">The SOP budget (${A.fin() ? '€' + Math.round((a.sop || p.budget * 1000)).toLocaleString('en-GB') : 'restricted'}) comes from Anaplan. To change it, request a budget amendment.</p>
+      <div class="np-foot"><button class="btn ghost" data-act="close">Cancel</button><button class="btn" data-act="sheet-save" data-v="${p.id}">Save and confirm</button></div>`;
+  }
+  async function sheetSave(id) {
+    if (!guard()) return;
+    const p = A.P[id]; if (!p) return;
+    const opening = val('ps-opening'), retail = +val('ps-retail'), progress = Math.min(100, Math.max(0, +val('ps-progress') || 0)) / 100;
+    if (!opening || !(retail > 0)) { A.toast('Opening date and retail m² are required.'); return; }
+    const admin = Object.assign({}, p.admin || {}, { opening, commitment: val('ps-commitment') || (p.admin || {}).commitment, retail, fcInt: +val('ps-fcInt') || null, fcExt: +val('ps-fcExt') || null, boutique: val('ps-boutique'), concept: val('ps-bconcept') });
+    const fresh = Object.assign({}, p.fresh || {}, { 'Project sheet': today() });
+    const before = { status: p.status, opening: (p.admin || {}).opening || p.handover, retail: (p.admin || {}).retail || p.surface };
+    const doc = projectDoc(p, { status: val('ps-status'), handover: opening, surface: retail, progress, admin, fresh });
+    if (!(await save('projects', id, doc))) return;
+    applyProject(Object.assign({ id }, doc));
+    const ch = []; if (before.status !== doc.status) ch.push(`stage ${before.status} → ${doc.status}`); if (before.opening !== opening) ch.push(`opening ${A.dfmt(before.opening)} → ${A.dfmt(opening)}`); if (+before.retail !== retail) ch.push(`retail ${before.retail} → ${retail} m²`);
+    await log(`Project sheet ${p.city} saved${ch.length ? ': ' + ch.join(', ') : ', confirmed unchanged'}`, id);
+    A.closeOverlays(); A.render(true); A.toast('Project sheet saved and confirmed.');
+  }
+  function projectDoc(p, patch) {
+    const keep = {}; FIELDS.forEach(k => { if (p[k] !== undefined) keep[k] = p[k]; });
+    if (p.name2 && keep.city && keep.city.endsWith(' ' + p.name2)) keep.city = keep.city.slice(0, -(p.name2.length + 1));
+    if (p.created) { keep.created = true; keep.sopK = BASE[p.id].budget0; }
+    return JSON.parse(JSON.stringify(Object.assign(keep, patch)));
+  }
+  async function confirmBlock(v) {
+    if (!guard()) return;
+    const [id, block] = v.split('|'); const p = A.P[id]; if (!p) return;
+    const fresh = Object.assign({}, p.fresh || {}, { [block]: today() });
+    if (!(await save('projects', id, projectDoc(p, { fresh })))) return;
+    p.fresh = fresh; await log(`${block} confirmed for ${p.city}`, id); A.render(true); A.toast(`${block} confirmed for ${p.city}.`);
+  }
+
+  /* Budget amendments */
+  function amendHTML() {
+    const ps = D.PROJECTS.filter(p => A.visIds().has(p.id));
+    return `<h2>Budget amendment</h2><p class="muted" style="margin:0 0 18px">The request goes to the budget controller. Once approved, the line is updated here and pushed to Anaplan.</p>
+      <div class="form-grid">${sel('Project', 'am-project', ps.map(p => [p.id, p.city]), ps[0] && ps[0].id)}${sel('Budget line', 'am-line', TEMPLATE.map(l => [l[0], `${l[0]} ${l[1]}`]), '05')}${fld('Amount (k€, negative to reduce)', 'am-amount', '100', 'inputmode="numeric"')}${fld('Reason', 'am-reason', '', 'placeholder="e.g. Change order 03, façade lighting"')}</div>
+      <div class="np-foot"><button class="btn ghost" data-act="close">Cancel</button><button class="btn" data-act="amend-create">Send for approval</button></div>`;
+  }
+  async function amendCreate() {
+    if (!guard()) return;
+    const amount = Math.round(+val('am-amount')), reason = val('am-reason'), project = val('am-project'), line = val('am-line');
+    if (!amount || !reason) { A.toast('Enter an amount and a reason.'); return; }
+    const a = { id: 'AM-' + project + '-' + line + '-' + Date.now().toString(36), project, line, amount, reason, status: 'pending', created: today() };
+    if (!(await save('amendments', a.id, a))) return;
+    Pano.amendments.push(a); await log(`Budget amendment requested · ${A.P[project].city} line ${line}, ${amount > 0 ? '+' : ''}€${amount}k`, project);
+    A.closeOverlays(); A.render(true); A.toast('Amendment sent to the budget controller.');
+  }
+  async function amendApprove(id) {
+    if (!guard()) return;
+    const a = Pano.amendments.find(x => x.id === id); if (!a || a.status !== 'pending') return;
+    const p = A.P[a.project]; const adj = Object.assign({}, p.adj || {}); adj[a.line] = (+adj[a.line] || 0) + (+a.amount);
+    if (!(await save('projects', p.id, projectDoc(p, { adj })))) return;
+    const upd = Object.assign({}, a, { status: 'approved', approved: today(), approver: state.role.name });
+    if (!(await save('amendments', a.id, upd))) return;
+    Object.assign(a, upd); p.adj = adj; recompute(p); syncAlerts();
+    await log(`Budget amendment approved · ${p.city} line ${a.line}, ${a.amount > 0 ? '+' : ''}€${a.amount}k, queued for Anaplan`, p.id);
+    A.render(true); A.toast(`Approved. ARC-${p.id}.${a.line} updated; the change is queued for Anaplan.`);
+  }
+
+  /* Excel import */
+  const COLMAP = { 'ZONE': 'zone', 'REGION': 'region', 'COUNTRY': 'country', 'PROJECT ID': 'id', 'PROJECT NAME': 'name', 'COMMITMENT DATE': 'commitment', 'OPENING DATE': 'opening', 'PROJECT TYPE': 'ptype', 'BOUTIQUE TYPE': 'boutique', 'BOUTIQUE CONCEPT': 'bconcept', 'RETAIL SQM': 'retail', 'FC INT SQM': 'fcInt', 'FC EXT SQM': 'fcExt', 'FC INT CONCEPT': 'fcIntConcept', 'FC EXT CONCEPT': 'fcExtConcept' };
+  const norm = h => String(h == null ? '' : h).replace(/\s+/g, ' ').trim().toUpperCase();
+  function toISO(v) {
+    if (v == null || v === '') return null;
+    if (v instanceof Date && !isNaN(v)) return new Date(v.getTime() - v.getTimezoneOffset() * 6e4).toISOString().slice(0, 10);
+    if (typeof v === 'number') return new Date(Math.round((v - 25569) * 864e5)).toISOString().slice(0, 10);
+    const m = String(v).match(/(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})/); if (m) return `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}`;
+    const m2 = String(v).match(/(\d{4})-(\d{2})-(\d{2})/); return m2 ? m2[0] : null;
+  }
+  const num = v => { if (typeof v === 'number') return v; const s = String(v == null ? '' : v).replace(/[^\d,.-]/g, '').replace(/\s/g, ''); if (!s) return null; const n = parseFloat(s.replace(/\.(?=\d{3}(\D|$))/g, '').replace(',', '.')); return isNaN(n) ? null : n; };
+  function parseRows(aoa, sheet) {
+    let hi = -1, map = {};
+    for (let i = 0; i < Math.min(aoa.length, 15); i++) { const hs = (aoa[i] || []).map(norm); if (hs.includes('PROJECT ID') && hs.includes('PROJECT NAME')) { hi = i; hs.forEach((h, j) => { if (COLMAP[h]) map[COLMAP[h]] = j; else if (h.startsWith('SOP BUDGET')) map.sop = j; }); break; } }
+    if (hi < 0) return [];
+    const byId = {};
+    aoa.slice(hi + 1).forEach((row, k) => {
+      const id = String(row[map.id] == null ? '' : row[map.id]).trim().replace(/\.0$/, ''); if (!/^\w{4,}$/.test(id)) return;
+      if (!byId[id]) byId[id] = { id, sheet, row: hi + 2 + k, rows: 0, zone: row[map.zone], region: row[map.region], country: row[map.country], name: row[map.name], commitment: toISO(row[map.commitment]), opening: toISO(row[map.opening]), ptype: row[map.ptype], boutique: row[map.boutique], bconcept: row[map.bconcept], retail: num(row[map.retail]), fcInt: num(row[map.fcInt]), fcExt: num(row[map.fcExt]), fcIntConcept: row[map.fcIntConcept], fcExtConcept: row[map.fcExtConcept], sop: num(row[map.sop]) };
+      byId[id].rows++;
+    });
+    return Object.values(byId);
+  }
+  function diff(rows) {
+    return rows.map(r => {
+      const p = A.P[r.id];
+      if (!p) return Object.assign(r, { kind: 'new', note: 'Create the project' });
+      const a = p.admin || {}, notes = [], apply = {};
+      if (r.opening && r.opening !== (a.opening || p.handover)) { notes.push(`opening ${A.dfmt(a.opening || p.handover)} → ${A.dfmt(r.opening)}`); apply.opening = r.opening; }
+      if (r.retail && +r.retail !== +(a.retail || p.surface)) { notes.push(`retail ${a.retail || p.surface} → ${r.retail} m²`); apply.retail = +r.retail; }
+      let budgetFlag = '';
+      if (r.sop && Math.abs(r.sop - (a.sop || p.budget * 1000)) > 1000) budgetFlag = `SOP budget in the file €${Math.round(r.sop).toLocaleString('en-GB')} differs from Anaplan: kept from Anaplan, flagged to Finance`;
+      if (budgetFlag) notes.push(budgetFlag);
+      return Object.assign(r, { kind: notes.length ? (Object.keys(apply).length ? 'change' : 'flag') : 'same', note: notes.join(' · ') || 'nothing to change', apply, budgetFlag });
+    });
+  }
+  function importHTML() {
+    const im = Pano.imp;
+    const list = im && im.rows ? `<p class="small muted" style="margin:0 0 10px">${esc(im.file)} · ${im.rows.length} projects read from ${im.lines} rows</p><div class="tbl-wrap"><table class="tbl"><thead><tr><th></th><th>Project</th><th>Sheet · row</th><th>What Panoptic will do</th></tr></thead><tbody>${im.rows.map((r, i) => `<tr><td>${r.kind === 'same' ? '' : `<input type="checkbox" data-imp="${i}" ${r.kind === 'flag' ? '' : 'checked'} aria-label="Apply ${esc(String(r.name || r.id))}">`}</td><td><b style="font-weight:600">${esc(String(r.name || '—'))}</b> <span class="code">${esc(r.id)}</span></td><td class="code">${esc(r.sheet)} · ${r.row}</td><td class="small">${r.kind === 'same' ? '<span class="status s-ok">Same</span> ' : r.kind === 'new' ? '<span class="status s-Approved">New</span> ' : '<span class="status s-warn">Review</span> '}${esc(r.note)}</td></tr>`).join('')}</tbody></table></div>
+      <div class="np-foot"><span class="small muted">Applied changes are written to the audit log.</span><button class="btn" data-act="imp-apply">Apply the selected rows</button></div>` : '';
+    return `<h2>Import from Excel</h2><p class="muted" style="margin:0 0 18px">Choose the project list as it is kept today. Panoptic reads the ADMIN FOLLOW UP columns (zone, region, country, project ID and name, dates, boutique, m², SOP budget) on every sheet.</p>
+      <div class="drop"><label for="imp-file" style="cursor:pointer"><b style="color:var(--ink)">Choose an .xlsx file</b> or drop it here</label><input id="imp-file" type="file" accept=".xlsx,.xls,.xlsm,.csv" style="display:block;margin:12px auto 0"></div>
+      ${im && im.error ? `<p class="over small" role="alert">${esc(im.error)}</p>` : ''}
+      ${list || `<p class="small muted">No file at hand? <button class="btn sm ghost" data-act="imp-example">Use the example rows</button> (the 2027 sheet shown in the workshop, plus two 2028 rows).</p>`}`;
+  }
+  async function importFile(file) {
+    Pano.imp = { file: file.name };
+    if (!window.XLSX) { Pano.imp.error = 'The Excel reader did not load. Check the connection and open the import again.'; A.openModal(importHTML()); return; }
+    try {
+      const wb = window.XLSX.read(await file.arrayBuffer(), { type: 'array', cellDates: true });
+      let rows = [], lines = 0;
+      wb.SheetNames.forEach(n => { const aoa = window.XLSX.utils.sheet_to_json(wb.Sheets[n], { header: 1, raw: true, defval: null }); const r = parseRows(aoa, n); rows = rows.concat(r); lines += r.reduce((a, x) => a + x.rows, 0); });
+      if (!rows.length) { Pano.imp.error = 'No sheet in this file has the PROJECT ID and PROJECT NAME columns.'; }
+      else { Pano.imp.rows = diff(rows); Pano.imp.lines = lines; }
+    } catch (e) { Pano.imp.error = 'This file could not be read as Excel.'; }
+    A.openModal(importHTML());
+  }
+  function importExample() {
+    const H = ['ZONE', 'REGION', 'COUNTRY', 'PROJECT ID', 'PROJECT NAME', 'OPENING YEAR', 'COMMITMENT DATE', 'OPENING DATE', 'PROJECT TYPE', 'BOUTIQUE TYPE', 'BOUTIQUE CONCEPT', 'RETAIL SQM', 'FC INT SQM', 'FC EXT SQM', 'FC INT CONCEPT', 'FC EXT CONCEPT', 'SOP BUDGET €'];
+    const R = [['EAST', 'SOUTH ASIA', 'Australia', 201155, 'Melbourne Flinders Lane', 2027, '23/04/2026', '31/12/2027', 'New', 'Flag', 'PMA by Dior', 610, null, 180, '-', 'Generic', 14497633], ['WEST', 'EUROPE', 'Denmark', 401111, 'Copenhagen', 2027, '12/05/2026', '01/07/2027', 'New', 'FSS', 'PMA Lite', 365, null, 372, '-', 'Generic', 7530986], ['WEST', 'AMERICAS', 'Mexico', 100610, 'Los Cabos', 2027, '24/06/2026', '31/01/2027', 'New', 'FSS', 'PMA by Dior', 368, 134, null, 'Generic', '-', 5120000], ['EAST', 'MAINLAND CHINA', 'China', 300407, 'Sanya Swire', 2027, '01/07/2026', '01/06/2027', 'New', 'Flag', 'PMA by Dior', 690, 132, 265, 'Twist', 'NY 5th', 9255900], ['EAST', 'SOUTH ASIA', 'Malaysia', 200769, 'Kuala Lumpur Pavilion', 2027, '07/07/2026', '30/04/2027', 'Expansion', 'Flag', 'PMA by Dior', 760, 398, 604, 'Chadstone', 'Chengdu IFS', 9314437], ['WEST', 'MEA', 'UAE', 601421, 'Ras Al Khaimah Wynn', 2027, '29/07/2026', '15/07/2027', 'New', 'FSS', 'PMA by Dior', 416, 50, null, 'Generic', '-', 6260180]];
+    const R28 = [['EAST', 'ASIA', 'Japan', 301912, 'Example project A', 2028, '15/01/2027', '30/03/2028', 'New', 'FSS', 'PMA by Dior', 380, 60, null, 'Generic', '-', 5400000], ['WEST', 'EUROPE', 'Italy', 401188, 'Example project B', 2028, '02/02/2027', '30/06/2028', 'Relocation', 'Flag', 'PMA by Dior', 640, 120, 210, 'Generic', 'Generic', 11800000]];
+    const rows = parseRows([H].concat(R, R, R.slice(0, 2)), '2027').concat(parseRows([H].concat(R28), '2028+'));
+    Pano.imp = { file: 'Example rows (2027 workshop sheet + two 2028 rows)', rows: diff(rows), lines: R.length * 2 + 2 + R28.length };
+    A.openModal(importHTML());
+  }
+  async function importApply() {
+    if (!guard()) return;
+    const im = Pano.imp; if (!im || !im.rows) return;
+    const picked = [...document.querySelectorAll('[data-imp]')].filter(x => x.checked).map(x => im.rows[+x.dataset.imp]);
+    let created = 0, changed = 0, flagged = 0;
+    for (const r of picked) {
+      const zoneW = /east/i.test(String(r.zone)) ? 'East' : 'West';
+      const region = String(r.region || '').toLowerCase().replace(/\b\w/g, c => c.toUpperCase()).replace('Mea', 'Middle East');
+      if (r.kind === 'new') {
+        const retail = +r.retail || 300;
+        const doc = { city: String(r.name || r.id), country: String(r.country || ''), region, zone: zoneW, type: `${r.ptype || 'New'} boutique, ${r.boutique || 'FSS'}`, status: 'Brief', surface: retail, floors: retail > 450 ? 2 : 1, concept: 'PLI', sopK: Math.round((+r.sop || 3e6) / 1000), handover: r.opening || addDays(today(), 400), progress: 0.03, mats: [], created: true, createdAt: new Date().toISOString(), fresh: { 'Project sheet': today() },
+          admin: { opening: r.opening, commitment: r.commitment, boutique: r.boutique || 'FSS', concept: r.bconcept || 'PMA by Dior', retail, fcInt: r.fcInt || null, fcExt: r.fcExt || null, fcIntConcept: r.fcIntConcept || '—', fcExtConcept: r.fcExtConcept || '—', sop: +r.sop || null, months: r.opening && r.commitment ? Math.round((new Date(r.opening) - new Date(r.commitment)) / (30.4 * 864e5)) : null } };
+        if (await save('projects', r.id, doc)) { applyProject(Object.assign({ id: r.id }, doc)); created++; }
+      } else {
+        const p = A.P[r.id];
+        if (r.apply && Object.keys(r.apply).length) {
+          const admin = Object.assign({}, p.admin || {}, r.apply.opening ? { opening: r.apply.opening } : {}, r.apply.retail ? { retail: r.apply.retail } : {});
+          const doc = projectDoc(p, Object.assign({ admin }, r.apply.opening ? { handover: r.apply.opening } : {}, r.apply.retail ? { surface: r.apply.retail } : {}));
+          if (await save('projects', r.id, doc)) { applyProject(Object.assign({ id: r.id }, doc)); changed++; }
+        }
+        if (r.budgetFlag) flagged++;
+      }
+    }
+    await log(`Excel import (${im.file}): ${created} created, ${changed} updated, ${flagged} budget difference${flagged === 1 ? '' : 's'} flagged to Finance`);
+    Pano.imp = null; A.closeOverlays(); A.render(true);
+    A.toast(`${created} project${created === 1 ? '' : 's'} created, ${changed} updated${flagged ? `, ${flagged} budget difference${flagged === 1 ? '' : 's'} flagged to Finance` : ''}.`);
+  }
+
+  /* Files out */
+  async function saveFile(filename, data, mime) {
+    if (Pano.downloads) {
+      try { await Pano.downloads.save({ filename, data }); A.toast(`${filename} ready.`); }
+      catch (e) { if (!e || e.code !== 'cancelled') A.toast('The file was not saved.'); }
+      return;
+    }
+    try {
+      const url = URL.createObjectURL(new Blob([data], { type: mime })); const a = document.createElement('a');
+      a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 4000);
+      A.toast(`${filename} downloaded.`);
+    } catch (e) { A.toast('This viewer cannot save files.'); }
+  }
+  function xlsx(sheets, filename) {
+    if (!window.XLSX) {
+      const [name, aoa] = sheets[0];
+      const csv = aoa.map(r => r.map(c => { const s = c == null ? '' : String(c); return /[;"\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; }).join(';')).join('\n');
+      return saveFile(filename.replace(/\.xlsx$/, '.csv'), '\ufeff' + csv, 'text/csv');
+    }
+    const wb = window.XLSX.utils.book_new();
+    sheets.forEach(([name, aoa]) => { const ws = window.XLSX.utils.aoa_to_sheet(aoa); ws['!cols'] = aoa[0].map(() => ({ wch: 16 })); window.XLSX.utils.book_append_sheet(wb, ws, name.slice(0, 31)); });
+    const out = window.XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    return saveFile(filename, new Uint8Array(out), 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+  }
+  function exportRegister() {
+    const H = ['ZONE', 'REGION', 'COUNTRY', 'PROJECT ID', 'PROJECT NAME', 'OPENING YEAR', 'COMMITMENT DATE', 'OPENING DATE', 'MONTHS BEFORE OPENING', 'PROJECT TYPE', 'BOUTIQUE TYPE', 'BOUTIQUE CONCEPT', 'RETAIL SQM', 'FC INT SQM', 'FC EXT SQM', 'FC INT CONCEPT', 'FC EXT CONCEPT', 'SOP BUDGET €', 'COMMITTED €', 'INVOICED €', 'FORECAST €', 'STAGE'];
+    const rows = D.PROJECTS.filter(p => A.visIds().has(p.id)).map(p => { const a = p.admin || {}; const open = a.opening || p.handover; return [p.zone.toUpperCase(), (p.region || '').toUpperCase(), p.country, p.id, p.city, open ? open.slice(0, 4) : '', a.commitment || '', open || '', a.months || '', /expansion/i.test(p.type) ? 'Expansion' : 'New', a.boutique || '', a.concept || '', a.retail || p.surface, a.fcInt || '', a.fcExt || '', a.fcIntConcept || '', a.fcExtConcept || '', A.fin() ? Math.round(a.sop || p.budget * 1000) : '', A.fin() ? p.committed * 1000 : '', A.fin() ? p.actual * 1000 : '', A.fin() ? p.forecast * 1000 : '', p.status]; });
+    return xlsx([['Project register', [H].concat(rows)]], `Panoptic_project_register_${today()}.xlsx`);
+  }
+  function exportCosts() {
+    if (!A.fin()) return A.toast('Cost data is restricted for this role.');
+    const H = ['PROJECT ID', 'PROJECT', 'BUDGET LINE', 'CATEGORY', 'BUDGET k€', 'COMMITTED k€', 'INVOICED k€', 'FORECAST k€', 'VARIANCE %'];
+    const rows = []; D.PROJECTS.filter(p => A.visIds().has(p.id)).forEach(p => p.lines.forEach(l => rows.push([p.id, p.city, l.code, l.name, l.budget, l.committed, l.actual, l.forecast, Math.round((l.forecast / l.budget - 1) * 1000) / 10])));
+    return xlsx([['Budget lines', [H].concat(rows)]], `Panoptic_budget_lines_${today()}.xlsx`);
+  }
+  function exportComparison() {
+    const id = (location.hash.match(/tender\/([\w-]+)/) || [])[1]; const t = id && A.T[id];
+    if (!t || !t.bids) return A.toast('Open a tender with offers to export its comparison.');
+    const names = t.bids.map(b => A.sup(b.supplier).name);
+    const aoa = [['SOW LINE', 'BUDGET BENCHMARK k€'].concat(names.map(n => n + ' k€'))].concat(t.sow.map((s, i) => [s.ref + ' ' + s.name, s.benchmark].concat(t.bids.map(b => b.lines[i])))).concat([['TOTAL', t.benchmark].concat(t.bids.map(b => b.total))]);
+    return xlsx([[t.id, aoa]], `${t.id}_offer_comparison.xlsx`);
+  }
+  function exportHealth() {
+    const H = ['PROJECT ID', 'PROJECT', 'PROJECT SHEET AGE (DAYS)', 'LAST CONFIRMED'];
+    const rows = D.PROJECTS.filter(p => A.visIds().has(p.id)).map(p => [p.id, p.city, Pano.age(p, 'Project sheet', defaultSheetAge(p)), (p.fresh && p.fresh['Project sheet']) || '']);
+    return xlsx([['Data health', [H].concat(rows)]], `Panoptic_data_health_${today()}.xlsx`);
+  }
+
+  /* Uploads */
+  const UP_TYPES = [['Drawing', 'dwg', 'Project lifetime'], ['Site photos', 'jpg', 'Project lifetime'], ['Minutes', 'docx', 'Project lifetime'], ['Technical sheet', 'pdf', 'Project lifetime'], ['SOW', 'xlsx', 'Tender · 7 years'], ['Tender return', 'pdf', 'Tender · 7 years'], ['Contract', 'docx', 'Contract · lifetime + 5 years'], ['Invoice', 'pdf', 'Financial · 10 years']];
+  function uploadHTML() {
+    const ps = D.PROJECTS.filter(p => A.visIds().has(p.id)); const cur = (location.hash.match(/project\/(\w+)/) || [])[1];
+    return `<h2>Upload documents</h2><p class="muted" style="margin:0 0 18px">${Pano.assets ? 'Files are stored with the page and filed under the project.' : 'Files are filed under the project for this visit only: storing them needs Editor access on this page.'}</p>
+      <div class="form-grid">${sel('Project', 'up-project', ps.map(p => [p.id, p.city]), cur || (ps[0] && ps[0].id))}${sel('Document type', 'up-type', UP_TYPES.map(t => t[0]), 'Drawing')}</div>
+      <div class="drop" style="margin-top:16px"><label for="up-files" style="cursor:pointer"><b style="color:var(--ink)">Choose files</b> (PDF, images, Office files, up to 20 MB each)</label><input id="up-files" type="file" multiple style="display:block;margin:12px auto 0"></div>
+      <div class="np-foot"><button class="btn ghost" data-act="close">Cancel</button><button class="btn" data-act="upload-go">Upload</button></div>`;
+  }
+  async function uploadGo() {
+    const input = document.getElementById('up-files'); const files = input ? [...input.files] : [];
+    if (!files.length) { A.toast('Choose at least one file.'); return; }
+    const project = val('up-project'), type = val('up-type'), tdef = UP_TYPES.find(t => t[0] === type) || UP_TYPES[0];
+    let n = 0;
+    for (const f of files) {
+      if (f.size > 20 * 1024 * 1024) { A.toast(`${f.name} is over 20 MB and was skipped.`); continue; }
+      let url = null, assetId = null, kept = false;
+      if (Pano.assets && Pano.canWrite) { try { const r = await Pano.assets.upload(f); url = r.url; assetId = r.id; kept = true; } catch (e) { url = null; } }
+      if (!url) url = URL.createObjectURL(f);
+      const ext = (f.name.split('.').pop() || tdef[1]).toLowerCase().slice(0, 4);
+      const d = { id: 'UP-' + Date.now().toString(36) + n, name: f.name.replace(/\.[^.]+$/, ''), type, project, ext, src: 'Panoptic upload', retention: tdef[2], status: 'Published', updated: today(), tags: [type.toLowerCase(), 'uploaded', A.P[project].city.toLowerCase()], url, assetId, img: /^image\//.test(f.type) ? url : undefined };
+      D.DOCS.unshift(d); n++;
+      if (kept) await save('docs', d.id, JSON.parse(JSON.stringify(d)));
+    }
+    if (n) await log(`${n} document${n > 1 ? 's' : ''} uploaded to ${A.P[project].city} (${type})`, project);
+    A.closeOverlays(); A.render(true); A.toast(`${n} document${n > 1 ? 's' : ''} filed under ${A.P[project].city}.`);
+  }
+
+  /* Copilot with Claude */
+  function context() {
+    const ps = D.PROJECTS.filter(p => A.visIds().has(p.id));
+    const fin = A.fin();
+    const uni = {}; D.COST_ITEMS.filter(i => A.visIds().has(i.project)).forEach(i => { uni[i.univers] = (uni[i.univers] || 0) + i.amount; });
+    return {
+      today: today(), viewerRole: state.role.name, currency: 'EUR, amounts in k€ unless stated',
+      note: 'Six 2027 projects (Melbourne, Copenhagen, Los Cabos, Sanya, Kuala Lumpur, Ras Al Khaimah) and the Melbourne main-contract bids are real; other projects, suppliers named EXAMPLE and cost splits are sample data.',
+      projects: ps.map(p => ({ id: p.id, name: p.city, country: p.country, zone: p.zone, region: p.region, type: p.type, stage: p.status, opening: (p.admin || {}).opening || p.handover, retailSqm: (p.admin || {}).retail || p.surface, facade: (A.C[p.concept] || {}).name, budget: fin ? p.budget : 'restricted', committed: fin ? p.committed : 'restricted', invoiced: fin ? p.actual : 'restricted', forecast: fin ? p.forecast : 'restricted', variancePct: fin ? Math.round(p.variancePct * 1000) / 10 : 'restricted', lines: fin ? p.lines.map(l => [l.code, l.name, l.budget, l.committed, l.forecast]) : 'restricted', sheetConfirmedDaysAgo: Pano.age(p, 'Project sheet', defaultSheetAge(p)) })),
+      tenders: D.TENDERS.filter(t => A.visIds().has(t.project)).map(t => ({ id: t.id, project: A.P[t.project].city, package: t.pkg, stage: t.status, date: t.date, benchmark: t.benchmark, awardedTo: t.awarded ? A.sup(t.awarded).name : null, offers: (t.bids || []).map(b => ({ supplier: A.sup(b.supplier).name, total: b.total, gaps: b.gaps.map(g => g.text) })) })),
+      alerts: (D.ALERTS || []).map(a => ({ title: a.title, text: String(a.body).replace(/<[^>]+>/g, '') })),
+      budgetAmendments: Pano.amendments.map(a => ({ project: (A.P[a.project] || {}).city, line: a.line, amountK: a.amount, reason: a.reason, status: a.status })),
+      spendByUnivers: fin ? uni : 'restricted',
+      suppliers: D.SUPPLIERS.map(s => ({ name: s.name, category: s.cat, country: s.country, contractEnds: s.expiry, onTimePct: s.kpi.delivery })),
+      recentChanges: Pano.audit.slice(0, 10).map(a => ({ at: a.at, by: a.role, what: a.what }))
+    };
+  }
+  const fmt = t => esc(t).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/^\s*[-•]\s+/gm, '• ').replace(/\n/g, '<br>');
+  Pano.askClaude = async (raw, body, resHtml, fallbackText) => {
+    body.innerHTML = `<div class="answer"><div class="txt cur" id="ansTxt"><span class="muted">Reading projects, budgets, tenders and alerts…</span></div><div class="srcs"><span class="small muted">Answered by Panoptic Copilot from the data in this page · check figures before sharing</span></div></div><div id="ansRes">${resHtml}</div>`;
+    const el = document.getElementById('ansTxt');
+    const prompt = `You are Panoptic Copilot, the assistant inside the project, cost and tender platform of a luxury brand's store architecture department.\nAnswer the question using ONLY the JSON data below. Reply in the language of the question. Be concise: at most 6 short sentences, or a short list. Give amounts in € with k or M. Name projects, tenders and suppliers as in the data. If the data does not hold the answer, say so plainly and say which system would (Anaplan, Coupa, SharePoint, Diorlex). If the viewer's role makes a figure restricted, say it is restricted. Plain text; you may use **bold** for key figures and "- " for list items.\n\nDATA:\n${JSON.stringify(context())}\n\nQUESTION: ${raw}`;
+    try {
+      const res = await Pano.sample(prompt, { onText: ({ text }) => { if (el && text) el.innerHTML = fmt(text); }, modelTier: 'default', cache: false });
+      if (el) { el.innerHTML = fmt(res.text || ''); el.classList.remove('cur'); }
+    } catch (e) {
+      if (e && e.code === 'not_granted') Pano.sampleReady = false;
+      if (el) { el.classList.remove('cur'); el.innerHTML = (fallbackText || 'Copilot is not available in this view.') + (e && e.code === 'rate_limited' ? '<br><span class="small muted">Copilot is busy; try again in a minute.</span>' : ''); }
+    }
+  };
+
+  /* ---------------- action router ---------------- */
+  Pano.handle = (act, v, b) => {
+    switch (act) {
+      case 'np-open': Pano.np = npDefaults(); A.openModal(npHTML()); return true;
+      case 'np-src': npRead(); Pano.np.src = v; Pano.np.err = ''; A.openModal(npHTML()); return true;
+      case 'np-step': {
+        npRead(); const to = +v, n = Pano.np;
+        if (n.step === 1 && to === 2 && n.src === 'excel') { Pano.imp = null; A.openModal(importHTML()); return true; }
+        if (to > n.step) { const err = npValidate(n.step); if (err) { n.err = err; A.openModal(npHTML()); return true; } }
+        n.err = ''; n.step = to; A.openModal(npHTML()); return true;
+      }
+      case 'np-create': npCreate(); return true;
+      case 'np-import': Pano.imp = null; A.openModal(importHTML()); return true;
+      case 'imp-example': importExample(); return true;
+      case 'imp-apply': case 'np-import-ok': importApply(); return true;
+      case 'sheet-edit': { const p = A.P[v]; if (p) A.openModal(sheetHTML(p)); return true; }
+      case 'sheet-save': sheetSave(v); return true;
+      case 'confirm-block': confirmBlock(v); return true;
+      case 'amend-ok': amendApprove(v); return true;
+      case 'amend-create': amendCreate(); return true;
+      case 'upload-go': uploadGo(); return true;
+      case 'mw-done': if (!guard()) return true; Pano.done.add(v); save('done', v, { at: new Date().toISOString(), role: state.role.name }).then(() => log(`Marked done: ${v}`)); A.render(true); return true;
+      case 'open-tool': if (v === 'Upload documents') { A.openModal(uploadHTML()); return true; } return false;
+      case 'req-update': if (v === 'Budget amendment') { A.openModal(amendHTML()); return true; } log(`Confirmation requested: ${String(v).split('|')[0]}`); return false;
+      case 'match': if (!guard()) return true; Pano.invoices.add(v); save('invoices', v, { at: new Date().toISOString(), role: state.role.name }).then(() => log(`Invoice ${v} matched to its budget line`)); return false;
+      case 'award-ok': { if (!guard()) return true; const [tid, sid] = v.split('|'); save('tenders', tid, { status: 'Awarded', awarded: sid, at: new Date().toISOString() }).then(() => log(`${tid} awarded to ${A.sup(sid).name}; draft PO raised in Coupa`, (A.T[tid] || {}).project)); return false; }
+      case 'export': {
+        const s = String(v || '');
+        if (/register|ADMIN FOLLOW UP/i.test(s)) { exportRegister(); return true; }
+        if (/Anaplan format/i.test(s)) { exportCosts(); return true; }
+        if (/comparison/i.test(s)) { exportComparison(); return true; }
+        if (/data health/i.test(s)) { exportHealth(); return true; }
+        return false;
+      }
+    }
+    return false;
+  };
+  document.addEventListener('change', e => { if (e.target && e.target.id === 'imp-file' && e.target.files[0]) importFile(e.target.files[0]); });
+  document.addEventListener('dragover', e => { if (e.target.closest && e.target.closest('.drop')) e.preventDefault(); });
+  document.addEventListener('drop', e => { const z = e.target.closest && e.target.closest('.drop'); if (!z) return; e.preventDefault(); const f = e.dataTransfer.files[0]; if (!f) return; if (document.getElementById('imp-file')) importFile(f); else { const i = document.getElementById('up-files'); if (i) { i.files = e.dataTransfer.files; A.toast(`${e.dataTransfer.files.length} file(s) ready to upload.`); } } });
+
+  const start = () => { init(); setTimeout(() => setBadge(), 0); };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(start, 0)); else start();
+})();
+
+</script>

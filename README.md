@@ -28,3 +28,9 @@ Ouvrir `design-proposals/index.html` dans un navigateur. La 3D se fait tourner �
 - `COUVERTURE.md` : couverture du backlog Excel (toutes les P1 et P2).
 - `UX.md` : logique de navigation, création de projet, mise à jour des données, intégration aux outils actuels.
 - `build/` : scripts qui produisent la v0.2 à partir de la v0.1 (police, données réelles, images, administration).
+
+## Étape 3 — Application fonctionnelle v1.0
+
+- `app/panoptic.html` : l'application publiée en artefact claude.ai (privé). Les changements sont enregistrés dans la base partagée de l'artefact et visibles par tous ceux qui y ont accès.
+- `mockup/standalone/Architecture_Panoptic_v1.0.html` : la même application en un fichier, avec le logo. Les changements sont enregistrés dans le navigateur.
+- `mockup/build/pano.js` : couche fonctionnelle (enregistrement, création et import de projets, validations, exports Excel, dépôts de documents, Copilot). `build/step5_app.py` la branche ; `build/bundle_app.py` produit les deux fichiers.
