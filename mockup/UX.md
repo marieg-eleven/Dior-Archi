@@ -104,3 +104,31 @@ Inspirée des logiciels du marché (Mastt pour les maîtres d'ouvrage), avec des
   - Navigation en tiroir avec fond assombri, recherche en icône.
   - Colonnes secondaires masquées, grilles en une colonne, onglets qui défilent.
   - Fenêtres en plein écran, globe redimensionné.
+
+
+## 9. v2.0 : une information structurée autour du dossier projet
+
+**Le problème :** trop de blocs de même poids sur l'accueil. Rien ne ressortait et on ne voyait pas ce qui était relié à quoi, ni ce qui manquait.
+
+**Accueil en quatre temps**
+
+1. **Quatre chiffres seulement**, en gros : écart prévisionnel / budget, projets à risque, taux de complétude des dossiers, actions qui t'attendent. Chacun ouvre la page concernée.
+2. **Les projets, avec quatre vues au choix :**
+   - **Pipeline :** les projets classés par étape (Brief, Design, Tender, Works, Handover), en cartes avec la vignette de façade, la date d'ouverture, le pourcentage de dossier et la pastille de santé.
+   - **Dossiers :** la liste des projets triés du moins au plus complet, avec ce qui manque et ce qui est en cours.
+   - **World :** le globe 3D.
+   - **Platform :** la maquette 3D des pôles.
+3. **La carte du dossier du projet sélectionné**, en six colonnes : Projet, Budget, Appels d'offres, Commandes et contrats, Plans et fichiers, Réception.
+   - **Statut de chaque élément :** complet, en cours, manquant, ou « plus tard » s'il n'est pas encore dû à cette étape.
+   - **Liens entre colonnes :** gris quand ils sont établis, orange en pointillés quand ils attendent une décision (offre évaluée → commande), rouge en pointillés quand un maillon manque (marché attribué sans contrat enregistré dans Diorlex).
+   - **Action directe** sur chaque manque : Compléter, Confirmer, Approuver, Ajouter, Enregistrer.
+4. **« Waiting for you »** et **« Coming up »** côte à côte.
+
+**Fiche projet :** la même carte du dossier figure sous la synthèse.
+
+**Style**
+- **Verre dépoli** sur fond gris perle, grands conteneurs arrondis, navigation en pilules en haut (l'onglet actif en noir), boutons ronds d'action rapide à gauche (nouveau projet, dépôt, Copilot, export, Admin) et bouton « + » flottant sur mobile.
+- **Lisibilité du verre :** chaque panneau garde un liseré visible et un fond opaque quand le navigateur ne gère pas le flou ; le texte repose sur des cartes presque opaques.
+- **Typographie :** titres en Figtree, pour plus de netteté. Le Bodoni ne reste que dans le logo.
+
+**Règle de complétude :** pourcentage d'éléments complets parmi ceux dus à l'étape du projet. Les éléments « plus tard » ne comptent pas.

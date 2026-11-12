@@ -1,5 +1,5 @@
 """Build the self-contained files of the working app. Author: Marie Guegain — eleven.
-- standalone/Architecture_Panoptic_v1.3.html : full page, client branding, saves in the browser.
+- standalone/Architecture_Panoptic_v2.0.html : full page, client branding, saves in the browser.
 - ../app/panoptic.html : artifact page (no document wrapper, no client logo), saves in the artifact's shared store."""
 import base64, mimetypes, pathlib, re
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -10,7 +10,7 @@ def uri(m):
 full = re.sub(r"assets/[\w\-.]+\.(?:png|jpe?g)", uri, html)
 (ROOT / 'standalone').mkdir(exist_ok=True)
 for old in (ROOT / 'standalone').glob('*.html'): old.unlink()
-(ROOT / 'standalone' / 'Architecture_Panoptic_v1.3.html').write_text(full, encoding='utf-8')
+(ROOT / 'standalone' / 'Architecture_Panoptic_v2.0.html').write_text(full, encoding='utf-8')
 
 art = full
 art = re.sub(r'<script>window\.LOGO_URI="[^"]*";</script>', '<script>window.LOGO_URI="";</script>', art)
