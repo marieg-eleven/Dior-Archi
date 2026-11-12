@@ -11,5 +11,6 @@ python3 build/step2_ui.py index.html                     # photos, plans, tablea
 python3 build/step3_fixes.py index.html                  # tags backlog, navigation
 python3 build/step4_ux.py index.html                     # v0.3 : My work, onglets projet, création de projet, données à jour, outils, recherche par univers
 python3 build/step5_app.py index.html                    # v1.0 : couche fonctionnelle (build/pano.js)
+python3 build/step7_saas.py index.html                   # v1.2 : interface SaaS (build/saas.js)
 python3 build/bundle_app.py                              # standalone/ et ../app/panoptic.html (artefact)
 ```

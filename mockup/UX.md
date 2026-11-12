@@ -62,3 +62,29 @@ Admin › Your tools précise, pour chaque outil, ce qui reste et ce qui change.
 - **Recherche par univers (7.5.3) :** dans Cost control, filtres Women RTW, Bags, SLG, Shoes, CJ, Fine Jewellery, Men et Maison, croisés avec le type de mobilier et le concept de façade. On obtient la dépense par univers, le coût unitaire de référence par mobilier et univers, et les lignes de coût reliées au budget.
 
 La répartition par univers et les prix unitaires sont des données d'exemple. Pour les remplacer, il faudra les lignes des SOR, qui sont déjà découpées par lot.
+
+
+## 7. v1.2 : interface SaaS et règles de design
+
+Inspirée des logiciels du marché (Mastt pour les maîtres d'ouvrage), avec des règles explicites pour rester simple et éviter l'effet « généré par IA ».
+
+**Structure**
+- Navigation latérale fixe : Home, Projects, Cost control, Tenders, Suppliers, Documents, Library, puis Admin en bas. Le nombre de tâches en attente s'affiche à côté de Home.
+- En haut, une barre opaque : où l'on est, recherche et Copilot, bouton « + New », cloche « My work », rôle.
+- Un seul type de page par écran :
+
+| Écran | Type de page |
+|---|---|
+| Home | Tableau de bord, sans filtres |
+| Projects, Documents | Liste |
+| Projet | Fiche détail |
+| Cost control | Analyse à onglets : Overview, Budgets (projet › ligne Anaplan › commande Coupa), Variations, Cash flow, Payments, Search by univers |
+| Tenders | Tableau par étape |
+| Admin | Paramètres |
+
+**Règles visuelles**
+- **Couleurs :** fond neutre, cartes blanches à liseré fin, navigation sombre. Une seule couleur d'action, l'encre. L'or et le vert, orange, rouge sont réservés aux données et aux états.
+- **Typographie :** Figtree en trois graisses (400, 500, 600), aucun texte sous 12 px, cellules de tableau en 14 px. Bodoni seulement pour les titres de page.
+- **Ce qui a été retiré :** le flou de la barre du haut, le dégradé arc-en-ciel du Copilot, les pastilles décoratives autour des métadonnées (sources, villes), qui deviennent du texte simple.
+- **Indicateurs d'état :** vert, orange ou rouge pour le coût, le délai et les données ; « AI ready » sur les documents lisibles par l'IA.
+- **Petits écrans :** la navigation passe dans un tiroir sous 960 px, sans défilement horizontal à 390 px.

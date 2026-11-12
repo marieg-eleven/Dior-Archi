@@ -10,12 +10,12 @@
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Figtree:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>:root{
   --ink:#000;--ink-2:#2b2a28;--grey:#6f6c67;--grey-2:#9a968f;--line:#e4e2dd;--line-2:#d3d0ca;
   --paper:#fff;--mist:#f4f4f2;--trianon:#d7d5d0;--stone:#a48a62;--stone-2:#cdbb9c;
   --rouge:#b0161f;--ochre:#9c6c16;--sage:#3f6450;
-  --nacre:conic-gradient(from 200deg,#e7e2f3,#dcefed,#f5e9dc,#e3e6f6,#efe2ec,#e7e2f3);
+  --nacre:#efe9df;
   --display:"Bodoni Moda","Didot","Bodoni 72","Bodoni MT",Georgia,serif;
   --serif:"Figtree","Inter","Segoe UI",system-ui,sans-serif;
   --sans:"Figtree","Inter","Segoe UI",system-ui,sans-serif;
@@ -48,13 +48,13 @@ img{max-width:100%}
 .nav a.on::after{content:"";position:absolute;left:9px;right:9px;bottom:2px;height:1.5px;background:var(--ink)}
 .top-r{display:flex;align-items:center;gap:10px;flex:none}
 .search-pill{display:flex;align-items:center;gap:8px;height:38px;padding:0 12px 0 12px;border:1px solid var(--line-2);border-radius:999px;background:#fff;color:var(--grey);min-width:210px;font-size:13px}
-.search-pill kbd{margin-left:auto;font:500 10.5px var(--sans);border:1px solid var(--line-2);border-radius:5px;padding:2px 5px;color:var(--grey)}
+.search-pill kbd{margin-left:auto;font:500 12px var(--sans);border:1px solid var(--line-2);border-radius:5px;padding:2px 5px;color:var(--grey)}
 .ask-btn{position:relative;height:38px;padding:0 16px 0 12px;border-radius:999px;border:0;background:var(--ink);color:#fff;display:flex;align-items:center;gap:8px;font-weight:500;font-size:13px;letter-spacing:.02em}
 .ask-btn .orb{width:18px;height:18px;border-radius:50%;background:var(--nacre);box-shadow:0 0 0 1px rgba(255,255,255,.4) inset}
 .role{height:38px;border:1px solid var(--line-2);border-radius:999px;padding:0 30px 0 14px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23000'/%3E%3C/svg%3E") no-repeat right 12px center;-webkit-appearance:none;appearance:none;font-size:13px;max-width:190px}
 .icon-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line-2);background:#fff;display:grid;place-items:center;color:var(--ink-2)}
 .icon-btn[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
-.sample{position:fixed;left:16px;bottom:16px;z-index:44;font:500 11px/1 var(--sans);letter-spacing:.06em;color:#6d5a3a;background:rgba(255,255,255,.92);border:1px solid var(--stone-2);border-radius:999px;padding:8px 12px;white-space:nowrap;backdrop-filter:blur(6px)}
+.sample{position:fixed;left:16px;bottom:16px;z-index:44;font:500 12px/1 var(--sans);letter-spacing:.06em;color:#6d5a3a;background:rgba(255,255,255,.92);border:1px solid var(--stone-2);border-radius:999px;padding:8px 12px;white-space:nowrap;backdrop-filter:blur(6px)}
 
 /* ---------- Layout ---------- */
 main{max-width:var(--maxw);margin:0 auto;padding:0 var(--pad) 64px}
@@ -98,7 +98,7 @@ section.blk{margin-top:40px}
 button.chip:hover{border-color:var(--ink)}
 .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.tag{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:999px;background:var(--mist);font-size:11.5px;color:var(--ink-2);white-space:nowrap}
+.tag{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:999px;background:var(--mist);font-size:12px;color:var(--ink-2);white-space:nowrap}
 .tag.src{background:#fff;border:1px solid var(--line);color:var(--grey)}
 .tag.ai{background:var(--nacre);color:var(--ink)}
 .status{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;white-space:nowrap}
@@ -115,7 +115,7 @@ button.chip:hover{border-color:var(--ink)}
 .field{height:34px;border:1px solid var(--line-2);border-radius:999px;padding:0 14px;background:#fff;font-size:13px;min-width:200px}
 
 /* requirement badges (toggle) */
-.req{display:none;font:600 9.5px/1 var(--sans);letter-spacing:.04em;color:#5a4d8c;background:#efeaf9;border:1px solid #d9d0f2;border-radius:5px;padding:3px 5px;vertical-align:middle;margin-left:6px;cursor:help}
+.req{display:none;font:600 12px/1 var(--sans);letter-spacing:.04em;color:#5a4d8c;background:#efeaf9;border:1px solid #d9d0f2;border-radius:5px;padding:3px 5px;vertical-align:middle;margin-left:6px;cursor:help}
 body.show-req .req{display:inline-block}
 
 /* ---------- Hero ---------- */
@@ -163,13 +163,13 @@ a.row:hover,.row.link:hover{background:linear-gradient(90deg,var(--mist),transpa
 .alert .kind{font-size:12px;color:var(--grey);min-width:76px;margin-top:1px}
 .dl .date{flex:none;width:52px;text-align:center;border:1px solid var(--line);border-radius:10px;padding:6px 0}
 .dl .date b{display:block;font:600 22px/1 var(--serif)}
-.dl .date span{font-size:11px;color:var(--grey);letter-spacing:.08em;text-transform:uppercase}
+.dl .date span{font-size:12px;color:var(--grey);letter-spacing:.08em;text-transform:uppercase}
 .dl .t{flex:1;min-width:0}
 .dl .t b{font-weight:500;display:block}
 .dl .t span{font-size:12.5px;color:var(--grey)}
 .dl .soon{font-size:12px;color:var(--rouge);white-space:nowrap}
 .doc-row{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:12px;align-items:center;padding:11px 4px}
-.ext{width:34px;height:40px;border:1px solid var(--line-2);border-radius:4px 10px 4px 4px;display:grid;place-items:end center;padding-bottom:5px;font:600 8.5px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);background:#fff}
+.ext{width:34px;height:40px;border:1px solid var(--line-2);border-radius:4px 10px 4px 4px;display:grid;place-items:end center;padding-bottom:5px;font:600 12px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);background:#fff}
 .ext.dwg{color:#3d5a80}.ext.xlsx{color:#2f6b45}.ext.pdf{color:var(--rouge)}.ext.docx{color:#2c4f8a}.ext.jpg{color:var(--stone)}
 .doc-row .nm{font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .doc-row .mt{font-size:12px;color:var(--grey);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -188,7 +188,7 @@ a.row:hover,.row.link:hover{background:linear-gradient(90deg,var(--mist),transpa
 .pcard .fig{display:flex;justify-content:space-between;align-items:baseline;margin-top:12px;font-size:13px}
 .pcard:hover .pic svg{transform:scale(1.025)}
 .pcard .pic svg{transition:transform .8s cubic-bezier(.2,.7,.1,1)}
-.badge{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:999px;background:rgba(255,255,255,.92);font-size:11.5px;backdrop-filter:blur(4px)}
+.badge{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:999px;background:rgba(255,255,255,.92);font-size:12px;backdrop-filter:blur(4px)}
 .bar{height:3px;background:var(--line);border-radius:3px;position:relative;margin-top:10px;overflow:hidden}
 .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--ink);border-radius:3px}
 
@@ -207,7 +207,7 @@ a.row:hover,.row.link:hover{background:linear-gradient(90deg,var(--mist),transpa
 /* ---------- Tables ---------- */
 .tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r)}
 table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
-.tbl th{font:500 11.5px var(--sans);color:var(--grey);text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);white-space:nowrap;background:#fff;position:sticky;top:0}
+.tbl th{font:500 12px var(--sans);color:var(--grey);text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);white-space:nowrap;background:#fff;position:sticky;top:0}
 .tbl td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
 .tbl tr:last-child td{border-bottom:0}
 .tbl td.r,.tbl th.r{text-align:right}
@@ -218,13 +218,13 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
 .tbl tr.total td{font-weight:600;background:#fbfbfa}
 .tbl .exp{width:22px;height:22px;border-radius:50%;border:1px solid var(--line-2);background:#fff;display:inline-grid;place-items:center;margin-right:8px;font-size:12px;line-height:1;transition:transform .2s}
 .tbl tr.open .exp{transform:rotate(90deg)}
-.code{font:500 11.5px var(--sans);letter-spacing:.03em;color:var(--grey)}
+.code{font:500 12px var(--sans);letter-spacing:.03em;color:var(--grey)}
 
 /* ---------- Tabs ---------- */
 .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-top:8px;overflow-x:auto}
 .tabs a{padding:14px 14px 13px;font-size:13.5px;color:var(--grey);border-bottom:1.5px solid transparent;white-space:nowrap}
 .tabs a.on{color:var(--ink);border-color:var(--ink)}
-.tabs a .n{font-size:11px;color:var(--grey-2);margin-left:4px}
+.tabs a .n{font-size:12px;color:var(--grey-2);margin-left:4px}
 
 /* ---------- Project detail ---------- */
 .stepper{display:flex;gap:0;margin-top:18px;max-width:640px}
@@ -252,7 +252,7 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
 .sw:hover .pic svg{transform:scale(1.06)}
 .sw h3{margin:12px 0 0;font:500 14.5px/1.3 var(--sans)}
 .sw .mt{display:flex;justify-content:space-between;font-size:12.5px;color:var(--grey);margin-top:3px}
-.sw .cmp{position:absolute;right:10px;top:10px;z-index:2;height:28px;padding:0 10px;border-radius:999px;border:0;background:rgba(255,255,255,.92);font-size:11.5px;display:flex;align-items:center;gap:6px}
+.sw .cmp{position:absolute;right:10px;top:10px;z-index:2;height:28px;padding:0 10px;border-radius:999px;border:0;background:rgba(255,255,255,.92);font-size:12px;display:flex;align-items:center;gap:6px}
 .sw .cmp.on{background:var(--ink);color:#fff}
 .prod .pic{aspect-ratio:1/1;border-radius:var(--r);background:var(--mist);display:grid;place-items:center;color:var(--ink-2)}
 .prod .pic svg{width:56%;height:56%}
@@ -289,13 +289,13 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
 .col .lane{background:var(--mist);border-radius:var(--r);padding:10px;display:flex;flex-direction:column;gap:10px;min-height:180px}
 .tcard{background:#fff;border-radius:10px;padding:13px 14px;border:1px solid var(--line);display:block;transition:border-color .2s}
 .tcard:hover{border-color:var(--ink)}
-.tcard .id{font-size:11.5px;color:var(--grey)}
+.tcard .id{font-size:12px;color:var(--grey)}
 .tcard b{display:block;font-weight:500;margin:3px 0 2px}
 .tcard .ft{display:flex;justify-content:space-between;font-size:12px;color:var(--grey);margin-top:9px;gap:8px}
 .tcard .ft .due{color:var(--ink-2)}
 .tcard.hot{box-shadow:inset 3px 0 0 var(--rouge)}
 .bid-tbl td.cell{text-align:right;white-space:nowrap}
-.bid-tbl td.cell small{display:block;font-size:11px}
+.bid-tbl td.cell small{display:block;font-size:12px}
 .bid-tbl td.gap{color:var(--rouge);font-weight:500}
 .bid-tbl th.rec{background:var(--ink);color:#fff;border-radius:8px 8px 0 0}
 .bid-tbl td.rec{background:#faf9f7}
@@ -311,7 +311,7 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
 .bars-h .t i{position:absolute;left:0;top:0;bottom:0;border-radius:6px;background:var(--ink-2)}
 .bars-h .t i.adj{background:repeating-linear-gradient(45deg,var(--rouge) 0 4px,#d77a7f 4px 8px);opacity:.75}
 .bars-h .t .bm{position:absolute;top:-4px;bottom:-4px;width:1.5px;background:var(--stone)}
-.bars-h .t .bm::after{content:"Budget";position:absolute;top:-16px;left:4px;font-size:10.5px;color:var(--stone);white-space:nowrap}
+.bars-h .t .bm::after{content:"Budget";position:absolute;top:-16px;left:4px;font-size:12px;color:var(--stone);white-space:nowrap}
 .bars-h .r:not(:first-child) .t .bm::after{display:none}
 
 /* ---------- Suppliers ---------- */
@@ -323,7 +323,7 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
 
 /* ---------- Assets ---------- */
 .dept-bar{display:flex;height:42px;border-radius:10px;overflow:hidden;margin:14px 0 10px}
-.dept-bar span{display:flex;align-items:center;padding:0 10px;font-size:11.5px;color:#fff;white-space:nowrap;overflow:hidden}
+.dept-bar span{display:flex;align-items:center;padding:0 10px;font-size:12px;color:#fff;white-space:nowrap;overflow:hidden}
 .assets{display:grid;grid-template-columns:240px minmax(0,1fr);gap:34px;margin-top:26px}
 @media (max-width:900px){.assets{grid-template-columns:1fr}}
 .facet h4{font:500 12px var(--sans);color:var(--grey);margin:18px 0 8px}
@@ -336,7 +336,7 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
 .scrim.on{opacity:1;pointer-events:auto}
 .x{position:absolute;right:18px;top:18px}
 .life{display:flex;gap:0;margin:14px 0}
-.life span{flex:1;font-size:11.5px;color:var(--grey-2);border-top:2px solid var(--line);padding-top:8px}
+.life span{flex:1;font-size:12px;color:var(--grey-2);border-top:2px solid var(--line);padding-top:8px}
 .life span.done{color:var(--ink);border-color:var(--ink)}
 .toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid var(--line);font-size:13.5px}
 .sw-tg{width:40px;height:22px;border-radius:999px;background:var(--line-2);position:relative;border:0;flex:none;transition:background .2s}
@@ -350,7 +350,7 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
 .arch .node.core rect{fill:var(--ink);stroke:var(--ink)}
 .arch .node text{font:500 12px var(--sans);fill:var(--ink)}
 .arch .node.core text{fill:#fff}
-.arch .node text.s{font-weight:400;font-size:10.5px;fill:var(--grey)}
+.arch .node text.s{font-weight:400;font-size:12px;fill:var(--grey)}
 .arch .node.core text.s{fill:#cfcac2}
 .arch .edge{fill:none;stroke:var(--stone);stroke-width:1.4;stroke-dasharray:2 6;stroke-linecap:round;animation:flow 2.4s linear infinite}
 .matrix td.cell{text-align:center;cursor:pointer;font-weight:500}
@@ -375,7 +375,7 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
 .res .ic svg{width:100%;height:100%}
 .res b{font-weight:500;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .res span{font-size:12.5px;color:var(--grey);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
-.res em{font-style:normal;font-size:11.5px;color:var(--grey)}
+.res em{font-style:normal;font-size:12px;color:var(--grey)}
 .answer{margin-top:14px}
 .answer .txt{font-size:15.5px;line-height:1.65;color:var(--ink-2);min-height:24px}
 .answer .txt b{color:var(--ink);font-weight:500}
@@ -420,9 +420,9 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
 .iso-label.is-shown{opacity:1;pointer-events:auto}
 .iso-label.is-link{cursor:pointer}
 .iso-label.is-link:hover{border-color:var(--ink)}
-.iso-label small{display:block;color:var(--grey);font-size:11.5px}
+.iso-label small{display:block;color:var(--grey);font-size:12px}
 .iso-label .lv{display:block;font:600 19px/1.2 var(--serif);color:var(--ink);margin-top:2px}
-.iso-label .ls{display:flex;align-items:center;gap:6px;color:var(--grey);font-size:11px;margin-top:3px}
+.iso-label .ls{display:flex;align-items:center;gap:6px;color:var(--grey);font-size:12px;margin-top:3px}
 .iso-label .ls::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--stone)}
 .iso-label.lbl-core{background:linear-gradient(#fff,#fff) padding-box,var(--nacre) border-box;border:1.5px solid transparent}
 .iso-label.lbl-src b{font-weight:500}
@@ -432,7 +432,7 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
 .iso-controls button:hover{background:var(--mist)}
 .iso-controls button.wide{width:auto;padding:0 12px;font-size:12px;border-radius:999px}
 .iso-controls button.wide[aria-pressed="true"]{background:var(--ink);color:#fff}
-.iso-hint{position:absolute;left:18px;bottom:22px;z-index:3;font-size:11.5px;color:var(--grey-2);pointer-events:none}
+.iso-hint{position:absolute;left:18px;bottom:22px;z-index:3;font-size:12px;color:var(--grey-2);pointer-events:none}
 /* materials of the campus */
 .plate-top{background:#f3f2ef}
 .plate-side{background:#dcd9d3}
@@ -469,7 +469,7 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
 .plan{display:block}
 .plan .zn{stroke:#d3cec5;stroke-width:1}
 .plan .z0{fill:#efebe4}.plan .z1{fill:#e8e4dc}.plan .z2{fill:#f3f1ec}.plan .z3{fill:#e4e0d8}
-.plan .zt{font:500 8.5px var(--sans);fill:#5d5a55}
+.plan .zt{font:500 12px var(--sans);fill:#5d5a55}
 .plan .wall{fill:none;stroke:#2a2a2a;stroke-width:2}
 .plan .mk{fill:var(--grey)}.plan .mk-critical{fill:var(--rouge)}.plan .mk-warning{fill:var(--ochre)}
 .plan .mk-halo{fill:none;stroke-width:1.5;stroke:var(--rouge);opacity:.5}
@@ -497,14 +497,14 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
 .divider{stroke:#cfcbc3;stroke-width:1.5;stroke-dasharray:4 8}
 
 @media (max-width:1380px){.top-in{height:auto;flex-wrap:wrap;padding-top:10px;padding-bottom:0;row-gap:6px}.nav{order:3;flex-basis:100%;justify-content:flex-start;overflow-x:auto;padding-bottom:6px;margin:0 calc(var(--pad) * -1);padding-left:var(--pad);padding-right:var(--pad)}.brand .prod span{display:none}.top-r{margin-left:auto}}
-@media (max-width:640px){.sample{left:auto;right:12px;bottom:12px;font-size:10px;padding:6px 9px}}
+@media (max-width:640px){.sample{left:auto;right:12px;bottom:12px;font-size:12px;padding:6px 9px}}
 @media (max-width:560px){.role{max-width:140px;font-size:12px;padding:0 26px 0 12px}.ask-btn .t{display:none}.ask-btn{padding:0 10px}.brand .sep,.brand .prod{display:none}.page-head{padding-top:28px}.stage3d{height:440px}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 
 /* --- photos, source tables, admin (v0.2) --- */
 .ph{width:100%;height:100%;object-fit:cover;display:block}
 .pic{position:relative}
-.pic .ref{position:absolute;left:10px;bottom:10px;background:rgba(255,255,255,.92);border-radius:999px;font-size:11.5px;padding:4px 9px;color:var(--ink-2)}
+.pic .ref{position:absolute;left:10px;bottom:10px;background:rgba(255,255,255,.92);border-radius:999px;font-size:12px;padding:4px 9px;color:var(--ink-2)}
 .photo-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
 .photo-row figure,.ph-card{margin:0}
 .photo-row .fr{aspect-ratio:1/1;border-radius:var(--r);overflow:hidden;background:var(--mist)}
@@ -543,7 +543,7 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
 .wf-node{border:1px solid var(--line);border-radius:12px;padding:12px 16px;width:100%;max-width:520px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.04)}
 .wf-node.ai{border:1px solid transparent;background:linear-gradient(#fff,#fff) padding-box,var(--nacre) border-box}
 .wf-node.cond{background:#fbf8f2;border-style:dashed}
-.wf-k{font:600 11px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--grey);display:flex;align-items:center;gap:8px}
+.wf-k{font:600 12px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--grey);display:flex;align-items:center;gap:8px}
 .wf-node b{display:block;font-weight:600;margin-top:4px}
 .wf-link{width:1px;height:20px;background:var(--line-2)}
 .wf-split{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:520px}
@@ -578,7 +578,7 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
 .np-foot{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:24px;padding-top:16px;border-top:1px solid var(--line)}
 .checklist{list-style:none;margin:0;padding:0}
 .checklist li{display:grid;grid-template-columns:22px 1fr auto;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
-.checklist li::before{content:"✓";color:var(--sage);font-weight:700}
+.checklist li::before{content:"✓";color:var(--sage);font-weight:600}
 .uni-bar{display:grid;grid-template-columns:120px 1fr 92px;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:13.5px}
 .uni-bar i{display:block;height:8px;border-radius:4px;background:var(--ink)}
 .uni-bar .t{text-align:right;font-weight:600}
@@ -620,20 +620,176 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
 .big{font:600 34px/1.1 var(--sans);margin:4px 0 8px;letter-spacing:-.02em}
 .srcbtn{all:unset;cursor:pointer;border-bottom:1px dotted var(--grey-2)}
 .srcbtn:hover,.srcbtn:focus-visible{border-bottom-color:var(--ink)}
-.ok-tick{color:var(--sage);font-weight:700}
+.ok-tick{color:var(--sage);font-weight:600}
 .checks{list-style:none;margin:0 0 6px;padding:0}
 .checks li{padding:8px 0 8px 26px;border-bottom:1px solid var(--line);position:relative;font-size:14px}
-.checks li::before{position:absolute;left:0;top:8px;font-weight:700}
+.checks li::before{position:absolute;left:0;top:8px;font-weight:600}
 .checks li.ok::before{content:"✓";color:var(--sage)}
 .checks li.warn::before{content:"!";color:var(--ochre)}
 td.under{color:var(--sage)}
 @media (max-width:900px){.facts-grid.five{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* ===== v1.2 SaaS UI system =====
+   Layout: fixed left navigation (240px) + opaque top bar; pages centred at 1320px on a neutral canvas.
+   Colour 60-30-10: canvas L0, white cards and dark navigation as structure, ink as the single action colour.
+   Stone and sage/ochre/red are reserved for data and status. */
+:root{--canvas:#f6f5f2;--surface:#fff;--border:rgba(27,26,24,.09);--side:#17181a;--shadow:0 8px 24px rgba(0,0,0,.07)}
+body.saas{background:var(--canvas);padding-left:240px}
+.saas .side{position:fixed;inset:0 auto 0 0;width:240px;background:var(--side);color:#cfcbc4;display:flex;flex-direction:column;padding:18px 12px 14px;z-index:60;overflow-y:auto}
+.saas .side-brand{display:flex;align-items:center;gap:12px;padding:6px 12px 22px;color:#fff;text-decoration:none}
+.saas .side-brand img{height:22px;width:auto;filter:invert(1)}
+.saas .side-brand span{display:flex;flex-direction:column;line-height:1.2}
+.saas .side-brand b{font:600 12px/1.2 var(--sans);letter-spacing:.14em;text-transform:uppercase}
+.saas .side-brand i{font:italic 400 14px/1.2 var(--display);color:#b9b4ab}
+.saas .side-nav{display:flex;flex-direction:column;gap:2px}
+.saas .side a[data-nav]{display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:8px;color:#cfcbc4;font:500 14px/1 var(--sans);text-decoration:none}
+.saas .side a[data-nav]:hover{background:rgba(255,255,255,.06);color:#fff}
+.saas .side a[data-nav].on{background:#fff;color:var(--side)}
+.saas .side a[data-nav]:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.saas .side-count:empty,.saas .bell em:empty{display:none}
+.saas .side-count{margin-left:auto;font:600 12px/1 var(--sans);font-style:normal;background:rgba(255,255,255,.14);color:#fff;border-radius:10px;padding:4px 7px}
+.saas .side a.on .side-count{background:var(--side)}
+.saas .side-foot{margin-top:auto;border-top:1px solid rgba(255,255,255,.08);padding-top:10px;display:flex;flex-direction:column;gap:6px}
+.saas .side-status{font:400 12px/1.4 var(--sans);color:#9a968f;padding:4px 12px}
+.saas .top{background:var(--surface);backdrop-filter:none;-webkit-backdrop-filter:none;border-bottom:1px solid var(--border)}
+.saas .top .brand,.saas .top .nav{display:none}
+.saas .top-in{max-width:none;height:60px;padding:0 24px;gap:12px;flex-wrap:nowrap}
+.saas .crumb{flex:1;min-width:0;display:flex;align-items:center;gap:8px;font:400 14px/1 var(--sans);color:var(--grey);white-space:nowrap;overflow:hidden}
+.saas .crumb b{color:var(--ink);font-weight:600}
+.saas .crumb a{color:var(--grey)}
+.saas .side-toggle{display:none}
+.saas .top-r{display:flex;align-items:center;gap:10px}
+.saas .ask-btn{background:var(--canvas);color:var(--grey);border:1px solid var(--border);min-width:260px;justify-content:flex-start;font-weight:400}
+.saas .ask-btn .orb{display:none}
+.saas .ask-btn:hover{border-color:var(--line-2);color:var(--ink)}
+.saas .newbtn{background:var(--ink);color:#fff;border-color:var(--ink)}
+.saas .bell{position:relative}
+.saas .bell em{position:absolute;top:-4px;right:-4px;font:600 12px/1 var(--sans);font-style:normal;background:var(--ink);color:#fff;border-radius:10px;padding:3px 6px}
+.saas main{max-width:1320px;margin:0 auto;padding:24px 32px 64px}
+.saas .foot-in{max-width:1320px}
+.saas .sample{display:none}
+.saas .page-head{padding-top:8px;border-bottom:0}
+.saas .page-head h1{font-size:clamp(30px,3vw,40px);line-height:1.15}
+.saas .page-head .sub{font-size:16px;line-height:1.55;max-width:70ch}
+/* cards: every section is an L1 surface with a hairline border */
+.saas main .blk,.saas .card,.saas .summary{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px 24px;margin-top:16px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.saas main .blk .blk-h h2,.saas .card-h h2{font:600 18px/1.25 var(--sans);letter-spacing:0}
+.saas .card-h{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 12px;margin-bottom:14px}
+.saas .card-h h2{margin:0;display:flex;align-items:center;gap:8px}
+.saas .card-h .more{margin-left:auto;font-size:14px;color:var(--ink);border-bottom:1px solid var(--line-2)}
+.saas .cards{display:grid;gap:16px;margin-top:16px}
+.saas .cards>.card{margin-top:0}
+.saas .cards.c3{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) minmax(0,1fr)}
+.saas .cards.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.saas .panel{border:1px solid var(--border);border-radius:10px;box-shadow:none}
+/* dashboard */
+.saas .dash-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:8px}
+.saas .dash-head h1{font:400 clamp(30px,3vw,40px)/1.15 var(--display);margin:4px 0 6px}
+.saas .dash-head .hello{margin:0;font-size:14px}
+.saas .dash-head .sub{margin:0;color:var(--grey);font-size:16px}
+.saas .dash-head .actions{display:flex;gap:10px}
+.saas .tiles{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;margin-top:20px}
+.saas .tile{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.saas .t-l{font:500 14px/1.3 var(--sans);color:var(--grey)}
+.saas .t-v{font:600 28px/1.1 var(--sans);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.saas .t-s{font:400 12px/1.4 var(--sans);color:var(--grey)}
+.saas .kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;border:0;margin-top:16px}
+.saas .kpi{background:var(--surface);border:1px solid var(--border)!important;border-radius:12px;padding:16px 18px}
+.saas .mw-list,.saas .plain{list-style:none;margin:0;padding:0}
+.saas .mw-list li{display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line)}
+.saas .mw-list li:last-child,.saas .plain li:last-child a{border-bottom:0}
+.saas .mw-list a{flex:1;min-width:0;display:grid;grid-template-columns:72px minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;color:inherit}
+.saas .mw-list .tag{justify-content:center}
+.saas .mw-list .t b{display:block;font-weight:600;font-size:14px;line-height:1.35}
+.saas .mw-list .t span{display:block;font-size:12px;color:var(--grey);line-height:1.4}
+.saas .mw-list .due{font-size:12px;color:var(--grey);white-space:nowrap}
+.saas .mw-list .due.soon{color:var(--rouge);font-weight:600}
+.saas li.empty{padding:14px 0;color:var(--grey);font-size:14px;border:0}
+.saas .health-sum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.saas .health-sum div{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border-radius:8px;background:var(--canvas)}
+.saas .health-sum b{font:600 28px/1.1 var(--sans)}
+.saas .health-sum span{font-size:12px;color:var(--grey)}
+.saas .hs-g{color:var(--sage)}.saas .hs-a{color:var(--ochre)}.saas .hs-r{color:var(--rouge)}
+.saas .plain a{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);color:inherit;font-size:14px}
+.saas .plain.dates a{justify-content:flex-start}
+.saas .plain.dates .d{width:60px;flex:none;font-size:12px;color:var(--grey)}
+.saas .plain.dates b{display:block;font-weight:600;font-size:14px}
+.saas .plain.dates i{display:block;font-style:normal;font-size:12px;color:var(--grey)}
+.saas .pbar{display:flex;height:8px;border-radius:4px;background:var(--mist);overflow:hidden}
+.saas .pbar i{display:block;height:100%}
+.saas .pb-paid{background:var(--ink)}.saas .pb-com{background:var(--stone-2)}
+.saas .tbl td{font-size:14px}
+.saas .tbl th{font-size:12px}
+.saas .tbl tr.click{cursor:pointer}
+.saas .tbl tr.click:hover td{background:var(--canvas)}
+.saas .rag{display:inline-block;font:500 12px/1 var(--sans);padding:4px 8px;border-radius:6px;border:1px solid}
+.saas .rag-g{color:var(--sage);border-color:rgba(63,100,80,.35);background:rgba(63,100,80,.06)}
+.saas .rag-a{color:var(--ochre);border-color:rgba(156,108,22,.35);background:rgba(156,108,22,.06)}
+.saas .rag-r{color:var(--rouge);border-color:rgba(176,22,31,.35);background:rgba(176,22,31,.05)}
+.saas .gantt{position:relative;padding-top:24px}
+.saas .g-axis{position:absolute;left:132px;right:0;top:0;height:18px}
+.saas .g-axis span{position:absolute;transform:translateX(-50%);font-size:12px;color:var(--grey)}
+.saas .g-row{display:grid;grid-template-columns:132px minmax(0,1fr);align-items:center;height:30px;color:inherit}
+.saas .g-name{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:10px}
+.saas .g-track{position:relative;height:10px;background:var(--mist);border-radius:5px}
+.saas .g-track i{position:absolute;top:0;bottom:0}
+.saas .g-track b{position:absolute;top:-4px;bottom:-4px;width:3px;margin-left:-1px;background:var(--rouge);border-radius:2px}
+.saas .g-today{position:absolute;top:20px;bottom:0;width:1px;background:var(--ink);opacity:.45}
+.saas .g-today em{position:absolute;top:-20px;left:4px;font:500 12px/1 var(--sans);font-style:normal;color:var(--ink)}
+.saas .donut-wrap{display:grid;grid-template-columns:160px minmax(0,1fr);gap:20px;align-items:center}
+.saas .donut{width:160px;height:160px;color:var(--ink)}
+.saas .cats li{display:grid;grid-template-columns:10px minmax(0,1fr) auto;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line);font-size:14px}
+.saas .cats li i{width:10px;height:10px;border-radius:2px}
+.saas .cats b{font-weight:500;font-variant-numeric:tabular-nums}
+.saas .photo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.saas .photo-grid a{display:flex;flex-direction:column;gap:6px;color:inherit;font-size:12px}
+.saas .photo-grid img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;border:1px solid var(--border)}
+/* project summary */
+.saas .summary{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center}
+.saas .summary ul{list-style:none;margin:0;padding:0}
+.saas .summary li{font-size:14px;line-height:1.55;padding:3px 0}
+.saas .summary b{font-weight:600}
+.saas .rings{display:flex;gap:14px}
+.saas .ring{width:76px;height:76px;border-radius:50%;border:5px solid;display:grid;place-items:center;font:500 12px/1 var(--sans);color:var(--ink)}
+.saas .ring-g{border-color:var(--sage)}.saas .ring-a{border-color:var(--ochre)}.saas .ring-r{border-color:var(--rouge)}
+/* cost tree */
+.saas .tree .tree-p td{background:#fbfaf8;font-size:14px}
+.saas .tree .tw{display:inline-block;width:14px;margin-right:6px;transition:transform .15s;color:var(--grey);font-size:16px}
+.saas .tree .tw.on{transform:rotate(90deg)}
+.saas .lvl-b{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;font:600 12px/1 var(--sans);color:#fff;margin-right:8px;vertical-align:middle}
+.saas .lvl-b.p{background:var(--ink-2)}.saas .lvl-b.l{background:var(--stone)}.saas .lvl-b.c{background:#6f7f93}
+.saas .tree-l td:first-child{padding-left:38px}
+.saas .tree-c td{color:var(--grey)}
+.saas .tree-c td:first-child{padding-left:66px}
+/* AI status chips: status, not decoration */
+.saas .ai-chip{display:inline-block;margin-left:8px;font:500 12px/1 var(--sans);color:var(--sage);border:1px solid rgba(63,100,80,.3);border-radius:6px;padding:3px 7px;white-space:nowrap}
+.saas .ai-chip.off{color:var(--grey);border-color:var(--line-2)}
+.saas .ai-chip.warn{color:var(--ochre);border-color:rgba(156,108,22,.35)}
+.saas .ask-ai{all:unset;margin-left:8px;font:500 12px/1 var(--sans);color:var(--ink);border-bottom:1px solid var(--line-2);cursor:pointer}
+.saas .ask-ai:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+/* anti-slop: static metadata as plain text, no pills */
+.saas .a-foot{gap:12px}
+.saas .a-foot .tag,.saas .tag.src{background:none;border:0;padding:0;height:auto;color:var(--grey);font-size:12px}
+.saas .tag{border-radius:6px;font-size:12px}
+.saas .tag.ai{background:#efe9df;color:#6b5430}
+.saas .orb{background:var(--stone)!important}
+.saas .ai-box{border:1px solid var(--border);background:var(--canvas)}
+.saas .ext{min-width:40px;font-size:12px!important;letter-spacing:0}
+.saas .tbl td .ai-chip{margin-left:10px}
+.saas .tbl td[style*="max-width:340px"]{max-width:460px!important}
+.saas .modal,.saas .drawer{box-shadow:var(--shadow);border:1px solid var(--border)}
+.saas .hero{display:none}
+/* narrow: navigation becomes a drawer */
+@media (max-width:1100px){.saas .tiles{grid-template-columns:repeat(3,minmax(0,1fr))}.saas .cards.c3{grid-template-columns:1fr 1fr}.saas .ask-btn{min-width:0}}
+@media (max-width:960px){body.saas{padding-left:0}.saas .side{transform:translateX(-100%);transition:transform .2s}.saas.side-open .side{transform:none;box-shadow:var(--shadow)}.saas .side-toggle{display:inline-flex}.saas main{padding:16px max(16px,env(safe-area-inset-left,0px)) 48px}.saas .cards.c2,.saas .cards.c3{grid-template-columns:1fr}.saas .summary{grid-template-columns:1fr}.saas .donut-wrap{grid-template-columns:1fr}}
+@media (max-width:640px){.saas .tiles{grid-template-columns:1fr 1fr}.saas .top-in{padding:0 12px;gap:8px}.saas .ask-btn,.saas #reqBtn,.saas .crumb{display:none}.saas .role{max-width:150px}.saas .top-r{margin-left:auto}}
+@media (prefers-reduced-motion:reduce){.saas .side,.saas .tree .tw{transition:none}}
 </style>
 </head>
 <body>
 <header class="top" id="top"></header>
 <main id="main"></main>
-<footer class="foot"><div class="foot-in"><span>Architecture Panoptic · working prototype prepared by eleven for Dior Architecture and D-NEXT · v1.1, 12 November 2026</span><span>Real: the six 2027 openings (ADMIN FOLLOW UP), the Flinders Lane main-contract bids (SOR R2), photos, plans and tables from the 9 Nov workshop. Everything else is sample data.</span></div></footer>
+<footer class="foot"><div class="foot-in"><span>Architecture Panoptic · working prototype prepared by eleven for Dior Architecture and D-NEXT · v1.2, 12 November 2026</span><span>Real: the six 2027 openings (ADMIN FOLLOW UP), the Flinders Lane main-contract bids (SOR R2), photos, plans and tables from the 9 Nov workshop. Everything else is sample data.</span></div></footer>
 <div class="pal-scrim" id="palScrim"></div>
 <div class="pal" id="pal" role="dialog" aria-modal="true" aria-label="Ask Panoptic"><div class="pal-in"><span class="orb"></span><input id="palInput" autocomplete="off" placeholder="Search or ask: projects above budget in Europe" aria-label="Search or ask Panoptic"><button class="btn sm ghost" type="button" onclick="document.getElementById('palScrim').click()">Esc</button></div><div class="pal-body" id="palBody"></div></div>
 <div class="scrim" id="scrim"></div>
@@ -2028,7 +2184,7 @@ window.FEATURES = [{"id": "1.1", "cat": "Data Model", "f": "Financial Project En
     return visibleDocs().filter(d => (!f.type.size || f.type.has(d.type)) && (!f.src.size || f.src.has(d.src)) && (!f.status.size || f.status.has(d.status)) && (f.project === 'All' || d.project === f.project) && (!q || (d.name + ' ' + d.type + ' ' + A.docCtx(d) + ' ' + d.tags.join(' ')).toLowerCase().includes(q)));
   }
   function docTable(list) {
-    return `<div class="small muted" style="margin:0 0 10px">${list.length} of ${visibleDocs().length} documents</div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Name</th><th>Type</th><th>Linked to</th><th>Source</th><th>Status</th><th>Updated</th></tr></thead><tbody>${list.slice(0, 60).map(d => `<tr class="click" data-doc="${d.id}"><td style="max-width:340px"><div style="display:flex;gap:10px;align-items:center"><span class="ext ${d.ext}" style="width:28px;height:34px;flex:none">${d.ext}</span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(d.name)}</span></div></td><td>${d.type}</td><td class="small">${esc(A.docCtx(d))}</td><td class="small">${d.src}</td><td>${statusTag(d.status === 'In review' ? 'review' : d.status).replace('>review<', '>In review<')}</td><td class="small">${dfmt(d.updated)}</td></tr>`).join('')}</tbody></table></div>`;
+    return `<div class="small muted" style="margin:0 0 10px">${list.length} of ${visibleDocs().length} documents</div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Name</th><th>Type</th><th>Linked to</th><th>Source</th><th>Status</th><th>Updated</th></tr></thead><tbody>${list.slice(0, 60).map(d => `<tr class="click" data-doc="${d.id}"><td style="max-width:340px"><div style="display:flex;gap:10px;align-items:center"><span class="ext ${d.ext}" style="width:28px;height:34px;flex:none">${d.ext}</span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(d.name)}</span>${window.Saas ? Saas.docBadges(d) : ''}</div></td><td>${d.type}</td><td class="small">${esc(A.docCtx(d))}</td><td class="small">${d.src}</td><td>${statusTag(d.status === 'In review' ? 'review' : d.status).replace('>review<', '>In review<')}</td><td class="small">${dfmt(d.updated)}</td></tr>`).join('')}</tbody></table></div>`;
   }
   function assets() {
     const all = visibleDocs(), f = state.docF;
@@ -3022,10 +3178,10 @@ window.FEATURES = [{"id": "1.1", "cat": "Data Model", "f": "Financial Project En
     const x = i => L + (W - L - R) * (rows.length < 2 ? 0 : i / (rows.length - 1)), y = v => T + (H - T - B) * (1 - v / max);
     const path = k => rows.map((r, i) => r[k] == null ? null : [x(i), y(r[k])]).filter(Boolean).map((pt, i) => (i ? 'L' : 'M') + pt[0].toFixed(1) + ' ' + pt[1].toFixed(1)).join(' ');
     const todayIdx = rows.findIndex(r => r.m >= ym(new Date()));
-    const ticks = [0, 0.5, 1].map(f => `<line x1="${L}" x2="${W - R}" y1="${y(max * f)}" y2="${y(max * f)}" stroke="currentColor" stroke-opacity=".1"/><text x="${L - 6}" y="${y(max * f) + 4}" text-anchor="end" font-size="11" fill="currentColor" fill-opacity=".6">${mkE(max * f)}</text>`).join('');
+    const ticks = [0, 0.5, 1].map(f => `<line x1="${L}" x2="${W - R}" y1="${y(max * f)}" y2="${y(max * f)}" stroke="currentColor" stroke-opacity=".1"/><text x="${L - 6}" y="${y(max * f) + 4}" text-anchor="end" font-size="12" fill="currentColor" fill-opacity=".6">${mkE(max * f)}</text>`).join('');
     const step = Math.max(1, Math.ceil(rows.length / 8));
-    const labels = rows.map((r, i) => i % step ? '' : `<text x="${x(i)}" y="${H - 10}" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity=".6">${new Date(r.m + '-15').toLocaleDateString('en-GB', { month: 'short', year: '2-digit' })}</text>`).join('');
-    const today = todayIdx > 0 ? `<line x1="${x(todayIdx)}" x2="${x(todayIdx)}" y1="${T}" y2="${H - B}" stroke="currentColor" stroke-dasharray="3 3" stroke-opacity=".5"/><text x="${x(todayIdx) + 5}" y="${T + 10}" font-size="11" fill="currentColor" fill-opacity=".7">Today</text>` : '';
+    const labels = rows.map((r, i) => i % step ? '' : `<text x="${x(i)}" y="${H - 10}" text-anchor="middle" font-size="12" fill="currentColor" fill-opacity=".6">${new Date(r.m + '-15').toLocaleDateString('en-GB', { month: 'short', year: '2-digit' })}</text>`).join('');
+    const today = todayIdx > 0 ? `<line x1="${x(todayIdx)}" x2="${x(todayIdx)}" y1="${T}" y2="${H - B}" stroke="currentColor" stroke-dasharray="3 3" stroke-opacity=".5"/><text x="${x(todayIdx) + 5}" y="${T + 10}" font-size="12" fill="currentColor" fill-opacity=".7">Today</text>` : '';
     return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(opts.label)}" style="width:100%;height:auto;display:block;color:var(--ink)">${ticks}${labels}${today}
       <path d="${path('planned')}" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-width="1.5" stroke-dasharray="5 4"/>
       <path d="${path('fc')}" fill="none" style="stroke:var(--stone)" stroke-width="2.2"/>
@@ -3071,9 +3227,9 @@ window.FEATURES = [{"id": "1.1", "cat": "Data Model", "f": "Financial Project En
     const now = ym(new Date()); const months = Object.values(map).sort((a, b) => a.m.localeCompare(b.m)).filter(r => r.m >= addDays(today(), -180).slice(0, 7) && r.m <= addDays(today(), 400).slice(0, 7));
     const max = Math.max(1, ...months.map(r => r.paid + r.fc)); const W = 720, H = 200, L = 64, B = 28, bw = (W - L - 10) / months.length;
     const next12 = months.filter(r => r.m > now).slice(0, 12).reduce((a, r) => a + r.fc, 0);
-    const bars = months.map((r, i) => { const h1 = (H - B - 10) * r.paid / max, h2 = (H - B - 10) * r.fc / max, x0 = L + i * bw + 2; return `<rect x="${x0}" y="${H - B - h1}" width="${bw - 4}" height="${h1}" fill="currentColor"/><rect x="${x0}" y="${H - B - h1 - h2}" width="${bw - 4}" height="${h2}" style="fill:var(--stone)"/>${i % 3 ? '' : `<text x="${x0 + bw / 2 - 2}" y="${H - 9}" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity=".6">${new Date(r.m + '-15').toLocaleDateString('en-GB', { month: 'short', year: '2-digit' })}</text>`}`; }).join('');
+    const bars = months.map((r, i) => { const h1 = (H - B - 10) * r.paid / max, h2 = (H - B - 10) * r.fc / max, x0 = L + i * bw + 2; return `<rect x="${x0}" y="${H - B - h1}" width="${bw - 4}" height="${h1}" fill="currentColor"/><rect x="${x0}" y="${H - B - h1 - h2}" width="${bw - 4}" height="${h2}" style="fill:var(--stone)"/>${i % 3 ? '' : `<text x="${x0 + bw / 2 - 2}" y="${H - 9}" text-anchor="middle" font-size="12" fill="currentColor" fill-opacity=".6">${new Date(r.m + '-15').toLocaleDateString('en-GB', { month: 'short', year: '2-digit' })}</text>`}`; }).join('');
     return `<section class="blk grid g-7-5"><div>${A.blkH('Cash flow, all projects in scope', 'Monthly payments: paid in Coupa, then forecast from each project\'s schedule', A.req('2.7', '7.7.2'))}
-        <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Monthly cash flow across projects" style="width:100%;height:auto;display:block;color:var(--ink)"><line x1="${L}" x2="${W - 10}" y1="${H - B}" y2="${H - B}" stroke="currentColor" stroke-opacity=".2"/><text x="${L - 6}" y="${16}" text-anchor="end" font-size="11" fill="currentColor" fill-opacity=".6">${mkE(max)}</text>${bars}</svg>
+        <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Monthly cash flow across projects" style="width:100%;height:auto;display:block;color:var(--ink)"><line x1="${L}" x2="${W - 10}" y1="${H - B}" y2="${H - B}" stroke="currentColor" stroke-opacity=".2"/><text x="${L - 6}" y="${16}" text-anchor="end" font-size="12" fill="currentColor" fill-opacity=".6">${mkE(max)}</text>${bars}</svg>
         <div class="legend" style="margin-top:6px"><span><i style="background:var(--ink)"></i>Paid</span><span><i style="background:var(--stone)"></i>Forecast</span></div></div>
       <div><div class="panel"><h3 class="sub-h" style="margin-top:0">Next 12 months</h3><p class="big">${mkE(next12)}</p><p class="small muted">to pay across ${all.length} projects. Shared with Finance for the treasury plan; Anaplan receives the monthly profile.</p></div></div></section>`;
   };
@@ -3176,6 +3332,248 @@ window.FEATURES = [{"id": "1.1", "cat": "Data Model", "f": "Financial Project En
   document.addEventListener('drop', e => { const z = e.target.closest && e.target.closest('.drop'); if (!z) return; e.preventDefault(); const f = e.dataTransfer.files[0]; if (!f) return; if (document.getElementById('imp-file')) importFile(f); else { const i = document.getElementById('up-files'); if (i) { i.files = e.dataTransfer.files; A.toast(`${e.dataTransfer.files.length} file(s) ready to upload.`); } } });
 
   const start = () => { init(); setTimeout(() => setBadge(), 0); };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(start, 0)); else start();
+})();
+
+</script>
+<script>
+/* Architecture Panoptic — SaaS shell and views (v1.2).
+ * Author: Marie Guegain — eleven.
+ * Left navigation, portfolio dashboard, cost module with tabs (overview, budgets,
+ * variations, cash flow, payments, univers search), project summary with health
+ * rings, document AI badges. Business rules stay in the app and pano.js. */
+(function () {
+  'use strict';
+  const A = window.A, Pano = window.Pano; if (!A || !Pano) return;
+  const D = A.D, state = A.state, esc = A.esc;
+  const Saas = window.Saas = {};
+  const mE = k => '€' + (Math.abs(k) >= 1000 ? (k / 1000).toFixed(1) + 'M' : Math.round(k) + 'k');
+  const today = () => new Date().toISOString().slice(0, 10);
+  const I = {
+    home: '<path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"/>',
+    projects: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+    cost: '<circle cx="12" cy="12" r="9"/><path d="M15 9.2c-.6-1-1.7-1.5-3-1.5-1.8 0-3 .9-3 2.2 0 3 6 1.6 6 4.6 0 1.3-1.3 2.3-3 2.3-1.4 0-2.6-.6-3.2-1.6M12 6v1.7m0 8.6V18"/>',
+    tenders: '<path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h5"/>',
+    suppliers: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5"/><path d="M16 4.8a3.5 3.5 0 0 1 0 6.4M18 14.8c1.8.8 3 2.6 3.5 5.2"/>',
+    docs: '<path d="M3 6.5A1.5 1.5 0 0 1 4.5 5H10l2 2.5h7.5A1.5 1.5 0 0 1 21 9v9.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/>',
+    library: '<path d="M4 4h4v16H4zM10 4h4v16h-4z"/><path d="m16 5 3.8-1 2.2 15.6-3.8 1z"/>',
+    admin: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/>',
+    menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
+    bell: '<path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15zM10 20.5a2 2 0 0 0 4 0"/>',
+    spark: '<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/>'
+  };
+  const icon = (k, s = 18) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[k]}</svg>`;
+  const NAV = [['#/home', 'Home', 'home'], ['#/projects', 'Projects', 'projects'], ['#/cost', 'Cost control', 'cost'], ['#/tenders', 'Tenders', 'tenders'], ['#/suppliers', 'Suppliers', 'suppliers'], ['#/assets', 'Documents', 'docs'], ['#/library', 'Library', 'library']];
+
+  /* ---------------- shell ---------------- */
+  function shell() {
+    document.body.classList.add('saas');
+    const side = document.createElement('aside'); side.className = 'side'; side.setAttribute('aria-label', 'Main navigation');
+    side.innerHTML = `<a class="side-brand" href="#/home">${window.LOGO_URI ? `<img src="${window.LOGO_URI}" alt="">` : ''}<span><b>Architecture</b><i>Panoptic</i></span></a>
+      <nav class="side-nav">${NAV.map(n => `<a href="${n[0]}" data-nav="${n[0]}">${icon(n[2])}<span>${n[1]}</span>${n[0] === '#/home' ? '<em class="side-count" id="mwCount"></em>' : ''}</a>`).join('')}</nav>
+      <div class="side-foot"><a href="#/platform" data-nav="#/platform">${icon('admin')}<span>Admin</span></a><div class="side-status" id="sideStatus"></div></div>`;
+    document.body.insertBefore(side, document.body.firstChild);
+    const top = document.querySelector('.top-in');
+    if (top) {
+      const b = document.createElement('button'); b.className = 'icon-btn side-toggle'; b.setAttribute('aria-label', 'Open navigation'); b.innerHTML = icon('menu');
+      b.addEventListener('click', () => document.body.classList.toggle('side-open'));
+      top.insertBefore(b, top.firstChild);
+      const crumb = document.createElement('div'); crumb.className = 'crumb'; crumb.id = 'crumb'; top.insertBefore(crumb, b.nextSibling);
+      const bell = document.createElement('a'); bell.className = 'icon-btn bell'; bell.href = '#/home'; bell.setAttribute('aria-label', 'My work'); bell.innerHTML = icon('bell') + '<em id="bellCount"></em>';
+      const r = top.querySelector('.top-r'); if (r) r.insertBefore(bell, r.querySelector('#role'));
+    }
+    side.addEventListener('click', e => { if (e.target.closest('a')) document.body.classList.remove('side-open'); });
+  }
+  const SECTION = [[/^#\/(home)?$/, 'Home'], [/^#\/project/, 'Projects'], [/^#\/cost/, 'Cost control'], [/^#\/tender/, 'Tenders'], [/^#\/supplier/, 'Suppliers'], [/^#\/assets/, 'Documents'], [/^#\/(library|material|concept|book)/, 'Library'], [/^#\/platform/, 'Admin']];
+  function afterRender() {
+    const h = location.hash || '#/home';
+    const sec = (SECTION.find(s => s[0].test(h)) || [0, 'Home'])[1];
+    const pid = (h.match(/#\/project\/(\w+)/) || [])[1];
+    const c = document.getElementById('crumb');
+    if (c) c.innerHTML = pid && A.P[pid] ? `<a href="#/projects">Projects</a><span>/</span><b>${esc(A.P[pid].city)}</b>` : `<b>${sec}</b>`;
+    const n = Pano.work().length;
+    ['mwCount', 'bellCount'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = n ? n : ''; });
+    const st = document.getElementById('sideStatus'), badge = document.querySelector('.sample');
+    if (st && badge) st.textContent = badge.textContent.replace('Prototype · ', '');
+  }
+  window.addEventListener('hashchange', () => setTimeout(afterRender, 0));
+  const render0 = A.render;
+  A.render = (keep) => { render0(keep); afterRender(); };
+
+  /* ---------------- shared bits ---------------- */
+  const HL = { g: 'Green', a: 'Amber', r: 'Red' };
+  const rag = x => `<span class="rag rag-${x}">${HL[x]}</span>`;
+  const ring = (label, x) => `<div class="ring ring-${x}" title="${label}: ${HL[x]}"><span>${label}</span></div>`;
+  function payBar(p) {
+    const s = Math.max(p.budget, p.forecast) || 1, w = k => (Math.max(0, k) / s * 100).toFixed(1) + '%';
+    return `<div class="pbar" title="Paid ${mE(p.actual)} · committed ${mE(p.committed)} · budget ${mE(p.budget)}"><i class="pb-paid" style="width:${w(p.actual)}"></i><i class="pb-com" style="width:${w(p.committed - p.actual)}"></i></div>`;
+  }
+  const tile = (label, value, sub, cls = '') => `<div class="tile ${cls}"><span class="t-l">${label}</span><span class="t-v">${value}</span><span class="t-s">${sub}</span></div>`;
+  const STAGE_C = { Brief: 'var(--grey-2)', Design: '#7c8fa6', Tender: 'var(--stone)', Works: 'var(--ink-2)', Handover: 'var(--sage)' };
+
+  /* ---------------- Home: portfolio dashboard ---------------- */
+  Saas.zone = 'All';
+  const cat = h => /tender/.test(h) ? 'Tender' : /costs|#\/cost/.test(h) ? 'Cost' : /\/data/.test(h) ? 'Data' : /supplier/.test(h) ? 'Supplier' : /documents/.test(h) ? 'Files' : /library/.test(h) ? 'Library' : 'Project';
+  function home() {
+    const fin = A.fin();
+    const ps = A.vis().filter(p => Saas.zone === 'All' || p.zone === Saas.zone);
+    const t = A.totals(ps);
+    const mw = Pano.work();
+    const hs = ps.map(p => ({ p, h: Pano.health(p) }));
+    const cnt = k => hs.filter(x => x.h.overall === k).length;
+    const v = t.forecast - t.budget;
+    const hour = new Date().getHours(), hi = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+    const openT = D.TENDERS.filter(x => x.status !== 'Awarded' && A.visIds().has(x.project)).sort((a, b) => a.date.localeCompare(b.date)).slice(0, 4);
+    const openings = ps.slice().sort((a, b) => ((a.admin || {}).opening || a.handover).localeCompare((b.admin || {}).opening || b.handover)).filter(p => ((p.admin || {}).opening || p.handover) >= today()).slice(0, 4);
+    // budget by category
+    const cats = {}; ps.forEach(p => p.lines.forEach(l => { cats[l.name] = (cats[l.name] || 0) + l.budget; }));
+    const catList = Object.entries(cats).sort((a, b) => b[1] - a[1]);
+    const catTot = catList.reduce((a, x) => a + x[1], 0) || 1;
+    const shades = ['#1b1a18', '#3d3a35', '#5f5a52', '#817a70', '#a48a62', '#bda67f', '#d3c3a4', '#e3d8c4', '#efe8dc'];
+    let acc = 0; const donut = catList.map((c, i) => { const a0 = acc / catTot, a1 = (acc += c[1]) / catTot; const arc = (a) => [50 + 38 * Math.sin(2 * Math.PI * a), 50 - 38 * Math.cos(2 * Math.PI * a)]; const [x0, y0] = arc(a0), [x1, y1] = arc(a1 - 0.0001); return `<path d="M${x0} ${y0} A38 38 0 ${a1 - a0 > 0.5 ? 1 : 0} 1 ${x1} ${y1}" stroke="${shades[i % shades.length]}" stroke-width="14" fill="none"/>`; }).join('');
+    // timeline
+    const starts = ps.map(p => new Date(((p.admin || {}).commitment || addDays(p.handover, -540)) + 'T12:00:00'));
+    const ends = ps.map(p => new Date(((p.admin || {}).opening || p.handover) + 'T12:00:00'));
+    const t0 = new Date(Math.min(...starts)); t0.setDate(1); const t1 = new Date(Math.max(...ends)); t1.setMonth(t1.getMonth() + 1);
+    const pos = d => ((d - t0) / (t1 - t0) * 100).toFixed(2) + '%';
+    const years = []; for (let y = t0.getFullYear(); y <= t1.getFullYear(); y++) { const d = new Date(y, 0, 1); if (d > t0 && d < t1) years.push(d); }
+    const stagesOf = (s, e) => { const span = e - s; return [['Design', 0, 0.3], ['Tender', 0.3, 0.45], ['Works', 0.45, 0.97], ['Handover', 0.97, 1]].map(x => [x[0], new Date(s.getTime() + span * x[1]), new Date(s.getTime() + span * x[2])]); };
+    const html = `
+    <div class="dash-head"><div><p class="hello">${hi}. ${esc(state.role.name)} view</p><h1>Portfolio</h1><p class="sub">${ps.length} projects in West and East zones · Anaplan and Coupa synced today</p></div>
+      <div class="actions"><button class="btn ghost" data-act="palette">${icon('spark', 16)} Ask Copilot</button><button class="btn" data-act="np-open">New project</button></div></div>
+    <div class="tiles">
+      ${tile('Projects', ps.length, `${ps.filter(p => p.status === 'Works').length} in works · ${ps.filter(p => p.status === 'Tender').length} in tender`)}
+      ${tile('Budget', fin ? mE(t.budget) : A.mask(), 'SOP, Anaplan')}
+      ${tile('Committed', fin ? mE(t.committed) : A.mask(), fin ? Math.round(t.committed / t.budget * 100) + '% of budget · Coupa' : 'Coupa')}
+      ${tile('Forecast final cost', fin ? mE(t.forecast) : A.mask(), 'committed + pending + to go')}
+      ${tile('Variance', fin ? `<span class="${A.vcls(v / t.budget)}">${v >= 0 ? '+' : '−'}${mE(Math.abs(v))}</span>` : A.mask(), fin ? A.pct(v / t.budget) + ' against budget' : 'Forecast minus budget')}
+      ${tile('Paid to date', fin ? mE(t.actual) : A.mask(), fin ? Math.round(t.actual / t.forecast * 100) + '% of forecast' : 'Coupa')}
+    </div>
+    <div class="cards c3">
+      <section class="card"><div class="card-h"><h2>My work</h2><span class="muted small">${mw.length} open</span></div>
+        <ul class="mw-list">${mw.slice(0, 6).map(w => { const n = A.days(w[3]); return `<li><a href="${w[4]}"><span class="tag ${w[0] === 'Approve' ? 'ai' : ''}">${cat(w[4])}</span><span class="t"><b>${esc(w[1])}</b><span>${esc(w[2])}</span></span><span class="due ${n <= 4 ? 'soon' : ''}">${n <= 0 ? 'Today' : n === 1 ? 'Tomorrow' : n + ' d'}</span></a>${w[5] ? `<button class="mw-x" data-act="${w[6] || 'mw-done'}" data-v="${esc(w[7] || w[5])}">${w[6] === 'amend-ok' ? 'Approve' : w[6] === 'confirm-block' ? 'Confirm' : 'Done'}</button>` : ''}</li>`; }).join('') || '<li class="empty">Nothing waiting for you. New approvals and checks appear here.</li>'}</ul></section>
+      <section class="card"><div class="card-h"><h2>Health</h2><span class="muted small">cost · schedule · data</span></div>
+        <div class="health-sum"><div><b class="hs-g">${cnt('g')}</b><span>On track</span></div><div><b class="hs-a">${cnt('a')}</b><span>Watch</span></div><div><b class="hs-r">${cnt('r')}</b><span>At risk</span></div></div>
+        <ul class="plain">${hs.filter(x => x.h.overall !== 'g').sort((a, b) => (a.h.overall === 'r' ? -1 : 1) - (b.h.overall === 'r' ? -1 : 1)).slice(0, 4).map(x => `<li><a href="#/project/${x.p.id}"><span>${esc(x.p.city)}</span>${Pano.healthDots(x.p)}</a></li>`).join('') || '<li class="empty">Every project is on track.</li>'}</ul></section>
+      <section class="card"><div class="card-h"><h2>Coming up</h2><a class="more" href="#/tenders">Tenders</a></div>
+        <ul class="plain dates">${openT.map(x => `<li><a href="#/tender/${x.id}"><span class="d">${A.dfmt(x.date)}</span><span><b>${esc(x.pkg)}</b><i>${A.P[x.project].city} · ${x.dateLabel}</i></span></a></li>`).join('')}${openings.slice(0, 2).map(p => `<li><a href="#/project/${p.id}"><span class="d">${A.dfmt((p.admin || {}).opening || p.handover)}</span><span><b>Opening</b><i>${esc(p.city)}</i></span></a></li>`).join('')}</ul></section>
+    </div>
+    <section class="card"><div class="card-h"><h2>Projects</h2><a class="more" href="#/projects">All projects</a></div>
+      <div class="tbl-wrap"><table class="tbl ptable"><thead><tr><th>Project</th><th>Stage</th><th>Opening</th><th class="r">Budget</th><th>Payment progress</th><th class="r">Variance</th><th class="r">Forecast</th><th>Cost</th><th>Time</th><th>Data</th></tr></thead><tbody>
+      ${hs.map(({ p, h }) => `<tr class="click" data-href="#/project/${p.id}"><td><b>${esc(p.city)}</b><div class="small muted">ARC-${p.id} · ${esc(p.type)}</div></td><td>${A.statusTag(p.status)}</td><td class="small">${A.dfmt((p.admin || {}).opening || p.handover)}</td><td class="r">${fin ? mE(p.budget) : A.mask()}</td><td style="min-width:140px">${fin ? payBar(p) : ''}</td><td class="r ${A.vcls(p.variancePct)}">${fin ? A.pct(p.variancePct) : A.mask()}</td><td class="r">${fin ? mE(p.forecast) : A.mask()}</td><td>${fin ? rag(h.cost) : '—'}</td><td>${rag(h.sched)}</td><td>${rag(h.data)}</td></tr>`).join('')}</tbody></table></div>
+      <div class="legend" style="margin-top:10px"><span><i style="background:var(--ink)"></i>Paid</span><span><i style="background:var(--stone-2)"></i>Committed, not yet paid</span></div></section>
+    <div class="cards c2">
+      <section class="card"><div class="card-h"><h2>Timeline</h2><span class="muted small">commitment to opening</span></div>
+        <div class="gantt"><div class="g-axis">${years.map(y => `<span style="left:${pos(y)}">${y.getFullYear()}</span>`).join('')}</div>
+        ${ps.map((p, i) => { const s = starts[i], e = ends[i]; return `<a class="g-row" href="#/project/${p.id}"><span class="g-name">${esc(p.city)}</span><span class="g-track">${stagesOf(s, e).map(st => `<i style="left:${pos(st[1])};width:calc(${pos(st[2])} - ${pos(st[1])});background:${STAGE_C[st[0]]}" title="${st[0]}"></i>`).join('')}<b style="left:${pos(e)}" title="Opening ${A.dfmt(e.toISOString().slice(0, 10))}"></b></span></a>`; }).join('')}
+        <span class="g-today" style="left:calc(132px + (100% - 132px) * ${((Date.now() - t0) / (t1 - t0)).toFixed(4)})"><em>Today</em></span></div>
+        <div class="legend" style="margin-top:10px">${['Design', 'Tender', 'Works'].map(s => `<span><i style="background:${STAGE_C[s]}"></i>${s}</span>`).join('')}<span><i style="background:var(--rouge);width:3px"></i>Opening</span></div></section>
+      <section class="card"><div class="card-h"><h2>Budget by category</h2><span class="muted small">Anaplan lines</span></div>
+        ${fin ? `<div class="donut-wrap"><svg viewBox="0 0 100 100" class="donut" role="img" aria-label="Budget split by category">${donut}<text x="50" y="49" text-anchor="middle" font-size="12" font-weight="600" fill="currentColor">${mE(catTot)}</text><text x="50" y="60" text-anchor="middle" font-size="7" fill="currentColor" fill-opacity=".6">budget</text></svg>
+        <ul class="plain cats">${catList.map((c, i) => `<li><i style="background:${shades[i % shades.length]}"></i><span>${c[0]}</span><b>${mE(c[1])}</b></li>`).join('')}</ul></div>` : A.restricted('Cost data')}</section>
+    </div>
+    <div class="cards c2">
+      <section class="card"><div class="card-h"><h2>Needs attention</h2><span class="muted small">budget rules and AI checks</span></div><ul class="list">${(D.ALERTS || []).filter(a => (A.fin() || a.kind !== 'Budget') && (!a.project || A.visIds().has(a.project))).slice(0, 4).map(a => `<li><a class="row alert" href="${a.link}"><span class="lvl ${a.level}"></span><div style="flex:1;min-width:0"><h3>${esc(a.title)}</h3><p>${esc(String(a.body))}</p></div></a></li>`).join('')}</ul></section>
+      <section class="card"><div class="card-h"><h2>Recently opened</h2><a class="more" href="#/library/boutiques">Boutiques & photos</a></div>
+        <div class="photo-grid">${[['assets/store-bangkok-facade.jpg', 'Bangkok EM Quartier'], ['assets/store-rodeo-facade-2.jpg', 'Beverly Hills Rodeo Drive'], ['assets/store-bangkok-tryon-pink.jpg', 'Bangkok · try-on'], ['assets/store-bangkok-tryon-women.jpg', 'Bangkok · try-on']].map(x => `<a href="#/library/boutiques"><img src="${x[0]}" alt="${x[1]}"><span>${x[1]}</span></a>`).join('')}</div></section>
+    </div>`;
+    return { html };
+  }
+  function addDays(iso, n) { const d = new Date(iso + 'T12:00:00'); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); }
+  A.views.home = home;
+
+  /* ---------------- Cost module with tabs ---------------- */
+  Saas.ctab = 'overview'; Saas.open = new Set(['201155']);
+  const cost0 = A.views.cost;
+  const CTABS = [['overview', 'Overview'], ['budgets', 'Budgets'], ['variations', 'Variations'], ['cash', 'Cash flow'], ['payments', 'Payments'], ['univers', 'Search by univers']];
+  function costModule() {
+    state.costView = Saas.ctab === 'univers' ? 'search' : 'overview';
+    let out = cost0();
+    let html = out.html.replace(/<div class="seg"><button[^>]*data-act="cview"[\s\S]*?<\/div>/, '');
+    const tabs = `<nav class="tabs" aria-label="Cost sections">${CTABS.map(t => `<a href="#" data-act="ctab" data-v="${t[0]}" class="${Saas.ctab === t[0] ? 'on' : ''}">${t[1]}${t[0] === 'variations' ? `<span class="n">${Pano.variations.filter(v => v.status === 'pending').length}</span>` : ''}</a>`).join('')}</nav>`;
+    const headEnd = html.indexOf('</div></div>', html.indexOf('class="page-head"')) + '</div></div>'.length;
+    const head = html.slice(0, headEnd);
+    if (!A.fin()) return { html: head + tabs + html.slice(headEnd) };
+    const all = A.vis().filter(p => state.costZone === 'All' || p.zone === state.costZone);
+    let body;
+    if (Saas.ctab === 'overview' || Saas.ctab === 'univers') body = html.slice(headEnd);
+    else if (Saas.ctab === 'budgets') body = budgetsTree(all);
+    else if (Saas.ctab === 'variations') body = variationsAll(all);
+    else if (Saas.ctab === 'cash') body = Pano.portfolioCash(all) + cashTable(all);
+    else body = payments(all);
+    return { html: head + tabs + body, after: out.after };
+  }
+  function budgetsTree(all) {
+    const rows = all.map(p => {
+      const open = Saas.open.has(p.id);
+      let r = `<tr class="tree-p click" data-act="tree" data-v="${p.id}"><td><span class="tw ${open ? "on" : ""}">›</span><span class="lvl-b p">P</span><b>${esc(p.city)}</b> <span class="code">ARC-${p.id}</span> <span class="muted small">(${p.lines.length})</span></td><td class="r">${mE(p.budget)}</td><td class="r">${mE(p.committed)}</td><td class="r">${mE(p.actual)}</td><td class="r">${mE(p.forecast)}</td><td class="r ${A.vcls(p.variancePct)}">${A.pct(p.variancePct)}</td><td>${payBar(p)}</td></tr>`;
+      if (open) r += p.lines.map(l => `<tr class="tree-l"><td><span class="lvl-b l">B</span>${l.short} ${l.name} <span class="code">${l.pos.length} PO${l.pos.length === 1 ? '' : 's'}</span></td><td class="r">${mE(l.budget)}</td><td class="r">${mE(l.committed)}</td><td class="r">${mE(l.actual)}</td><td class="r">${mE(l.forecast)}</td><td class="r ${A.vcls(l.forecast / l.budget - 1)}">${A.pct(l.forecast / l.budget - 1)}</td><td>${payBar({ budget: l.budget, forecast: l.forecast, actual: l.actual, committed: l.committed })}</td></tr>` + l.pos.map(po => `<tr class="tree-c"><td><span class="lvl-b c">C</span>${po.po} · ${po.supplier ? esc(A.sup(po.supplier).name) : esc(po.label || '')}</td><td></td><td class="r">${mE(po.amount)}</td><td class="r">${mE(po.invoiced)}</td><td></td><td></td><td class="small muted">${po.status}</td></tr>`).join('')).join('');
+      return r;
+    }).join('');
+    return `<section class="card"><div class="card-h"><h2>Budgets</h2><span class="muted small">Project › Anaplan budget line › Coupa order. Open a project to see its lines.</span><div class="chips" style="margin-left:auto"><button class="btn sm ghost" data-act="tree-all">Expand all</button><button class="btn sm ghost" data-act="export" data-v="Excel (Anaplan format)">Export</button></div></div>
+      <div class="tbl-wrap"><table class="tbl tree"><thead><tr><th>Title</th><th class="r">Budget</th><th class="r">Committed</th><th class="r">Paid</th><th class="r">Forecast</th><th class="r">Variance</th><th>Payment progress</th></tr></thead><tbody>${rows}</tbody></table></div>
+      <div class="legend" style="margin-top:10px"><span><b class="lvl-b p">P</b>Project</span><span><b class="lvl-b l">B</b>Budget line (Anaplan)</span><span><b class="lvl-b c">C</b>Order or contract (Coupa)</span></div></section>`;
+  }
+  function variationsAll(all) {
+    const ids = new Set(all.map(p => p.id)); const vs = Pano.variations.filter(v => ids.has(v.project));
+    const canAppr = ['bc', 'pm'].includes(state.role.id);
+    return `<section class="card"><div class="card-h"><h2>Variations</h2><span class="muted small">Change orders on signed contracts. Pending ones count in the forecast only.</span></div>
+      <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Variation</th><th>Project</th><th>Supplier</th><th>Line</th><th>Raised</th><th class="r">Amount</th><th>Status</th><th></th></tr></thead><tbody>${vs.map(v => `<tr><td><b style="font-weight:600">${esc(v.title)}</b><div class="small muted">${v.id} · ${esc(v.source)}</div></td><td>${esc(A.P[v.project].city)}</td><td class="small">${esc(A.sup(v.supplier).name)}</td><td class="code">${v.line}</td><td class="small">${A.dfmt(v.raised)}</td><td class="r"><b>+${mE(v.amount)}</b></td><td>${v.status === 'pending' ? '<span class="status s-warn">Pending</span>' : v.status === 'approved' ? '<span class="status s-ok">Approved</span>' : '<span class="status">Rejected</span>'}</td><td>${v.status === 'pending' && canAppr ? `<button class="btn sm" data-act="var-ok" data-v="${v.id}">Approve</button>` : ''}</td></tr>`).join('') || '<tr><td colspan="8" class="muted">No variation in this scope.</td></tr>'}</tbody></table></div></section>`;
+  }
+  function cashTable(all) {
+    return `<section class="card"><div class="card-h"><h2>By project</h2><span class="muted small">forecast payments, next three months</span></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Project</th><th class="r">Paid to date</th><th class="r">Next 3 months</th><th class="r">Still to pay</th><th>Opening</th></tr></thead><tbody>${all.map(p => { const r = Pano.cashflow(p).filter(x => x.fc != null).slice(0, 3); const n3 = r.length ? r[r.length - 1].fc - p.actual : 0; return `<tr class="click" data-href="#/project/${p.id}/costs"><td><b>${esc(p.city)}</b></td><td class="r">${mE(p.actual)}</td><td class="r">${mE(Math.max(0, n3))}</td><td class="r">${mE(Math.max(0, p.forecast - p.actual))}</td><td class="small">${A.dfmt((p.admin || {}).opening || p.handover)}</td></tr>`; }).join('')}</tbody></table></div></section>`;
+  }
+  function payments() {
+    const inv = [['INV-88412', 'Gulf Interiors', 84, 'Ras Al Khaimah Wynn'], ['INV-88430', 'Gulf Interiors', 46, 'Ras Al Khaimah Wynn'], ['INV-88447', 'Thermis MEP', 23, 'Ras Al Khaimah Wynn']];
+    return `<section class="card"><div class="card-h"><h2>Payments to review</h2><span class="muted small">Coupa invoices. Copilot checks them against the order and the contract; a person confirms.</span></div>
+      <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Invoice</th><th>Supplier</th><th>Project</th><th class="r">Amount</th><th>AI check</th><th></th></tr></thead><tbody>${inv.map(x => `<tr><td><b>${x[0]}</b></td><td>${x[1]}</td><td class="small">${x[3]}</td><td class="r">€${x[2]}k</td><td>${Pano.invoices.has(x[0]) ? '<span class="status s-ok">Matched</span>' : x[0] === 'INV-88430' ? '<span class="ai-chip">No issue found</span>' : '<span class="ai-chip warn">2 points to review</span>'}</td><td>${Pano.invoices.has(x[0]) ? '' : `<button class="btn sm ghost" data-act="inv-check" data-v="${x[0]}">Review</button>`}</td></tr>`).join('')}</tbody></table></div>
+      <p class="small muted" style="margin-top:12px">Illustrative invoices. In production they come from Coupa as they are received.</p></section>`;
+  }
+  A.views.cost = costModule;
+
+  /* ---------------- Projects: table first ---------------- */
+  if (!Saas.projViewSet) { state.projView = 'table'; Saas.projViewSet = true; }
+
+  /* ---------------- Project: summary and health rings ---------------- */
+  const project0 = A.views.project;
+  A.views.project = (id, tab) => {
+    const out = project0(id, tab); const p = A.P[id];
+    if (!p || !out || !out.html || (tab && tab !== 'overview')) return out;
+    const h = Pano.health(p), fin = A.fin();
+    const ts = D.TENDERS.filter(t => t.project === id), open = ts.filter(t => t.status !== 'Awarded');
+    const vs = Pano.variations.filter(v => v.project === id && v.status === 'pending');
+    const lines = [
+      `<b>Programme.</b> ${esc(p.status)} stage, ${Math.round(p.progress * 100)}% complete, opening ${A.dlong((p.admin || {}).opening || p.handover)}${h.sched === 'g' ? ', on track against elapsed time' : h.sched === 'a' ? ', slightly behind elapsed time' : ', well behind elapsed time'}.`,
+      fin ? `<b>Cost.</b> Forecast final cost ${mE(p.forecast)} against ${mE(p.budget)} budget (${A.pct(p.variancePct)}); ${mE(p.actual)} paid${vs.length ? `; ${vs.length} variation${vs.length > 1 ? 's' : ''} pending` : ''}.` : '<b>Cost.</b> Restricted for this role.',
+      `<b>Tenders.</b> ${open.length ? open.map(t => `${esc(t.pkg)} (${t.status.toLowerCase()})`).join(', ') : 'No open tender'}.`,
+      `<b>Data.</b> Project sheet confirmed ${h.age} days ago${h.data === 'g' ? '.' : ', confirmation due.'}`
+    ];
+    const card = `<section class="summary"><div class="sum-text"><div class="card-h"><h2>${icon('spark', 16)} Project summary</h2><span class="muted small">written by Copilot from today's data</span></div><ul>${lines.map(l => `<li>${l}</li>`).join('')}</ul></div>
+      <div class="rings">${fin ? ring('Cost', h.cost) : ''}${ring('Time', h.sched)}${ring('Data', h.data)}${ring('Tenders', open.some(t => (t.bids || []).some(b => b.gaps.some(g => !g.soft))) ? 'a' : 'g')}</div></section>`;
+    const k = out.html.indexOf('<nav class="tabs"');
+    if (k > 0) out.html = out.html.slice(0, k) + card + out.html.slice(k);
+    return out;
+  };
+
+  /* ---------------- Documents: AI badges ---------------- */
+  const CLS = { Drawing: 'Drawing', 'Purchase order': 'Order', Invoice: 'Invoice', SOW: 'SOW', BOQ: 'BOQ', 'Tender return': 'Offer', 'Tender analysis': 'Analysis', Contract: 'Contract', 'Site photos': 'Photo', Minutes: 'Minutes', 'Technical sheet': 'Spec', 'Budget export': 'Budget', 'Design book': 'Design book', 'Project list': 'Register', 'Project info': 'Report', 'Opening book': 'Report' };
+  Saas.docBadges = d => { const ready = !/^(jpg|png|dwg)$/.test(d.ext) && d.status !== 'Draft'; return `${ready ? '<span class="ai-chip">AI ready</span>' : ''}${ready ? `<button class="ask-ai" data-q="What does ${esc(d.name)} say? Summarise it.">Ask AI</button>` : ''}`; };
+  Saas.cls = d => `<span class="cls">${CLS[d.type] || esc(d.type)}</span>`;
+
+  /* ---------------- actions ---------------- */
+  const handle0 = Pano.handle;
+  Pano.handle = (act, v, b) => {
+    switch (act) {
+      case 'dzone': Saas.zone = v; A.render(true); return true;
+      case 'ctab': Saas.ctab = v; A.render(true); return true;
+      case 'tree': Saas.open.has(v) ? Saas.open.delete(v) : Saas.open.add(v); A.render(true); return true;
+      case 'tree-all': { const all = A.vis(); if (Saas.open.size >= all.length) Saas.open.clear(); else all.forEach(p => Saas.open.add(p.id)); A.render(true); return true; }
+    }
+    return handle0(act, v, b);
+  };
+  document.addEventListener('click', e => { const a = e.target.closest('a[data-act="ctab"]'); if (a) e.preventDefault(); }, true);
+
+  const start = () => { shell(); setTimeout(afterRender, 50); };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(start, 0)); else start();
 })();
 
