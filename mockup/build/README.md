@@ -12,5 +12,6 @@ python3 build/step3_fixes.py index.html                  # tags backlog, navigat
 python3 build/step4_ux.py index.html                     # v0.3 : My work, onglets projet, création de projet, données à jour, outils, recherche par univers
 python3 build/step5_app.py index.html                    # v1.0 : couche fonctionnelle (build/pano.js)
 python3 build/step7_saas.py index.html                   # v1.2 : interface SaaS (build/saas.js)
+python3 build/step8_v13.py index.html                   # v1.3 : globe 3D, tableau de bord, mobile
 python3 build/bundle_app.py                              # standalone/ et ../app/panoptic.html (artefact)
 ```

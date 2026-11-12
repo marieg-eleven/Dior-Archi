@@ -88,3 +88,19 @@ Inspirée des logiciels du marché (Mastt pour les maîtres d'ouvrage), avec des
 - **Ce qui a été retiré :** le flou de la barre du haut, le dégradé arc-en-ciel du Copilot, les pastilles décoratives autour des métadonnées (sources, villes), qui deviennent du texte simple.
 - **Indicateurs d'état :** vert, orange ou rouge pour le coût, le délai et les données ; « AI ready » sur les documents lisibles par l'IA.
 - **Petits écrans :** la navigation passe dans un tiroir sous 960 px, sans défilement horizontal à 390 px.
+
+
+## 8. v1.3 : la 3D revient, un tableau de bord plus visuel, le mobile
+
+- **3D sur le tableau de bord, au choix :**
+  - **World :** un globe façon porcelaine (ivoire, continents en pointillés d'encre, méridiens or). Les projets y sont épinglés selon leur santé, avec une onde pour ceux à surveiller, et reliés à Paris par des arcs dorés. On le fait tourner au doigt ou à la souris ; un clic ouvre le projet.
+  - **Platform :** la maquette 3D des six pôles autour du socle de données. Un clic sur un pôle ouvre la partie correspondante de la plateforme.
+- **Santé par zone :** à côté du globe, la santé de chaque projet regroupée par zone, avec sa date d'ouverture.
+- **Indicateurs lisibles d'un coup d'œil :** répartition par étape, engagé et payé en barres, prévisionnel final avec le budget marqué en rouge.
+- **Projets reconnaissables :** chaque ligne du tableau porte une vignette de sa façade.
+- **Dates :** affichées en gros, façon calendrier.
+- **Sous-titres :** les descriptions sous les titres sont masquées. Elles réapparaissent avec le bouton « ID », en mode cadrage.
+- **Mobile :** aucune page ne déborde à 390 px.
+  - Navigation en tiroir avec fond assombri, recherche en icône.
+  - Colonnes secondaires masquées, grilles en une colonne, onglets qui défilent.
+  - Fenêtres en plein écran, globe redimensionné.
