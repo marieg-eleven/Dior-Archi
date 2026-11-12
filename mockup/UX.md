@@ -132,3 +132,40 @@ Inspirée des logiciels du marché (Mastt pour les maîtres d'ouvrage), avec des
 - **Typographie :** titres en Figtree, pour plus de netteté. Le Bodoni ne reste que dans le logo.
 
 **Règle de complétude :** pourcentage d'éléments complets parmi ceux dus à l'étape du projet. Les éléments « plus tard » ne comptent pas.
+
+
+## 10. v2.1 : comment arrivent les alertes, une hiérarchie plus nette
+
+**Le circuit d'une alerte** (affiché en haut de la page Alerts)
+1. **Les données arrivent :** Anaplan, Coupa, appels d'offres, Diorlex, fichiers.
+2. **Une règle les vérifie**, avec un seuil.
+3. **La bonne personne est prévenue**, dans Panoptic, dans Teams ou par e-mail.
+4. **Quelqu'un agit :** approuver, confirmer, contrôler, ou assigner à un autre rôle. Sans réaction, l'alerte remonte au niveau au-dessus.
+
+**Les 12 règles** (onglet Rules, seuils modifiables sans code, chaque règle activable ou non)
+
+| Règle | Se déclenche quand | Prévenus |
+|---|---|---|
+| R1 | Une ligne budgétaire est dépassée (5 %) | Contrôle de gestion, PM |
+| R2 | Le prévisionnel d'un projet dépasse son budget (3 %) | Contrôle de gestion, PM |
+| R3 | L'échéance d'un appel d'offres approche (7 jours) | Achats |
+| R4 | Une offre présente un écart de périmètre | Achats, PM |
+| R5 | Un contrat cadre expire (60 jours) | Achats, Juridique |
+| R6 | Une facture n'a pas de ligne budgétaire | Contrôle de gestion |
+| R7 | Une décision attend (3 jours) | Contrôle de gestion, PM |
+| R8 | La fiche projet n'a pas été confirmée (30 jours) | PM |
+| R9 | Un plan existe en deux versions | Architectes |
+| R10 | Le prix d'une matière bouge (5 % sur 3 mois) | Achats, contrôle de gestion |
+| R11 | Un connecteur est en erreur | IT |
+| R12 | Un document correspond à une recherche enregistrée | La personne qui l'a enregistrée |
+
+Les alertes sont **calculées à partir des données** et non saisies : modifier un seuil, approuver une décision ou confirmer une fiche les met à jour aussitôt. Chaque alerte indique sa source, sa règle, ses destinataires et ce qui se passe si personne n'agit. On peut la marquer comme vue, la résoudre ou l'assigner, et tout est tracé au journal d'audit.
+
+**Hiérarchie de l'accueil**
+1. **Raccourcis du rôle** sous le titre, pour entrer directement dans son travail. Par exemple pour les Achats : appels d'offres à attribuer, comparer les offres de Melbourne, fournisseurs.
+2. **Quatre chiffres clés :** écart au budget, projets à risque, complétude des dossiers, alertes ouvertes.
+3. **Ce qui demande une action maintenant :** les trois alertes les plus importantes du rôle, avec leur bouton.
+4. **Les projets** (pipeline, dossiers, 3D) **et la carte du dossier.**
+5. **Les tâches et les échéances.**
+
+**Couverture de l'Excel :** chacune des 129 lignes a maintenant son emplacement précis dans la plateforme (Admin › Backlog coverage et `COUVERTURE.md`).

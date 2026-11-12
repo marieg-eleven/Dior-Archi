@@ -9,7 +9,7 @@
   'use strict';
   const A = window.A; if (!A) return;
   const D = A.D, state = A.state, esc = A.esc;
-  const COLS = ['projects', 'tenders', 'amendments', 'done', 'invoices', 'audit', 'docs', 'variations', 'verified', 'snapshots'];
+  const COLS = ['projects', 'tenders', 'amendments', 'done', 'invoices', 'audit', 'docs', 'variations', 'verified', 'snapshots', 'alertstate', 'rules'];
   const INVOICES = ['INV-88412', 'INV-88430', 'INV-88447'];
   const today = () => new Date().toISOString().slice(0, 10);
   const addDays = (iso, n) => { const d = new Date(iso + 'T12:00:00'); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); };
@@ -19,7 +19,7 @@
 
   const Pano = window.Pano = {
     mode: 'memory', canWrite: true, sample: null, sampleReady: false, downloads: null, assets: null,
-    done: new Set(), invoices: new Set(), verified: new Set(), variations: [], snapshots: [], snapCmp: null, audit: [], np: null, imp: null,
+    alertState: {}, rules: {}, done: new Set(), invoices: new Set(), verified: new Set(), variations: [], snapshots: [], snapCmp: null, audit: [], np: null, imp: null,
     amendments: [{ id: 'AM-201155-05', project: '201155', line: '05', amount: 521, reason: 'Main-contract offers (SOR R2): MEP priced above its budget line', status: 'pending', created: '2026-11-09' }]
   };
 
@@ -82,6 +82,8 @@
     else if (col === 'docs') docs.forEach(d => { if (!D.DOCS.some(x => x.id === d.id)) D.DOCS.unshift(d); });
     else if (col === 'variations') docs.forEach(d => { const v = Pano.variations.find(x => x.id === d.id); if (v) Object.assign(v, d); else Pano.variations.push(d); });
     else if (col === 'verified') docs.forEach(d => Pano.verified.add(d.id));
+    else if (col === 'alertstate') docs.forEach(d => { Pano.alertState[d.id] = d; });
+    else if (col === 'rules') docs.forEach(d => { Pano.rules[d.id] = d; });
     else if (col === 'snapshots') docs.forEach(d => { if (!Pano.snapshots.some(x => x.id === d.id)) Pano.snapshots.push(d); Pano.snapshots.sort((a, b) => String(b.at).localeCompare(String(a.at))); });
   }
   function syncAlerts() {
@@ -132,6 +134,10 @@
     const t = text || (Pano.mode === 'shared' ? (Pano.canWrite ? 'Prototype · changes saved for everyone' : 'Prototype · read-only for you') : Pano.mode === 'local' ? 'Prototype · changes saved in this browser' : 'Prototype · changes not saved');
     el.textContent = t; el.title = 'Six 2027 projects, Flinders Lane bids, photos, plans and tables are real; other figures are sample data.';
   }
+
+  Pano.saveDoc = (col, id, data) => save(col, id, data);
+  Pano.guard = () => guard();
+  Pano.logEvent = (what, project) => log(what, project);
 
   /* ---------------- audit ---------------- */
   async function log(what, project) {
