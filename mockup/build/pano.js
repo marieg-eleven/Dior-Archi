@@ -9,7 +9,7 @@
   'use strict';
   const A = window.A; if (!A) return;
   const D = A.D, state = A.state, esc = A.esc;
-  const COLS = ['projects', 'tenders', 'amendments', 'done', 'invoices', 'audit', 'docs'];
+  const COLS = ['projects', 'tenders', 'amendments', 'done', 'invoices', 'audit', 'docs', 'variations', 'verified', 'snapshots'];
   const INVOICES = ['INV-88412', 'INV-88430', 'INV-88447'];
   const today = () => new Date().toISOString().slice(0, 10);
   const addDays = (iso, n) => { const d = new Date(iso + 'T12:00:00'); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); };
@@ -19,7 +19,7 @@
 
   const Pano = window.Pano = {
     mode: 'memory', canWrite: true, sample: null, sampleReady: false, downloads: null, assets: null,
-    done: new Set(), invoices: new Set(), audit: [], np: null, imp: null,
+    done: new Set(), invoices: new Set(), verified: new Set(), variations: [], snapshots: [], snapCmp: null, audit: [], np: null, imp: null,
     amendments: [{ id: 'AM-201155-05', project: '201155', line: '05', amount: 521, reason: 'Main-contract offers (SOR R2): MEP priced above its budget line', status: 'pending', created: '2026-11-09' }]
   };
 
@@ -80,6 +80,9 @@
     else if (col === 'invoices') docs.forEach(d => Pano.invoices.add(d.id));
     else if (col === 'audit') { const seen = new Set(Pano.audit.map(a => a.id)); docs.forEach(d => { if (!seen.has(d.id)) Pano.audit.push(d); }); Pano.audit.sort((a, b) => String(b.at).localeCompare(String(a.at))); }
     else if (col === 'docs') docs.forEach(d => { if (!D.DOCS.some(x => x.id === d.id)) D.DOCS.unshift(d); });
+    else if (col === 'variations') docs.forEach(d => { const v = Pano.variations.find(x => x.id === d.id); if (v) Object.assign(v, d); else Pano.variations.push(d); });
+    else if (col === 'verified') docs.forEach(d => Pano.verified.add(d.id));
+    else if (col === 'snapshots') docs.forEach(d => { if (!Pano.snapshots.some(x => x.id === d.id)) Pano.snapshots.push(d); Pano.snapshots.sort((a, b) => String(b.at).localeCompare(String(a.at))); });
   }
   function syncAlerts() {
     const done = Pano.amendments.some(a => a.id === 'AM-201155-05' && a.status === 'approved');
@@ -476,7 +479,10 @@
       budgetAmendments: Pano.amendments.map(a => ({ project: (A.P[a.project] || {}).city, line: a.line, amountK: a.amount, reason: a.reason, status: a.status })),
       spendByUnivers: fin ? uni : 'restricted',
       suppliers: D.SUPPLIERS.map(s => ({ name: s.name, category: s.cat, country: s.country, contractEnds: s.expiry, onTimePct: s.kpi.delivery })),
-      recentChanges: Pano.audit.slice(0, 10).map(a => ({ at: a.at, by: a.role, what: a.what }))
+      recentChanges: Pano.audit.slice(0, 10).map(a => ({ at: a.at, by: a.role, what: a.what })),
+      variations: Pano.variations.map(v => ({ id: v.id, project: (A.P[v.project] || {}).city, title: v.title, amountK: v.amount, status: v.status })),
+      health: ps.map(p => { const h = Pano.health(p); return { project: p.city, overall: HL[h.overall], cost: fin ? HL[h.cost] : 'restricted', schedule: HL[h.sched], data: HL[h.data] }; }),
+      toPayNext3MonthsK: fin ? Object.fromEntries(ps.map(p => { const r = Pano.cashflow(p).filter(x => x.fc != null).slice(0, 3); return [p.city, r.length ? Math.round(r[r.length - 1].fc - p.actual) : 0]; })) : 'restricted'
     };
   }
   const fmt = t => esc(t).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/^\s*[-•]\s+/gm, '• ').replace(/\n/g, '<br>');
@@ -493,9 +499,187 @@
     }
   };
 
+
+  /* ================= v1.1 — market-standard cost controls (benchmark: owner-side capital project tools) ================= */
+  const mkE = k => '€' + (Math.abs(k) >= 1000 ? (k / 1000).toFixed(2) + 'M' : Math.round(k) + 'k');
+  const sgn = k => (k > 0 ? '+' : k < 0 ? '−' : '') + mkE(Math.abs(k));
+  // Variations (change orders): approved ones are in the committed cost, pending ones only in the forecast, shown apart.
+  (function seedVariations() {
+    const lc = A.P['100610'], l3 = lc && lc.lines.find(l => l.short === '03');
+    Pano.variations = [
+      { id: 'CO-100610-02', project: '100610', line: '03', supplier: 'EX04', title: 'Façade metalwork, change order 02', amount: l3 ? Math.max(40, l3.committed - l3.budget) : 120, status: 'pending', raised: '2026-11-08', source: 'Coupa change request CR-26-118' },
+      { id: 'CO-201155-01', project: '201155', line: '07', supplier: 'EX15', title: 'Early works: hoarding extension, Flinders Lane', amount: 85, status: 'approved', raised: '2026-07-14', source: 'Contract instruction CI-04' },
+      { id: 'CO-300407-01', project: '300407', line: '01', supplier: 'EX10', title: 'Millwork: two extra niches in the VIC salon', amount: 64, status: 'pending', raised: '2026-11-03', source: 'Supplier quotation Q-2231' },
+      { id: 'CO-401111-01', project: '401111', line: '07', supplier: 'EX07', title: 'Structural opening, rear façade', amount: 42, status: 'approved', raised: '2026-09-22', source: 'Contract instruction CI-02' }
+    ];
+  })();
+  // Baseline report snapshot (illustrative October close), frozen before stored changes are applied.
+  (function seedSnapshot() {
+    const projects = {};
+    D.PROJECTS.forEach(p => { const r = D.rng(D.hash(p.id + 'snap')); let f = p.forecast; if (p.id === '201155') f -= 528; else if (p.id === '100610') f -= 90; else f = Math.round(f * (1 - (r() - 0.45) * 0.014)); projects[p.id] = { budget: p.budget, committed: Math.round(p.committed * (0.92 + r() * 0.06)), forecast: Math.round(f) }; });
+    Pano.snapshots = [{ id: 'SN-2026-10', label: 'October 2026 close', at: '2026-10-31T18:00:00Z', by: 'Budget Controller', illustrative: true, projects }];
+  })();
+
+  /* Health: cost, schedule and data, each green / amber / red */
+  const HL = { g: 'On track', a: 'Watch', r: 'At risk' };
+  Pano.health = p => {
+    const v = p.variancePct || 0, a = p.admin || {};
+    const cost = v > 0.03 ? 'r' : v > 0.01 ? 'a' : 'g';
+    const open = new Date((a.opening || p.handover) + 'T12:00:00').getTime();
+    const start = new Date((a.commitment || addDays(p.handover, -540)) + 'T12:00:00').getTime();
+    const elapsed = Math.min(1, Math.max(0, (Date.now() - start) / Math.max(1, open - start)));
+    const gap = elapsed - (p.progress || 0);
+    const sched = gap > 0.3 ? 'r' : gap > 0.15 ? 'a' : 'g';
+    const age = Pano.age(p, 'Project sheet', defaultSheetAge(p));
+    const data = age > 60 ? 'r' : age > 30 ? 'a' : 'g';
+    const all = [A.fin() ? cost : 'g', sched, data];
+    return { overall: all.includes('r') ? 'r' : all.includes('a') ? 'a' : 'g', cost, sched, data, elapsed, gap, age, v };
+  };
+  Pano.healthPill = p => { const h = Pano.health(p); return `<span class="hp hp-${h.overall}" title="Cost: ${A.fin() ? HL[h.cost] : 'restricted'} · Schedule: ${HL[h.sched]} · Data: ${HL[h.data]}"><i></i>${HL[h.overall]}</span>`; };
+  Pano.healthDots = p => { const h = Pano.health(p); return `<span class="hdots" title="Cost · Schedule · Data">${[A.fin() ? h.cost : null, h.sched, h.data].map((x, i) => x ? `<i class="hd-${x}" title="${['Cost', 'Schedule', 'Data'][i]}: ${HL[x]}"></i>` : '').join('')}</span>`; };
+
+  /* Cash flow: planned S-curve from commitment to opening, paid to date, forecast to go */
+  const sc = x => x <= 0 ? 0 : x >= 1 ? 1 : x * x * (3 - 2 * x);
+  const ym = d => d.toISOString().slice(0, 7);
+  Pano.cashflow = p => {
+    const a = p.admin || {};
+    const start = new Date((a.commitment || addDays(p.handover, -540)) + 'T12:00:00'), end = new Date((a.opening || p.handover) + 'T12:00:00');
+    const close = new Date(end); close.setMonth(close.getMonth() + 3);
+    const span = Math.max(1, end - start), now = Date.now();
+    const pos = t => Math.min(1.08, (t - start) / span), curve = t => Math.min(1, sc(Math.min(1, pos(t))) * 0.95 + (pos(t) > 1 ? 0.05 * Math.min(1, (pos(t) - 1) / 0.08) : 0));
+    const cNow = Math.max(0.0001, curve(now));
+    const out = []; const d = new Date(start.getFullYear(), start.getMonth(), 1);
+    while (d <= close) {
+      const t = new Date(d.getFullYear(), d.getMonth() + 1, 0, 12).getTime();
+      const planned = p.budget * curve(t);
+      const paid = t <= now ? p.actual * curve(t) / cNow : null;
+      const fc = t >= now ? p.actual + (p.forecast - p.actual) * Math.max(0, (curve(t) - cNow) / Math.max(0.0001, 1 - cNow)) : null;
+      out.push({ m: ym(new Date(t)), planned, paid, fc });
+      d.setMonth(d.getMonth() + 1);
+    }
+    return out;
+  };
+  function cashChart(rows, opts) {
+    const W = 720, H = 220, L = 48, R = 12, T = 14, B = 30;
+    const max = Math.max(1, ...rows.map(r => Math.max(r.planned || 0, r.paid || 0, r.fc || 0)));
+    const x = i => L + (W - L - R) * (rows.length < 2 ? 0 : i / (rows.length - 1)), y = v => T + (H - T - B) * (1 - v / max);
+    const path = k => rows.map((r, i) => r[k] == null ? null : [x(i), y(r[k])]).filter(Boolean).map((pt, i) => (i ? 'L' : 'M') + pt[0].toFixed(1) + ' ' + pt[1].toFixed(1)).join(' ');
+    const todayIdx = rows.findIndex(r => r.m >= ym(new Date()));
+    const ticks = [0, 0.5, 1].map(f => `<line x1="${L}" x2="${W - R}" y1="${y(max * f)}" y2="${y(max * f)}" stroke="currentColor" stroke-opacity=".1"/><text x="${L - 6}" y="${y(max * f) + 4}" text-anchor="end" font-size="11" fill="currentColor" fill-opacity=".6">${mkE(max * f)}</text>`).join('');
+    const step = Math.max(1, Math.ceil(rows.length / 8));
+    const labels = rows.map((r, i) => i % step ? '' : `<text x="${x(i)}" y="${H - 10}" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity=".6">${new Date(r.m + '-15').toLocaleDateString('en-GB', { month: 'short', year: '2-digit' })}</text>`).join('');
+    const today = todayIdx > 0 ? `<line x1="${x(todayIdx)}" x2="${x(todayIdx)}" y1="${T}" y2="${H - B}" stroke="currentColor" stroke-dasharray="3 3" stroke-opacity=".5"/><text x="${x(todayIdx) + 5}" y="${T + 10}" font-size="11" fill="currentColor" fill-opacity=".7">Today</text>` : '';
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(opts.label)}" style="width:100%;height:auto;display:block;color:var(--ink)">${ticks}${labels}${today}
+      <path d="${path('planned')}" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-width="1.5" stroke-dasharray="5 4"/>
+      <path d="${path('fc')}" fill="none" style="stroke:var(--stone)" stroke-width="2.2"/>
+      <path d="${path('paid')}" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>
+      <div class="legend" style="margin-top:6px"><span><i style="background:var(--ink)"></i>Paid (Coupa)</span><span><i style="background:var(--stone)"></i>Forecast to pay</span><span><i style="background:transparent;border:1px dashed var(--grey)"></i>Planned at budget</span></div>`;
+  }
+
+  /* Project cost position, variations and cash flow (Budget & costs tab) */
+  Pano.costPosition = p => {
+    if (!A.fin()) return '';
+    const vs = Pano.variations.filter(v => v.project === p.id);
+    const appr = vs.filter(v => v.status === 'approved').reduce((a, v) => a + v.amount, 0), pend = vs.filter(v => v.status === 'pending').reduce((a, v) => a + v.amount, 0);
+    const adj = Object.values(p.adj || {}).reduce((a, k) => a + +k, 0), original = p.budget - adj;
+    const ffc = p.forecast, committed = p.committed, toGo = Math.max(0, ffc - committed - pend), paid = p.actual;
+    const scale = Math.max(ffc, p.budget) * 1.04, w = k => (k / scale * 100).toFixed(2) + '%';
+    const rows = Pano.cashflow(p); const next3 = rows.filter(r => r.fc != null).slice(0, 3); const nextPay = next3.length ? next3[next3.length - 1].fc - paid : 0;
+    const canAppr = ['bc', 'pm'].includes(state.role.id);
+    return `<section class="blk grid g-7-5" style="margin-top:28px"><div>${A.blkH('Cost position', 'Forecast final cost, the market standard for owner-side cost control', A.req('2.1', '2.6', '7.7.5'))}
+        <div class="ffc"><div class="ffc-bar"><span style="width:${w(committed)};background:var(--ink)" title="Committed ${mkE(committed)}"></span><span style="width:${w(pend)}" class="pend" title="Pending variations ${mkE(pend)}"></span><span style="width:${w(toGo)};background:var(--stone-2)" title="Cost to go ${mkE(toGo)}"></span><b style="left:${w(p.budget)}" title="Current budget ${mkE(p.budget)}"></b></div>
+        <div class="legend"><span><i style="background:var(--ink)"></i>Committed, incl. approved variations</span><span><i class="pend-sw"></i>Pending variations</span><span><i style="background:var(--stone-2)"></i>Cost to go</span><span><i style="background:var(--rouge);width:2px"></i>Current budget</span></div></div>
+        <dl class="facts-grid five" style="margin-top:16px">${[['Original budget', mkE(original), 'Anaplan v1'], ['Approved amendments', sgn(adj), 'Panoptic → Anaplan'], ['Current budget', mkE(p.budget), 'Anaplan'], ['Committed', mkE(committed), `incl. ${mkE(appr)} approved variations`], ['Pending variations', mkE(pend), `${vs.filter(v => v.status === 'pending').length} to decide`], ['Forecast final cost', mkE(ffc), 'committed + pending + to go'], ['Variance', `<span class="${A.vcls(p.variancePct)}">${sgn(ffc - p.budget)}</span>`, A.pct(p.variancePct) + ' on budget'], ['Paid to date', mkE(paid), Math.round(paid / Math.max(1, ffc) * 100) + '% of forecast'], ['To pay, next 3 months', mkE(Math.max(0, nextPay)), 'cash-flow forecast'], ['Health', Pano.healthPill(p), 'cost · schedule · data']].map(x => `<div><dt>${x[0]}</dt><dd>${x[1]}</dd><span class="small muted">${x[2]}</span></div>`).join('')}</dl>
+        <h3 class="sub-h">Cash flow ${A.req('2.7')}</h3>${cashChart(rows, { label: 'Cumulative cash flow for ' + p.city })}</div>
+      <div>${A.blkH('Variations', 'Change orders on signed contracts', A.req('2.6', '2.8'))}
+        ${vs.length ? `<ul class="list">${vs.map(v => `<li class="var-row"><div style="min-width:0"><b>${esc(v.title)}</b><span class="small muted">${A.sup(v.supplier).name} · line ${v.line} · ${esc(v.source)} · ${A.dfmt(v.raised)}</span></div><div class="r"><b>${sgn(v.amount)}</b>${v.status === 'pending' ? (canAppr ? `<span class="var-act"><button class="btn sm" data-act="var-ok" data-v="${v.id}">Approve</button><button class="btn sm ghost" data-act="var-no" data-v="${v.id}">Reject</button></span>` : '<span class="status s-warn">Pending</span>') : v.status === 'approved' ? '<span class="status s-ok">Approved</span>' : '<span class="status">Rejected</span>'}</div></li>`).join('')}</ul>` : '<p class="muted">No variation on this project.</p>'}
+        <p class="small muted" style="margin-top:12px">Pending variations count in the forecast but not in the committed cost. Approving one moves it into the commitment and raises the PO change in Coupa.</p></div></section>`;
+  };
+  async function decideVariation(id, ok) {
+    if (!guard()) return;
+    const v = Pano.variations.find(x => x.id === id); if (!v) return;
+    const upd = Object.assign({}, v, { status: ok ? 'approved' : 'rejected', decided: today(), by: state.role.name });
+    if (!(await save('variations', id, upd))) return;
+    Object.assign(v, upd);
+    const p = A.P[v.project];
+    await log(`Variation ${id} ${ok ? 'approved' : 'rejected'} · ${p ? p.city : ''}, ${sgn(v.amount)}`, v.project);
+    A.render(true); A.toast(ok ? `${id} approved. The PO change is queued for Coupa.` : `${id} rejected. The supplier is notified.`);
+  }
+
+  /* Portfolio cash flow and report snapshots (Cost control) */
+  Pano.portfolioCash = all => {
+    if (!A.fin()) return '';
+    const map = {};
+    all.forEach(p => { let prev = 0, prevFc = null; Pano.cashflow(p).forEach(r => { const cum = r.paid != null ? r.paid : r.fc; const m = map[r.m] || (map[r.m] = { m: r.m, paid: 0, fc: 0 }); const delta = Math.max(0, cum - prev); if (r.paid != null) m.paid += delta; else m.fc += delta; prev = cum; }); });
+    const now = ym(new Date()); const months = Object.values(map).sort((a, b) => a.m.localeCompare(b.m)).filter(r => r.m >= addDays(today(), -180).slice(0, 7) && r.m <= addDays(today(), 400).slice(0, 7));
+    const max = Math.max(1, ...months.map(r => r.paid + r.fc)); const W = 720, H = 200, L = 64, B = 28, bw = (W - L - 10) / months.length;
+    const next12 = months.filter(r => r.m > now).slice(0, 12).reduce((a, r) => a + r.fc, 0);
+    const bars = months.map((r, i) => { const h1 = (H - B - 10) * r.paid / max, h2 = (H - B - 10) * r.fc / max, x0 = L + i * bw + 2; return `<rect x="${x0}" y="${H - B - h1}" width="${bw - 4}" height="${h1}" fill="currentColor"/><rect x="${x0}" y="${H - B - h1 - h2}" width="${bw - 4}" height="${h2}" style="fill:var(--stone)"/>${i % 3 ? '' : `<text x="${x0 + bw / 2 - 2}" y="${H - 9}" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity=".6">${new Date(r.m + '-15').toLocaleDateString('en-GB', { month: 'short', year: '2-digit' })}</text>`}`; }).join('');
+    return `<section class="blk grid g-7-5"><div>${A.blkH('Cash flow, all projects in scope', 'Monthly payments: paid in Coupa, then forecast from each project\'s schedule', A.req('2.7', '7.7.2'))}
+        <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Monthly cash flow across projects" style="width:100%;height:auto;display:block;color:var(--ink)"><line x1="${L}" x2="${W - 10}" y1="${H - B}" y2="${H - B}" stroke="currentColor" stroke-opacity=".2"/><text x="${L - 6}" y="${16}" text-anchor="end" font-size="11" fill="currentColor" fill-opacity=".6">${mkE(max)}</text>${bars}</svg>
+        <div class="legend" style="margin-top:6px"><span><i style="background:var(--ink)"></i>Paid</span><span><i style="background:var(--stone)"></i>Forecast</span></div></div>
+      <div><div class="panel"><h3 class="sub-h" style="margin-top:0">Next 12 months</h3><p class="big">${mkE(next12)}</p><p class="small muted">to pay across ${all.length} projects. Shared with Finance for the treasury plan; Anaplan receives the monthly profile.</p></div></div></section>`;
+  };
+  Pano.snapshotSection = all => {
+    if (!A.fin()) return '';
+    const snaps = Pano.snapshots.slice().sort((a, b) => String(b.at).localeCompare(String(a.at)));
+    const cmp = snaps.find(s => s.id === Pano.snapCmp) || snaps[0]; if (!cmp) return '';
+    const rows = all.map(p => { const o = cmp.projects[p.id]; return { p, o, d: o ? p.forecast - o.forecast : null }; }).sort((a, b) => Math.abs(b.d || 0) - Math.abs(a.d || 0));
+    const why = p => { const a = Pano.audit.find(x => x.project === p.id && x.at > cmp.at); if (a) return esc(a.what); if (p.id === '201155') return 'Main-contract offers received (SOR R2): MEP above its line'; if (p.id === '100610') return 'Façade change order 02 raised in Coupa'; return 'Invoicing and commitments in Coupa'; };
+    return `<section class="blk">${A.blkH('Since the last report', 'Each month the figures are frozen; the next report shows what moved and why', A.req('2.8', '7.7.7'))}
+      <div class="filters" style="padding-top:0"><label class="small muted" for="snap-cmp">Compare with</label><select class="select" id="snap-cmp" data-input="snapCmp">${snaps.map(s => `<option value="${s.id}" ${s.id === cmp.id ? 'selected' : ''}>${esc(s.label)}${s.illustrative ? ' (illustrative)' : ''}</option>`).join('')}</select><button class="btn sm" style="margin-left:auto" data-act="snap-save">Freeze this month's figures</button></div>
+      <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Project</th><th class="r">Forecast then</th><th class="r">Forecast now</th><th class="r">Movement</th><th>Main reason</th></tr></thead><tbody>${rows.filter(r => r.o).slice(0, 8).map(r => `<tr class="click" data-href="#/project/${r.p.id}/costs"><td><b>${r.p.city}</b></td><td class="r">${mkE(r.o.forecast)}</td><td class="r">${mkE(r.p.forecast)}</td><td class="r ${r.d > 5 ? 'over' : r.d < -5 ? 'under' : ''}">${Math.abs(r.d) < 5 ? '—' : sgn(r.d)}</td><td class="small">${why(r.p)}</td></tr>`).join('')}</tbody></table></div></section>`;
+  };
+  async function snapSave() {
+    if (!guard()) return;
+    const d = new Date(), id = 'SN-' + d.toISOString().slice(0, 10) + '-' + d.getTime().toString(36).slice(-4);
+    const projects = {}; D.PROJECTS.forEach(p => { projects[p.id] = { budget: p.budget, committed: p.committed, forecast: p.forecast }; });
+    const snap = { id, label: d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) + ' report', at: d.toISOString(), by: state.role.name, projects };
+    if (!(await save('snapshots', id, snap))) return;
+    Pano.snapshots.unshift(snap); await log(`Report figures frozen: ${snap.label}`); A.render(true); A.toast('Figures frozen. The next report will compare against them.');
+  }
+
+  /* AI with sources: where each figure comes from, and a human check */
+  const SOR = { file: 'FINAL_Dior Flinders Lane - MC - SOR - R2(2Apr).xlsx', sheet: 'SUMMARY', rows: [['Total preliminaries', 33], ['Total general contractor', 98], ['Total MEP', 129], ['Total millwork', 170]], col: { EX15: 'K', EX16: 'N' } };
+  Pano.provBtn = (tid, sid, i, label) => { const id = `${tid}-${sid}-${i}`; return `<button class="srcbtn" data-act="prov" data-v="${tid}|${sid}|${i}" title="See where this figure comes from">${label}${Pano.verified.has(id) ? ' <span class="ok-tick" aria-label="checked">✓</span>' : ''}</button>`; };
+  function provHTML(v) {
+    const [tid, sid, i] = v.split('|'); const t = A.T[tid]; if (!t) return '';
+    const b = (t.bids || []).find(x => x.supplier === sid); const it = t.sow[+i]; const val = b ? b.lines[+i] : 0; const id = `${tid}-${sid}-${i}`;
+    const real = tid === 'T-26-026';
+    const src = real ? `${SOR.file} · sheet ${SOR.sheet} · cell ${SOR.col[sid]}${SOR.rows[+i][1]} (${SOR.rows[+i][0]}, EUR)` : `Tender return of ${A.sup(sid).name} · price schedule, line ${it.ref}`;
+    return `<span class="ext xlsx" style="width:48px;height:58px;font-size:10px">${real ? 'xlsx' : 'pdf'}</span><h2 class="serif" style="font-weight:400;font-size:26px;line-height:1.2;margin:16px 0 6px">${esc(it.ref + ' ' + it.name)}</h2>
+      <p class="muted" style="margin:0 0 16px">${A.sup(sid).name} · ${t.id}</p>
+      <dl class="spec"><dt>Value read</dt><dd><b>${A.kE(val)}</b></dd><dt>Source</dt><dd class="small">${esc(src)}</dd>${real && sid === 'EX16' ? '<dt>Conversion</dt><dd class="small">Offer in AUD, converted at 1 EUR = 1.8 AUD as stated in the file</dd>' : ''}<dt>Benchmark</dt><dd>${A.kE(it.benchmark)} · Anaplan ARC-${t.project}.${t.line}</dd><dt>Read by</dt><dd>Panoptic Copilot, ${real ? '15 Jun 2026' : 'on receipt'}</dd><dt>Checked by</dt><dd>${Pano.verified.has(id) ? '<span class="status s-ok">Checked by a buyer</span>' : '<span class="status s-warn">Not checked yet</span>'}</dd></dl>
+      ${real ? `<a class="doc-prev" href="assets/tbl-flinders-lane-sor-r2.jpg" target="_blank" rel="noopener"><img src="assets/tbl-flinders-lane-sor-r2.jpg" alt="Statement of rates, summary sheet"></a><p class="small muted">The summary sheet as received. Row ${SOR.rows[+i][1]}, column ${SOR.col[sid]}.</p>` : ''}
+      ${Pano.verified.has(id) ? '' : `<div style="display:flex;gap:10px;margin-top:16px"><button class="btn" data-act="prov-ok" data-v="${id}">The figure is right</button><button class="btn ghost" data-act="close">Close</button></div>`}`;
+  }
+  async function provOk(id) { if (!guard()) return; if (!(await save('verified', id, { at: new Date().toISOString(), role: state.role.name }))) return; Pano.verified.add(id); await log(`Figure checked: ${id}`); A.closeOverlays(); A.render(true); A.toast('Marked as checked.'); }
+
+  const INV = {
+    'INV-88412': { sup: 'Gulf Interiors', amount: 84, po: 'General works', line: '07', checks: [['ok', 'Supplier and bank details match the Coupa vendor record'], ['ok', 'Matched to the general-works PO on ARC-601421.07, remaining €212k'], ['ok', 'Retention of 5% applied, as in LMA-2024-070'], ['warn', 'Two rates are 3% above the contract schedule (partition works, items 4.2 and 4.5)'], ['warn', 'Progress photos for the period are missing']], fields: [['Invoice total', '€84,000', 'page 1, "Total due"'], ['Period', 'October 2026', 'page 1, header'], ['Retention', '€4,200', 'page 2, line 18'], ['PO reference', 'none on the invoice', 'matched by supplier and amount']] },
+    'INV-88430': { sup: 'Gulf Interiors', amount: 46, po: 'General works', line: '07', checks: [['ok', 'Supplier matches the Coupa vendor record'], ['ok', 'Matched to the general-works PO on ARC-601421.07'], ['ok', 'Rates match the contract schedule'], ['ok', 'Retention of 5% applied']], fields: [['Invoice total', '€46,000', 'page 1, "Total due"'], ['Period', 'October 2026', 'page 1, header'], ['PO reference', 'none on the invoice', 'matched by supplier and amount']] },
+    'INV-88447': { sup: 'Thermis MEP', amount: 23, po: 'MEP & HVAC', line: '05', checks: [['ok', 'Supplier matches the Coupa vendor record'], ['warn', 'No open MEP PO on Ras Al Khaimah Wynn: suggested line ARC-601421.05'], ['ok', 'Amount within the MEP budget line']], fields: [['Invoice total', '€23,000', 'page 1, "Total"'], ['Description', 'Temporary HVAC during fit-out', 'page 1, line 1']] }
+  };
+  function invoiceHTML(n) {
+    const v = INV[n]; if (!v) return '';
+    const done = Pano.invoices.has(n);
+    return `<span class="ext pdf" style="width:48px;height:58px;font-size:10px">pdf</span><h2 class="serif" style="font-weight:400;font-size:26px;margin:16px 0 4px">${n}</h2><p class="muted" style="margin:0 0 16px">${v.sup} · €${v.amount}k · Coupa · illustrative invoice</p>
+      <h3 class="sub-h">What Copilot checked</h3><ul class="checks">${v.checks.map(c => `<li class="${c[0]}">${esc(c[1])}</li>`).join('')}</ul>
+      <h3 class="sub-h">Read from the invoice</h3><dl class="spec">${v.fields.map(f => `<dt>${f[0]}</dt><dd>${esc(f[1])} <span class="small muted">· ${esc(f[2])}</span></dd>`).join('')}</dl>
+      <p class="small muted" style="margin-top:12px">Copilot only proposes. The budget controller confirms the match; Coupa and Anaplan update at the next sync.</p>
+      ${done ? '<span class="status s-ok">Matched</span>' : `<div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap"><button class="btn" data-act="match" data-v="${n}">Confirm the match to ARC-601421.${v.line}</button><button class="btn ghost" data-act="inv-query" data-v="${n}">Query the supplier</button></div>`}`;
+  }
+
   /* ---------------- action router ---------------- */
   Pano.handle = (act, v, b) => {
     switch (act) {
+      case 'var-ok': decideVariation(v, true); return true;
+      case 'var-no': decideVariation(v, false); return true;
+      case 'prov': A.openDrawer(provHTML(v)); return true;
+      case 'prov-ok': provOk(v); return true;
+      case 'inv-check': A.openDrawer(invoiceHTML(v)); return true;
+      case 'inv-query': log(`Query sent to the supplier about ${v}`); A.closeOverlays(); A.toast(`Query about ${v} sent to the supplier through Coupa.`); return true;
+      case 'snap-save': snapSave(); return true;
       case 'np-open': Pano.np = npDefaults(); A.openModal(npHTML()); return true;
       case 'np-src': npRead(); Pano.np.src = v; Pano.np.err = ''; A.openModal(npHTML()); return true;
       case 'np-step': {
@@ -517,7 +701,7 @@
       case 'mw-done': if (!guard()) return true; Pano.done.add(v); save('done', v, { at: new Date().toISOString(), role: state.role.name }).then(() => log(`Marked done: ${v}`)); A.render(true); return true;
       case 'open-tool': if (v === 'Upload documents') { A.openModal(uploadHTML()); return true; } return false;
       case 'req-update': if (v === 'Budget amendment') { A.openModal(amendHTML()); return true; } log(`Confirmation requested: ${String(v).split('|')[0]}`); return false;
-      case 'match': if (!guard()) return true; Pano.invoices.add(v); save('invoices', v, { at: new Date().toISOString(), role: state.role.name }).then(() => log(`Invoice ${v} matched to its budget line`)); return false;
+      case 'match': if (!guard()) return true; Pano.invoices.add(v); save('invoices', v, { at: new Date().toISOString(), role: state.role.name }).then(() => log(`Invoice ${v} matched to its budget line`)); if (b.closest('.drawer')) { A.closeOverlays(); A.render(true); A.toast(`${v} matched. Coupa and Anaplan update at the next sync.`); return true; } return false;
       case 'award-ok': { if (!guard()) return true; const [tid, sid] = v.split('|'); save('tenders', tid, { status: 'Awarded', awarded: sid, at: new Date().toISOString() }).then(() => log(`${tid} awarded to ${A.sup(sid).name}; draft PO raised in Coupa`, (A.T[tid] || {}).project)); return false; }
       case 'export': {
         const s = String(v || '');
@@ -530,7 +714,7 @@
     }
     return false;
   };
-  document.addEventListener('change', e => { if (e.target && e.target.id === 'imp-file' && e.target.files[0]) importFile(e.target.files[0]); });
+  document.addEventListener('change', e => { if (e.target && e.target.id === 'imp-file' && e.target.files[0]) importFile(e.target.files[0]); if (e.target && e.target.id === 'snap-cmp') { Pano.snapCmp = e.target.value; A.render(true); } });
   document.addEventListener('dragover', e => { if (e.target.closest && e.target.closest('.drop')) e.preventDefault(); });
   document.addEventListener('drop', e => { const z = e.target.closest && e.target.closest('.drop'); if (!z) return; e.preventDefault(); const f = e.dataTransfer.files[0]; if (!f) return; if (document.getElementById('imp-file')) importFile(f); else { const i = document.getElementById('up-files'); if (i) { i.files = e.dataTransfer.files; A.toast(`${e.dataTransfer.files.length} file(s) ready to upload.`); } } });
 

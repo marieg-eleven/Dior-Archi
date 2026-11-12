@@ -1,0 +1,387 @@
+<title>Panoptic en pratique</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="author" content="Marie Guegain, eleven">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one reading column (≈ 720px) for prose, figures break out to 1080px; sections separated by space and a hairline, no cards. */
+:root {
+  --paper: #fbfaf7; --surface: #ffffff; --ink: #1b1a18; --muted: #66625b; --line: #e3dfd7;
+  --stone: #8f6f3f; --stone-soft: #f1e9dc; --sage: #3f6a52; --rouge: #a52a2a;
+  --display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --sans: "Figtree", "Inter", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #151413; --surface: #1d1c1a; --ink: #eeebe5; --muted: #a7a197; --line: #34312d;
+  --stone: #d2b07c; --stone-soft: #2c261d; --sage: #86b89a; --rouge: #e08a7f; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #151413; --surface: #1d1c1a; --ink: #eeebe5; --muted: #a7a197; --line: #34312d;
+  --stone: #d2b07c; --stone-soft: #2c261d; --sage: #86b89a; --rouge: #e08a7f; color-scheme: dark }
+body { background: var(--paper); color: var(--ink); font: 400 16px/1.6 var(--sans); }
+.wrap { max-width: 1080px; margin: 0 auto; padding-block: 48px 72px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.col { max-width: 720px; }
+header { border-bottom: 1px solid var(--line); padding-bottom: 32px; }
+.eyebrow { font: 600 12px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--stone); margin: 0 0 14px; }
+h1 { font: 400 clamp(40px, 6vw, 64px)/1.02 var(--display); margin: 0 0 18px; letter-spacing: -.01em; text-wrap: balance; }
+h2 { font: 400 clamp(28px, 3.4vw, 38px)/1.1 var(--display); margin: 0 0 14px; text-wrap: balance; }
+h3 { font: 600 17px/1.35 var(--sans); margin: 26px 0 6px; }
+p { margin: 0 0 14px; }
+.lede { font-size: 19px; line-height: 1.55; color: var(--ink); }
+.muted { color: var(--muted); }
+section { padding-top: 56px; margin-top: 56px; border-top: 1px solid var(--line); }
+section:first-of-type { border-top: 0; margin-top: 8px; }
+.three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; margin-top: 30px; }
+.three div { min-width: 0; }
+.three b { display: block; font-weight: 600; margin-bottom: 4px; }
+.three .n { font: 400 34px/1 var(--display); color: var(--stone); display: block; margin-bottom: 8px; }
+figure { margin: 30px 0 8px; }
+figure .scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); padding: 18px 14px; }
+figure svg { display: block; width: 100%; min-width: 760px; height: auto; color: var(--ink); font-family: var(--sans); }
+figcaption { font-size: 14px; color: var(--muted); margin-top: 10px; max-width: 720px; }
+.tbl { overflow-x: auto; margin: 22px 0 6px; }
+table { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 14.5px; }
+th, td { text-align: left; vertical-align: top; padding: 11px 14px 11px 0; border-bottom: 1px solid var(--line); }
+th { font: 600 12px/1.3 var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+td:first-child { font-weight: 600; white-space: nowrap; }
+.pill { display: inline-block; font: 600 11.5px/1 var(--sans); padding: 5px 9px; border-radius: 999px; background: var(--stone-soft); color: var(--stone); white-space: nowrap; }
+.pill.auto { background: transparent; border: 1px solid var(--line); color: var(--muted); }
+ol.steps { padding-left: 0; list-style: none; counter-reset: s -1; margin: 24px 0 0; display: grid; gap: 22px; }
+ol.steps li { counter-increment: s; display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 14px; }
+ol.steps li::before { content: counter(s); font: 400 30px/1 var(--display); color: var(--stone); }
+ol.steps b { font-weight: 600; }
+.note { border-left: 2px solid var(--stone); padding: 2px 0 2px 16px; color: var(--muted); font-size: 15px; margin: 22px 0 0; max-width: 720px; }
+.decisions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 32px; margin-top: 18px; }
+.decisions div { border-top: 1px solid var(--ink); padding-top: 12px; min-width: 0; }
+.decisions b { display: block; font-weight: 600; }
+footer { margin-top: 64px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+:focus-visible { outline: 2px solid var(--stone); outline-offset: 2px; }
+@media (max-width: 720px) { .three, .decisions { grid-template-columns: 1fr; } .lede { font-size: 17px; } }
+</style>
+
+<div class="wrap">
+<header class="col">
+  <p class="eyebrow">Architecture Panoptic · note explicative</p>
+  <h1>Panoptic en pratique</h1>
+  <p class="lede">Panoptic ne remplace pas les outils de l'équipe. Il se branche dessus, relie leurs données projet par projet et ajoute ce qui n'existe nulle part aujourd'hui : un registre unique des projets, le suivi structuré des appels d'offres, les validations, les alertes et l'IA.</p>
+  <div class="three">
+    <div><span class="n">1</span><b>Les outils restent la référence</b>Anaplan pour le budget, Coupa pour les commandes et factures, Diorlex pour les contrats, SharePoint et les serveurs pour les fichiers.</div>
+    <div><span class="n">2</span><b>Panoptic relie et complète</b>Tout est rattaché à un même identifiant projet. Ce qui vit aujourd'hui dans des Excel (liste des projets, comparaisons d'offres) devient une donnée de Panoptic.</div>
+    <div><span class="n">3</span><b>Chacun agit au bon moment</b>Une attribution, une validation de budget, une fiche à confirmer : l'action se fait une fois, dans Panoptic ou dans Teams, et se propage aux outils.</div>
+  </div>
+</header>
+
+<section>
+  <div class="col">
+    <p class="eyebrow">Comment c'est construit</p>
+    <h2>Une couche au-dessus des outils existants</h2>
+    <p>De gauche à droite : les systèmes actuels, les connecteurs qui lisent (et parfois écrivent) leurs données, le cœur de Panoptic, puis ce que voient les équipes. Les flèches doubles sont les deux seuls endroits où Panoptic renvoie des informations : l'engagé vers Anaplan, le bon de commande vers Coupa.</p>
+  </div>
+  <figure>
+    <div class="scroll">
+    <svg viewBox="0 0 1120 560" role="img" aria-label="Architecture : sept systèmes sources reliés par des connecteurs au cœur de Panoptic (données, index des documents, services), qui alimente les écrans par rôle, Teams et Excel. Anaplan et Coupa sont en lecture et écriture, les autres en lecture.">
+      <defs>
+        <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker>
+        <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--stone)"/></marker>
+      </defs>
+      <g font-size="12" fill="currentColor">
+        <text x="20" y="22" font-weight="700" letter-spacing=".08em">SYSTÈMES ACTUELS</text>
+        <text x="300" y="22" font-weight="700" letter-spacing=".08em">CONNECTEURS</text>
+        <text x="500" y="22" font-weight="700" letter-spacing=".08em" style="fill:var(--stone)">PANOPTIC</text>
+        <text x="880" y="22" font-weight="700" letter-spacing=".08em">CE QUE VOIENT LES ÉQUIPES</text>
+      </g>
+      <!-- sources -->
+      <g font-size="13" fill="currentColor">
+        <g><rect x="20" y="40" width="210" height="54" rx="9" fill="none" stroke="currentColor" style="stroke:var(--stone)" stroke-width="1.5"/><text x="34" y="62" font-weight="600">Anaplan</text><text x="34" y="81" font-size="12" style="fill:var(--muted)">budget SOP, lignes, prévisionnel</text></g>
+        <g><rect x="20" y="106" width="210" height="54" rx="9" fill="none" stroke="currentColor" style="stroke:var(--stone)" stroke-width="1.5"/><text x="34" y="128" font-weight="600">Coupa</text><text x="34" y="147" font-size="12" style="fill:var(--muted)">bons de commande, factures</text></g>
+        <g><rect x="20" y="172" width="210" height="54" rx="9" fill="none" stroke="currentColor" stroke-opacity=".45"/><text x="34" y="194" font-weight="600">Diorlex</text><text x="34" y="213" font-size="12" style="fill:var(--muted)">contrats cadres</text></g>
+        <g><rect x="20" y="238" width="210" height="54" rx="9" fill="none" stroke="currentColor" stroke-opacity=".45"/><text x="34" y="260" font-weight="600">R&amp;P SharePoint</text><text x="34" y="279" font-size="12" style="fill:var(--muted)">documents, SOW, fiches</text></g>
+        <g><rect x="20" y="304" width="210" height="54" rx="9" fill="none" stroke="currentColor" stroke-opacity=".45"/><text x="34" y="326" font-weight="600">S: et serveur de plans</text><text x="34" y="345" font-size="12" style="fill:var(--muted)">DWG, PDF, photos</text></g>
+        <g><rect x="20" y="370" width="210" height="54" rx="9" fill="none" stroke="currentColor" stroke-opacity=".45"/><text x="34" y="392" font-weight="600">Dior DAM</text><text x="34" y="411" font-size="12" style="fill:var(--muted)">images publiées</text></g>
+        <g><rect x="20" y="436" width="210" height="54" rx="9" fill="none" stroke="currentColor" stroke-opacity=".45"/><text x="34" y="458" font-weight="600">Outlook</text><text x="34" y="477" font-size="12" style="fill:var(--muted)">offres reçues par mail</text></g>
+      </g>
+      <!-- source arrows -->
+      <g stroke-width="1.5">
+        <line x1="232" y1="67" x2="296" y2="67" style="stroke:var(--stone)" marker-start="url(#a2)" marker-end="url(#a2)"/>
+        <line x1="232" y1="133" x2="296" y2="133" style="stroke:var(--stone)" marker-start="url(#a2)" marker-end="url(#a2)"/>
+        <line x1="232" y1="199" x2="296" y2="199" stroke="currentColor" marker-end="url(#a1)"/>
+        <line x1="232" y1="265" x2="296" y2="265" stroke="currentColor" marker-end="url(#a1)"/>
+        <line x1="232" y1="331" x2="296" y2="331" stroke="currentColor" marker-end="url(#a1)"/>
+        <line x1="232" y1="397" x2="296" y2="397" stroke="currentColor" marker-end="url(#a1)"/>
+        <line x1="232" y1="463" x2="296" y2="463" stroke="currentColor" marker-end="url(#a1)"/>
+      </g>
+      <!-- connectors -->
+      <rect x="300" y="40" width="150" height="450" rx="10" fill="none" stroke="currentColor" stroke-opacity=".45" stroke-dasharray="4 4"/>
+      <g font-size="12.5" fill="currentColor" text-anchor="middle">
+        <text x="375" y="230" font-weight="600">Passerelle API</text>
+        <text x="375" y="250" style="fill:var(--muted)">sécurité, journal,</text>
+        <text x="375" y="266" style="fill:var(--muted)">cadence de lecture</text>
+        <text x="375" y="300" style="fill:var(--muted)">clé commune :</text>
+        <text x="375" y="316" font-weight="600">ID projet</text>
+      </g>
+      <line x1="452" y1="265" x2="496" y2="265" stroke="currentColor" stroke-width="1.5" marker-end="url(#a1)"/>
+      <!-- panoptic core -->
+      <rect x="500" y="40" width="320" height="450" rx="12" fill="none" style="stroke:var(--stone)" stroke-width="2"/>
+      <g font-size="13" fill="currentColor">
+        <rect x="520" y="62" width="280" height="150" rx="9" style="fill:var(--stone-soft)"/>
+        <text x="536" y="86" font-weight="700">Socle de données</text>
+        <text x="536" y="110" font-size="12.5">Registre des projets</text>
+        <text x="536" y="130" font-size="12.5">Lignes budgétaires, commandes, factures</text>
+        <text x="536" y="150" font-size="12.5">Appels d'offres, lignes de SOW, offres</text>
+        <text x="536" y="170" font-size="12.5">Fournisseurs, contrats, validations</text>
+        <text x="536" y="196" font-size="12" style="fill:var(--stone)">une base de chiffres + une base de documents</text>
+        <rect x="520" y="226" width="280" height="88" rx="9" fill="none" stroke="currentColor" stroke-opacity=".45"/>
+        <text x="536" y="250" font-weight="700">Index des documents</text>
+        <text x="536" y="272" font-size="12.5">≈ 275 000 fichiers, 1,6 To</text>
+        <text x="536" y="292" font-size="12.5">indexés et classés sans être déplacés</text>
+        <rect x="520" y="328" width="280" height="142" rx="9" fill="none" stroke="currentColor" stroke-opacity=".45"/>
+        <text x="536" y="352" font-weight="700">Services</text>
+        <text x="536" y="374" font-size="12.5">Alertes et contrôles de fraîcheur</text>
+        <text x="536" y="394" font-size="12.5">Workflows d'approbation</text>
+        <text x="536" y="414" font-size="12.5">IA : lecture des SOW et des offres,</text>
+        <text x="536" y="432" font-size="12.5">classement des fichiers, Copilot</text>
+        <text x="536" y="456" font-size="12.5">Rôles et droits (OKTA)</text>
+      </g>
+      <!-- out arrows -->
+      <g stroke="currentColor" stroke-width="1.5">
+        <line x1="822" y1="120" x2="876" y2="120" marker-end="url(#a1)"/>
+        <line x1="822" y1="265" x2="876" y2="265" marker-end="url(#a1)" marker-start="url(#a1)"/>
+        <line x1="822" y1="410" x2="876" y2="410" marker-end="url(#a1)" marker-start="url(#a1)"/>
+      </g>
+      <g font-size="13" fill="currentColor">
+        <rect x="880" y="62" width="220" height="116" rx="9" fill="none" stroke="currentColor" stroke-opacity=".45"/>
+        <text x="896" y="86" font-weight="700">Écrans par rôle</text>
+        <text x="896" y="108" font-size="12.5">My work, projets, coûts,</text>
+        <text x="896" y="126" font-size="12.5">appels d'offres, fournisseurs,</text>
+        <text x="896" y="144" font-size="12.5">documents, Copilot</text>
+        <text x="896" y="166" font-size="12" style="fill:var(--muted)">navigateur, pas d'installation</text>
+        <rect x="880" y="208" width="220" height="114" rx="9" fill="none" stroke="currentColor" stroke-opacity=".45"/>
+        <text x="896" y="232" font-weight="700">Teams et Outlook</text>
+        <text x="896" y="254" font-size="12.5">alertes, demandes de mise</text>
+        <text x="896" y="272" font-size="12.5">à jour, approbations</text>
+        <text x="896" y="290" font-size="12.5">en un clic</text>
+        <rect x="880" y="352" width="220" height="114" rx="9" fill="none" stroke="currentColor" stroke-opacity=".45"/>
+        <text x="896" y="376" font-weight="700">Excel et Power BI</text>
+        <text x="896" y="398" font-size="12.5">export au format actuel,</text>
+        <text x="896" y="416" font-size="12.5">réimport avec revue,</text>
+        <text x="896" y="434" font-size="12.5">connecteur reporting</text>
+      </g>
+      <!-- legend -->
+      <g font-size="12" fill="currentColor">
+        <line x1="20" y1="528" x2="60" y2="528" style="stroke:var(--stone)" stroke-width="1.5" marker-start="url(#a2)" marker-end="url(#a2)"/>
+        <text x="70" y="532">lecture et écriture (Anaplan : engagé renvoyé ; Coupa : bon de commande créé à l'attribution)</text>
+        <line x1="700" y1="528" x2="740" y2="528" stroke="currentColor" stroke-width="1.5" marker-end="url(#a1)"/>
+        <text x="750" y="532">lecture seule</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>Les fichiers restent dans SharePoint et sur les serveurs : Panoptic les indexe et pointe vers eux. Les chiffres restent dans Anaplan et Coupa : Panoptic les lit et les relie au projet.</figcaption>
+  </figure>
+
+  <div class="col">
+    <h3>Qui fait foi pour quoi</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>Donnée</th><th>Système de référence</th><th>Ce que fait Panoptic</th></tr></thead>
+      <tbody>
+        <tr><td>Budget</td><td>Anaplan</td><td>Lit les lignes, calcule l'écart, renvoie l'engagé et le prévisionnel. Une modification de budget est validée dans Panoptic puis transmise.</td></tr>
+        <tr><td>Commandes, factures</td><td>Coupa</td><td>Lit les PO et les factures, propose la ligne budgétaire de chaque facture, crée le PO brouillon quand un marché est attribué.</td></tr>
+        <tr><td>Contrats</td><td>Diorlex</td><td>Relie chaque contrat cadre au fournisseur, prévient avant l'échéance.</td></tr>
+        <tr><td>Fichiers</td><td>SharePoint, S:, serveur de plans</td><td>Indexe, classe par projet, fournisseur et ligne budgétaire, détecte les nouvelles révisions.</td></tr>
+        <tr><td>Registre des projets</td><td><span class="pill">Panoptic</span></td><td>Remplace la liste ADMIN FOLLOW UP : identité, dates, surfaces, concept, équipe.</td></tr>
+        <tr><td>Appels d'offres</td><td><span class="pill">Panoptic</span></td><td>SOW en lignes, offres comparées ligne à ligne, attribution, archivage du dossier.</td></tr>
+        <tr><td>Validations, alertes</td><td><span class="pill">Panoptic</span></td><td>Circuits d'approbation, journal d'audit, contrôles de fraîcheur.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section>
+  <div class="col">
+    <p class="eyebrow">Au fil d'un projet</p>
+    <h2>Ce qui entre dans Panoptic, étape par étape</h2>
+    <p>Le projet traverse cinq étapes. Au-dessus de la ligne, ce que l'équipe fait dans Panoptic. En dessous, ce qui arrive tout seul depuis les outils. L'exemple de l'appel d'offres reprend le marché principal de Melbourne Flinders Lane.</p>
+  </div>
+  <figure>
+    <div class="scroll">
+    <svg viewBox="0 0 1120 360" role="img" aria-label="Cycle de vie d'un projet en cinq étapes : brief, conception, appel d'offres, travaux, réception. Pour chaque étape, les actions faites dans Panoptic et les données reçues automatiquement des outils.">
+      <defs><marker id="b1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
+      <g font-size="12" font-weight="700" letter-spacing=".08em" fill="currentColor">
+        <text x="20" y="28" style="fill:var(--stone)">DANS PANOPTIC</text>
+        <text x="20" y="246" style="fill:var(--muted)">REÇU DES OUTILS</text>
+      </g>
+      <line x1="20" y1="200" x2="1100" y2="200" stroke="currentColor" stroke-opacity=".35"/>
+      <g font-size="13" fill="currentColor">
+        <!-- stage pills -->
+        <g><rect x="20" y="182" width="196" height="36" rx="18" style="fill:var(--surface)" stroke="currentColor"/><text x="118" y="205" text-anchor="middle" font-weight="700">Brief</text></g>
+        <g><rect x="236" y="182" width="196" height="36" rx="18" style="fill:var(--surface)" stroke="currentColor"/><text x="334" y="205" text-anchor="middle" font-weight="700">Conception</text></g>
+        <g><rect x="452" y="182" width="196" height="36" rx="18" style="fill:var(--stone-soft);stroke:var(--stone)" stroke-width="1.5"/><text x="550" y="205" text-anchor="middle" font-weight="700">Appel d'offres</text></g>
+        <g><rect x="668" y="182" width="196" height="36" rx="18" style="fill:var(--surface)" stroke="currentColor"/><text x="766" y="205" text-anchor="middle" font-weight="700">Travaux</text></g>
+        <g><rect x="884" y="182" width="196" height="36" rx="18" style="fill:var(--surface)" stroke="currentColor"/><text x="982" y="205" text-anchor="middle" font-weight="700">Réception</text></g>
+      </g>
+      <g stroke="currentColor" stroke-opacity=".5"><line x1="216" y1="200" x2="234" y2="200" marker-end="url(#b1)"/><line x1="432" y1="200" x2="450" y2="200" marker-end="url(#b1)"/><line x1="648" y1="200" x2="666" y2="200" marker-end="url(#b1)"/><line x1="864" y1="200" x2="882" y2="200" marker-end="url(#b1)"/></g>
+      <!-- above -->
+      <g font-size="12.5" fill="currentColor">
+        <text x="20" y="62"><tspan font-weight="600">Créer le projet</tspan><tspan x="20" dy="18">depuis son code Anaplan</tspan><tspan x="20" dy="18">ou une ligne Excel ;</tspan><tspan x="20" dy="18">l'équipe et ses accès</tspan><tspan x="20" dy="18">sont définis.</tspan></text>
+        <text x="236" y="62"><tspan font-weight="600">Suivre la conception</tspan><tspan x="236" dy="18">matériaux, design book,</tspan><tspan x="236" dy="18">surfaces et univers ;</tspan><tspan x="236" dy="18">le PM confirme la fiche.</tspan></text>
+        <text x="452" y="62"><tspan font-weight="600">Déposer le SOW, comparer</tspan><tspan x="452" dy="18">les offres ligne à ligne,</tspan><tspan x="452" dy="18">attribuer après deux</tspan><tspan x="452" dy="18">validations.</tspan><tspan x="452" dy="18" style="fill:var(--stone)">Legend 12,54 M€ · Redwood 12,47 M€</tspan></text>
+        <text x="668" y="62"><tspan font-weight="600">Piloter le coût</tspan><tspan x="668" dy="18">valider les modifications</tspan><tspan x="668" dy="18">de budget, rapprocher</tspan><tspan x="668" dy="18">les factures restantes.</tspan></text>
+        <text x="884" y="62"><tspan font-weight="600">Clore</tspan><tspan x="884" dy="18">réserves, dossier des</tspan><tspan x="884" dy="18">ouvrages exécutés, photos</tspan><tspan x="884" dy="18">d'ouverture, archivage</tspan><tspan x="884" dy="18">automatique.</tspan></text>
+      </g>
+      <!-- below -->
+      <g font-size="12.5" fill="currentColor" style="fill:var(--muted)">
+        <text x="20" y="274"><tspan>Anaplan : budget SOP</tspan><tspan x="20" dy="18">et lignes budgétaires.</tspan><tspan x="20" dy="18">IT : site SharePoint,</tspan><tspan x="20" dy="18">dossier S:, canal Teams.</tspan></text>
+        <text x="236" y="274"><tspan>Serveur de plans :</tspan><tspan x="236" dy="18">nouvelles révisions DWG</tspan><tspan x="236" dy="18">détectées et rattachées.</tspan></text>
+        <text x="452" y="274"><tspan>Outlook : offres envoyées</tspan><tspan x="452" dy="18">à la boîte de l'appel</tspan><tspan x="452" dy="18">d'offres, lues par l'IA.</tspan><tspan x="452" dy="18">Coupa : PO brouillon créé.</tspan></text>
+        <text x="668" y="274"><tspan>Coupa : PO et factures,</tspan><tspan x="668" dy="18">en continu.</tspan><tspan x="668" dy="18">Anaplan : engagé</tspan><tspan x="668" dy="18">et prévisionnel renvoyés.</tspan></text>
+        <text x="884" y="274"><tspan>DAM : photos publiées.</tspan><tspan x="884" dy="18">Diorlex : contrats</tspan><tspan x="884" dy="18">rattachés au projet.</tspan></text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>À chaque étape, l'essentiel des données arrive des outils. La saisie dans Panoptic se limite aux décisions : créer, confirmer, comparer, attribuer, valider.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <div class="col">
+    <p class="eyebrow">Démarrage</p>
+    <h2>Alimenter la plateforme au départ</h2>
+    <p>On ne reprend pas tout l'historique d'un coup. On commence par les projets actifs (ouvertures à partir de 2026), là où la plateforme sert tout de suite. L'historique suit, d'abord en simple index de documents.</p>
+  </div>
+  <figure>
+    <div class="scroll">
+    <svg viewBox="0 0 1120 380" role="img" aria-label="Plan de démarrage indicatif sur huit mois : préalables le premier mois, reprise du registre des projets mois 1 et 2, branchement Anaplan et Coupa des mois 2 à 5, reprise des appels d'offres en cours mois 3 à 5, indexation des documents mois 3 à 8, pilote sur deux projets mois 5 et 6, puis généralisation.">
+      <g font-size="12" fill="currentColor">
+        <g style="fill:var(--muted)" text-anchor="middle">
+          <text x="400" y="26">Mois 1</text><text x="490" y="26">2</text><text x="580" y="26">3</text><text x="670" y="26">4</text><text x="760" y="26">5</text><text x="850" y="26">6</text><text x="940" y="26">7</text><text x="1030" y="26">8</text>
+        </g>
+        <g stroke="currentColor" stroke-opacity=".15"><line x1="355" y1="36" x2="355" y2="330"/><line x1="445" y1="36" x2="445" y2="330"/><line x1="535" y1="36" x2="535" y2="330"/><line x1="625" y1="36" x2="625" y2="330"/><line x1="715" y1="36" x2="715" y2="330"/><line x1="805" y1="36" x2="805" y2="330"/><line x1="895" y1="36" x2="895" y2="330"/><line x1="985" y1="36" x2="985" y2="330"/><line x1="1075" y1="36" x2="1075" y2="330"/></g>
+        <!-- rows -->
+        <g font-size="13">
+          <text x="20" y="66" font-weight="600">0 · Préalables</text><text x="20" y="84" font-size="12" style="fill:var(--muted)">clé projet, propriétaires, accès API</text>
+          <rect x="357" y="56" width="86" height="22" rx="5" fill="currentColor" fill-opacity=".75"/>
+          <text x="20" y="114" font-weight="600">1 · Registre des projets</text><text x="20" y="132" font-size="12" style="fill:var(--muted)">import ADMIN FOLLOW UP, contrôle PM</text>
+          <rect x="400" y="104" width="133" height="22" rx="5" fill="currentColor" fill-opacity=".75"/>
+          <text x="20" y="162" font-weight="600">2 · Anaplan et Coupa</text><text x="20" y="180" font-size="12" style="fill:var(--muted)">budgets, PO, factures, rapprochement</text>
+          <rect x="447" y="152" width="356" height="22" rx="5" style="fill:var(--stone)"/>
+          <text x="20" y="210" font-weight="600">3 · Appels d'offres en cours</text><text x="20" y="228" font-size="12" style="fill:var(--muted)">SOW, SOR et offres existants</text>
+          <rect x="537" y="200" width="266" height="22" rx="5" fill="currentColor" fill-opacity=".75"/>
+          <text x="20" y="258" font-weight="600">4 · Documents</text><text x="20" y="276" font-size="12" style="fill:var(--muted)">indexation en place, par priorité</text>
+          <rect x="537" y="248" width="536" height="22" rx="5" fill="currentColor" fill-opacity=".35"/>
+          <text x="20" y="306" font-weight="600">5 · Pilote puis généralisation</text><text x="20" y="324" font-size="12" style="fill:var(--muted)">2 projets, 1 par zone, puis tous</text>
+          <rect x="717" y="296" width="176" height="22" rx="5" fill="currentColor" fill-opacity=".75"/>
+          <rect x="897" y="296" width="176" height="22" rx="5" fill="none" stroke="currentColor" stroke-dasharray="4 3"/>
+        </g>
+        <g font-size="11.5" fill="currentColor">
+          <text x="812" y="168" style="fill:var(--stone)" font-weight="600">le plus lourd : relier chaque PO à sa ligne</text>
+          <text x="900" y="312">généralisation</text>
+        </g>
+        <text x="20" y="364" font-size="12" style="fill:var(--muted)">Calendrier indicatif, à caler avec D-NEXT et l'IT. Le chiffrage révisé de l'Excel compte 258 jours de réalisation sur l'ensemble du périmètre.</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>Le branchement financier (en couleur) conditionne la valeur de la plateforme : tant que les commandes ne sont pas rattachées aux lignes budgétaires, l'écart budget / engagé ne peut pas être calculé.</figcaption>
+  </figure>
+
+  <div class="col">
+    <ol class="steps">
+      <li><div><b>Préalables, à décider avant tout.</b> Une clé commune : le numéro de projet (201155 pour Melbourne Flinders Lane) doit être le même dans Anaplan, Coupa, SharePoint et le serveur. Un propriétaire par donnée (fiche projet : le PM ; budget : le contrôleur). Les accès API Anaplan et Coupa demandés à l'IT.</div></li>
+      <li><div><b>Registre des projets.</b> Import des onglets 2023 à 2028+ du fichier ADMIN FOLLOW UP. Aujourd'hui un projet occupe plusieurs lignes (une par lot) : l'import les regroupe. Chaque PM confirme ensuite sa fiche en un clic. C'est ce que fait déjà le bouton « Import from Excel » du prototype.</div></li>
+      <li><div><b>Anaplan et Coupa.</b> Lecture des lignes budgétaires et des PO et factures des projets actifs. Chaque PO doit être rattaché à une ligne budgétaire : l'IA propose, le contrôleur valide. L'Excel le décrit : un code principal Anaplan, des sous-chapitres par PO.</div></li>
+      <li><div><b>Appels d'offres en cours.</b> Les SOW et tableaux d'offres existants (comme le SOR R2 de Flinders Lane) sont lus et transformés en lignes, puis vérifiés par l'acheteur. Les appels d'offres clos sont seulement archivés et indexés.</div></li>
+      <li><div><b>Documents.</b> Les 275 000 fichiers restent où ils sont. L'indexation passe d'abord sur les projets actifs, puis sur les deux dernières années, puis sur le reste. Les doublons et versions concurrentes sont signalés, pas supprimés.</div></li>
+      <li><div><b>Pilote.</b> Deux projets, un par zone, avec leurs équipes réelles pendant six à huit semaines. On corrige, on forme les référents de chaque équipe, puis on ouvre à tous.</div></li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="col">
+    <p class="eyebrow">En run</p>
+    <h2>Comment les données restent à jour</h2>
+    <p>Trois mécanismes. La plupart des chiffres arrivent seuls des outils. Ce qui se décide dans Panoptic se saisit une fois, au moment où la décision se prend. Et chaque bloc de données a un propriétaire et un délai : au-delà, Panoptic lui demande de confirmer.</p>
+  </div>
+  <figure>
+    <div class="scroll">
+    <svg viewBox="0 0 1120 300" role="img" aria-label="Deux exemples de circuit en run. Une offre reçue : lue automatiquement, comparée, validée par deux personnes, puis PO et engagement créés automatiquement. Une facture reçue : rapprochée automatiquement, confirmée par le contrôleur, puis prévisionnel et Anaplan mis à jour, avec alerte en cas de dépassement.">
+      <defs><marker id="c1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
+      <g font-size="12" font-weight="700" letter-spacing=".08em" fill="currentColor"><text x="20" y="24">UNE OFFRE ARRIVE</text><text x="20" y="168">UNE FACTURE ARRIVE</text></g>
+      <g font-size="12.5" fill="currentColor">
+        <!-- row 1 -->
+        <rect x="20" y="40" width="190" height="78" rx="9" fill="none" stroke="currentColor" stroke-opacity=".45"/><text x="34" y="62" font-weight="600">Mail du fournisseur</text><text x="34" y="82"><tspan>sur la boîte de l'appel</tspan><tspan x="34" dy="17">d'offres (Outlook)</tspan></text>
+        <rect x="245" y="40" width="190" height="78" rx="9" fill="none" stroke="currentColor" stroke-opacity=".45"/><text x="259" y="62" font-weight="600">Lecture par l'IA</text><text x="259" y="82"><tspan>prix par ligne de SOW,</tspan><tspan x="259" dy="17">écarts de périmètre</tspan></text>
+        <rect x="470" y="40" width="190" height="78" rx="9" fill="none" stroke="currentColor" stroke-opacity=".45"/><text x="484" y="62" font-weight="600">Comparaison</text><text x="484" y="82"><tspan>contre le budget,</tspan><tspan x="484" dy="17">recommandation</tspan></text>
+        <rect x="695" y="40" width="190" height="78" rx="9" style="fill:var(--stone-soft);stroke:var(--stone)" stroke-width="1.5"/><text x="709" y="62" font-weight="600">Deux validations</text><text x="709" y="82"><tspan>acheteur puis PM,</tspan><tspan x="709" dy="17">depuis Teams</tspan></text>
+        <rect x="920" y="40" width="180" height="78" rx="9" fill="none" stroke="currentColor" stroke-opacity=".45"/><text x="934" y="62" font-weight="600">Propagation</text><text x="934" y="82"><tspan>PO brouillon Coupa,</tspan><tspan x="934" dy="17">engagé Anaplan</tspan></text>
+        <!-- row 2 -->
+        <rect x="20" y="184" width="190" height="78" rx="9" fill="none" stroke="currentColor" stroke-opacity=".45"/><text x="34" y="206" font-weight="600">Facture dans Coupa</text><text x="34" y="226"><tspan>lue en quasi</tspan><tspan x="34" dy="17">temps réel</tspan></text>
+        <rect x="245" y="184" width="190" height="78" rx="9" fill="none" stroke="currentColor" stroke-opacity=".45"/><text x="259" y="206" font-weight="600">Rapprochement</text><text x="259" y="226"><tspan>PO trouvé, ou ligne</tspan><tspan x="259" dy="17">budgétaire proposée</tspan></text>
+        <rect x="470" y="184" width="190" height="78" rx="9" style="fill:var(--stone-soft);stroke:var(--stone)" stroke-width="1.5"/><text x="484" y="206" font-weight="600">Confirmation</text><text x="484" y="226"><tspan>par le contrôleur,</tspan><tspan x="484" dy="17">si la proposition doute</tspan></text>
+        <rect x="695" y="184" width="190" height="78" rx="9" fill="none" stroke="currentColor" stroke-opacity=".45"/><text x="709" y="206" font-weight="600">Mise à jour</text><text x="709" y="226"><tspan>facturé, prévisionnel,</tspan><tspan x="709" dy="17">renvoi à Anaplan</tspan></text>
+        <rect x="920" y="184" width="180" height="78" rx="9" fill="none" stroke="currentColor" stroke-opacity=".45"/><text x="934" y="206" font-weight="600">Alerte si besoin</text><text x="934" y="226"><tspan>ligne au-dessus du</tspan><tspan x="934" dy="17">seuil : My work</tspan></text>
+      </g>
+      <g stroke="currentColor" stroke-width="1.5">
+        <line x1="212" y1="79" x2="241" y2="79" marker-end="url(#c1)"/><line x1="437" y1="79" x2="466" y2="79" marker-end="url(#c1)"/><line x1="662" y1="79" x2="691" y2="79" marker-end="url(#c1)"/><line x1="887" y1="79" x2="916" y2="79" marker-end="url(#c1)"/>
+        <line x1="212" y1="223" x2="241" y2="223" marker-end="url(#c1)"/><line x1="437" y1="223" x2="466" y2="223" marker-end="url(#c1)"/><line x1="662" y1="223" x2="691" y2="223" marker-end="url(#c1)"/><line x1="887" y1="223" x2="916" y2="223" marker-end="url(#c1)"/>
+      </g>
+      <g font-size="12" fill="currentColor">
+        <rect x="20" y="282" width="14" height="10" rx="2" style="fill:var(--stone-soft);stroke:var(--stone)"/><text x="42" y="291">intervention humaine</text>
+        <rect x="200" y="282" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-opacity=".45"/><text x="222" y="291">automatique</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>Dans les deux circuits, une seule étape demande quelqu'un. Le reste se fait entre les outils, et chaque action est inscrite au journal d'audit.</figcaption>
+  </figure>
+
+  <div class="col">
+    <h3>Qui fait quoi, et à quel rythme</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>Qui</th><th>Au quotidien</th><th>Chaque mois</th></tr></thead>
+      <tbody>
+        <tr><td><span class="pill auto">Panoptic</span></td><td>Lit Anaplan (toutes les 2 h) et Coupa (en continu), indexe les nouveaux fichiers, contrôle la fraîcheur la nuit, envoie les alertes.</td><td>Prépare la note de pilotage à partir des données du jour.</td></tr>
+        <tr><td>Project manager</td><td>Travaille dans ses outils habituels ; répond aux demandes de confirmation dans Teams.</td><td>Confirme sa fiche projet (dates, surfaces, étape) : un clic si rien n'a changé.</td></tr>
+        <tr><td>Achats</td><td>Dépose les SOW, reçoit les offres par mail, valide la comparaison, attribue.</td><td>Revoit les fournisseurs et les contrats proches de l'échéance.</td></tr>
+        <tr><td>Contrôle de gestion</td><td>Confirme les rapprochements douteux, valide les modifications de budget.</td><td>Envoie le prévisionnel à Anaplan, suit le score de qualité des données.</td></tr>
+        <tr><td>Architectes, Store Planning</td><td>Déposent plans et documents comme aujourd'hui (serveur, SharePoint).</td><td>Mettent à jour design books et surfaces si besoin.</td></tr>
+        <tr><td>Administrateur Panoptic</td><td>Surveille les connecteurs, gère les accès et les règles.</td><td>Anime la revue qualité des données avec les référents de chaque équipe.</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">Excel reste possible : le registre s'exporte au format ADMIN FOLLOW UP et un fichier modifié se réimporte. Chaque différence est montrée avant d'être appliquée, et les montants budgétaires restent ceux d'Anaplan.</p>
+  </div>
+</section>
+
+<section>
+  <div class="col">
+    <p class="eyebrow">Du prototype à la plateforme</p>
+    <h2>Ce que montre le prototype, ce qu'il faudra construire</h2>
+    <p>Le prototype publié fonctionne : on y crée des projets, importe l'Excel, valide, attribue, exporte. Il sert à valider les parcours avec les équipes. La vraie plateforme garde les mêmes écrans mais change tout ce qu'il y a dessous.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Élément</th><th>Prototype actuel</th><th>Plateforme réelle</th></tr></thead>
+      <tbody>
+        <tr><td>Données</td><td>Base de l'artefact claude.ai</td><td>Base de chiffres et base de documents, hébergées dans le cloud du groupe</td></tr>
+        <tr><td>Connexions</td><td>Simulées (Coupa, Anaplan, Teams…)</td><td>API Anaplan et Coupa, Microsoft 365 (SharePoint, Teams, Outlook), DAM, Diorlex</td></tr>
+        <tr><td>Identité</td><td>Compte claude.ai, choix du rôle à la main</td><td>OKTA avec authentification forte, rôles par groupe</td></tr>
+        <tr><td>IA</td><td>Claude, à partir des données de la page</td><td>Modèle validé par l'IT, dans le périmètre de sécurité du groupe</td></tr>
+        <tr><td>Fichiers</td><td>Déposés dans l'artefact</td><td>Restent dans SharePoint et sur les serveurs, indexés</td></tr>
+        <tr><td>Sécurité</td><td>Artefact privé</td><td>Chiffrement, pare-feu applicatif, tests d'intrusion, sauvegardes, journal d'accès</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section>
+  <div class="col">
+    <p class="eyebrow">Pour avancer</p>
+    <h2>Les décisions à prendre maintenant</h2>
+  </div>
+  <div class="decisions col">
+    <div><b>La clé projet commune</b>Le même numéro de projet partout. Sans elle, rien ne se relie automatiquement.</div>
+    <div><b>Le propriétaire du registre</b>Qui tient la fiche projet : le PM, avec quelle validation de Store Planning et de la Finance.</div>
+    <div><b>Les accès API</b>Anaplan, Coupa et Microsoft 365, à demander à l'IT dès le cadrage.</div>
+    <div><b>Le périmètre de reprise</b>Projets actifs seulement au départ, ou aussi l'historique 2023-2025.</div>
+    <div><b>Les deux projets pilotes</b>Un par zone, avec des équipes prêtes à tester pendant six à huit semaines.</div>
+    <div><b>L'usage de l'IA</b>Quel modèle, pour quelles données (offres, contrats, factures), avec quelle validation humaine.</div>
+  </div>
+</section>
+
+<footer>Architecture Panoptic · note préparée par Marie Guegain, eleven · 11 novembre 2026. Calendrier et rythmes indicatifs, à valider avec D-NEXT et l'IT.</footer>
+</div>
